@@ -1,7 +1,5 @@
-/* global kelvinUtil, BABYLON, Q, gb, util, km, Bulb */
 import "./styles.scss";
 import * as util from "./util.js";
-//import { ring1Config, ring2Config, ring3Config } from "./configs.js";
 import Ring from "./Ring";
 import Bulb from "./Bulb";
 
