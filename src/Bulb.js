@@ -1,3 +1,5 @@
+/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
+
 export default class Bulb {
   constructor(options = {}) {
     Object.assign(this, options);
@@ -32,7 +34,7 @@ export default class Bulb {
   }
 
   initCore() {
-    this.core = sps.particles[particleCount++];
+    this.core = spsRing.particles[particleCount++];
 
     this.core.position = this.position;
 
@@ -78,7 +80,7 @@ export default class Bulb {
 
   initLights() {
     this.lightsPositions.forEach((v, k) => {
-      let light = sps.particles[particleCount++];
+      let light = spsRing.particles[particleCount++];
 
       light.parentId = this.core.idx;
 

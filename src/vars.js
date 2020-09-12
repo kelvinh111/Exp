@@ -1,5 +1,6 @@
+/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 /* global BABYLON */
-import * as util from "./util.js";
+import { stf, htc } from "./util.js";
 
 window.ring1Config = {
   bulbNum: 16,
@@ -19,7 +20,7 @@ window.ring1Config = {
     ringDelay: 1000 + 5000,
     bulbDuration: 5000,
     bulbDelay: 65,
-    color: util.htc("f3fff1"),
+    color: htc("f3fff1"),
     colorDuration: 2200,
     colorDelay: 1000
   },
@@ -51,7 +52,7 @@ window.ring2Config = {
     ringDelay: 3400 + 5000,
     bulbDuration: 3650,
     bulbDelay: 45,
-    color: util.htc("d9fcff"),
+    color: htc("d9fcff"),
     colorDuration: 2200,
     colorDelay: 2000
   },
@@ -83,7 +84,7 @@ window.ring3Config = {
     ringDelay: 5150 + 5000,
     bulbDuration: 3550,
     bulbDelay: 125,
-    color: util.htc("dbe9ff"),
+    color: htc("dbe9ff"),
     colorDuration: 2200,
     colorDelay: 2300
   },
@@ -97,6 +98,14 @@ window.ring3Config = {
     height: 21,
     speed: 0.02
   }
+};
+
+window.stageConfig = {
+  num: 10000,
+  angle: 137.5,
+  gap: 25,
+  matStep: 50,
+  bulbSize: 2
 };
 
 window.bulbNumTotal =
@@ -117,7 +126,7 @@ window.story = 0;
 // multi materials - new material per bulb for changing color
 window.mats = [];
 
-window.sps = null;
+window.spsRing = null;
 window.scene = null;
 
 window.km = kelvinUtil.math;

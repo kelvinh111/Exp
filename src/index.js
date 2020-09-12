@@ -1,7 +1,9 @@
+/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 import "./styles.scss";
-import * as util from "./util.js";
+import { stf, htc } from "./util.js";
 import Ring from "./Ring";
 import Bulb from "./Bulb";
+import Stage from "./Stage";
 
 let canvas = document.getElementById("renderCanvas");
 let engine = new BABYLON.Engine(canvas, true);
@@ -18,64 +20,72 @@ let camera = new BABYLON.ArcRotateCamera(
   scene
 );
 camera.attachControl(canvas, true);
+// camera.maxZ = 100000;
 
 let glow = new BABYLON.GlowLayer("glow", scene, {
   //mainTextureFixedSize: 512,
   blurKernelSize: 16
 });
 
-sps = new BABYLON.SolidParticleSystem("SPS", scene, {
-  enableMultiMaterial: true,
-  updatable: true
-});
-// needa rotate bulb's core thus not billboard
-sps.billboard = false;
-sps.computeParticleRotation = true;
-sps.computeParticleColor = false;
-sps.computeParticleTexture = false;
-sps.computeParticleVertex = false;
+// Stage
+new Stage(stageConfig);
 
-let circle = BABYLON.MeshBuilder.CreateSphere(
-  "sphere",
-  {
-    segments: 3,
-    diameter: 1
-  },
-  scene
-);
-
-for (let i = 0; i < bulbNumTotal; i++) {
-  let mat = new BABYLON.StandardMaterial("mat" + i, scene);
-  mat.disableLighting = true;
-  mat.backFaceCulling = false;
-  mat.emissiveColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-  window.mats.push(mat);
-}
-
-sps.addShape(circle, nbParticles);
-circle.dispose();
-let mesh = sps.buildMesh();
-
-sps.setMultiMaterial(mats);
-
-let ring1 = new Ring(ring1Config);
-let ring2 = new Ring(ring2Config);
-let ring3 = new Ring(ring3Config);
-sps.computeSubMeshes();
-console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
-
-Q.all([
-  ring1.aniDrop(),
-  ring1.aniOn(),
-  ring2.aniDrop(),
-  ring2.aniOn(),
-  ring3.aniDrop(),
-  ring3.aniOn()
-])
-  .delay(2000)
-  .then(() => {
-    story = 2;
+// Rings
+let ring1, ring2, ring3;
+(() => {
+  spsRing = new BABYLON.SolidParticleSystem("spsRing", scene, {
+    enableMultiMaterial: true,
+    updatable: true
   });
+  // needa rotate bulb's core thus not billboard
+  spsRing.billboard = false;
+  spsRing.computeParticleRotation = true;
+  spsRing.computeParticleColor = false;
+  spsRing.computeParticleTexture = false;
+  spsRing.computeParticleVertex = false;
+
+  let circle = BABYLON.MeshBuilder.CreateSphere(
+    "sphere",
+    {
+      segments: 3,
+      diameter: 1
+    },
+    scene
+  );
+
+  for (let i = 0; i < bulbNumTotal; i++) {
+    let mat = new BABYLON.StandardMaterial("mat" + i, scene);
+    mat.disableLighting = true;
+    mat.backFaceCulling = false;
+    mat.emissiveColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    window.mats.push(mat);
+  }
+
+  spsRing.addShape(circle, nbParticles);
+  circle.dispose();
+  let mesh = spsRing.buildMesh();
+
+  spsRing.setMultiMaterial(mats);
+
+  ring1 = new Ring(ring1Config);
+  ring2 = new Ring(ring2Config);
+  ring3 = new Ring(ring3Config);
+  spsRing.computeSubMeshes();
+  console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
+
+  Q.all([
+    ring1.aniDrop(),
+    ring1.aniOn(),
+    ring2.aniDrop(),
+    ring2.aniOn(),
+    ring3.aniDrop(),
+    ring3.aniOn()
+  ])
+    .delay(2000)
+    .then(() => {
+      story = 2;
+    });
+})();
 
 // FPS
 let divFps = document.getElementById("fps");
@@ -113,7 +123,7 @@ scene.registerAfterRender(function () {
   ring1.update();
   ring2.update();
   ring3.update();
-  sps.setParticles();
+  spsRing.setParticles();
 });
 
 engine.runRenderLoop(function () {

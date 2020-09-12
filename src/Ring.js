@@ -1,5 +1,6 @@
+/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 /* global kelvinUtil, BABYLON, Q, gb */
-import * as util from "./util.js";
+import { stf, htc } from "./util.js";
 import Bulb from "./Bulb";
 
 export default class Ring {
@@ -62,11 +63,11 @@ export default class Ring {
             value: bulb.core.position.y
           },
           {
-            frame: util.stf(this.dropConfig.dropFirstDelay),
+            frame: stf(this.dropConfig.dropFirstDelay),
             value: bulb.core.position.y
           },
           {
-            frame: util.stf(
+            frame: stf(
               this.dropConfig.dropFirstDelay + this.dropConfig.dropFirstDuration
             ),
             value: destY
@@ -79,13 +80,13 @@ export default class Ring {
             value: bulb.core.position.y
           },
           {
-            frame: util.stf(
+            frame: stf(
               this.dropConfig.ringDelay + this.dropConfig.bulbDelay * key
             ),
             value: bulb.core.position.y
           },
           {
-            frame: util.stf(
+            frame: stf(
               this.dropConfig.ringDelay +
                 this.dropConfig.bulbDelay * key +
                 this.dropConfig.bulbDuration
@@ -102,7 +103,7 @@ export default class Ring {
       scene.beginAnimation(
         bulb.core,
         0,
-        util.stf(
+        stf(
           this.dropConfig.ringDelay +
             this.dropConfig.bulbDelay * key +
             this.dropConfig.bulbDuration
@@ -140,11 +141,11 @@ export default class Ring {
             value: mats[bulb.core.materialIndex].emissiveColor
           },
           {
-            frame: util.stf(this.dropConfig.dropFirstDelay),
+            frame: stf(this.dropConfig.dropFirstDelay),
             value: mats[bulb.core.materialIndex].emissiveColor
           },
           {
-            frame: util.stf(
+            frame: stf(
               this.dropConfig.dropFirstDelay + this.dropConfig.dropFirstDuration
             ),
             value: this.dropConfig.color
@@ -157,7 +158,7 @@ export default class Ring {
             value: mats[bulb.core.materialIndex].emissiveColor
           },
           {
-            frame: util.stf(
+            frame: stf(
               this.dropConfig.ringDelay +
                 this.dropConfig.bulbDelay * key +
                 this.dropConfig.colorDelay
@@ -165,7 +166,7 @@ export default class Ring {
             value: mats[bulb.core.materialIndex].emissiveColor
           },
           {
-            frame: util.stf(
+            frame: stf(
               this.dropConfig.ringDelay +
                 this.dropConfig.bulbDelay * key +
                 this.dropConfig.colorDelay +
@@ -183,7 +184,7 @@ export default class Ring {
       scene.beginAnimation(
         mats[bulb.core.materialIndex],
         0,
-        util.stf(
+        stf(
           this.dropConfig.ringDelay +
             this.dropConfig.bulbDelay * key +
             this.dropConfig.colorDelay +
@@ -233,7 +234,7 @@ export default class Ring {
           value: bulb.core.position.y
         },
         {
-          frame: util.stf(3000),
+          frame: stf(3000),
           value: destY
         }
       ];
@@ -242,7 +243,7 @@ export default class Ring {
 
       bulb.core.animations = [aniCircular];
 
-      scene.beginAnimation(bulb.core, 0, util.stf(3000), false, 1, () => {
+      scene.beginAnimation(bulb.core, 0, stf(3000), false, 1, () => {
         if (key + 1 === this.bulbNum) {
           deferred.resolve();
         }
@@ -301,7 +302,7 @@ export default class Ring {
           value: bulb.core.position.y
         },
         {
-          frame: util.stf(3000),
+          frame: stf(3000),
           value: destY
         }
       ];
@@ -310,7 +311,7 @@ export default class Ring {
 
       bulb.core.animations = [aniWave];
 
-      scene.beginAnimation(bulb.core, 0, util.stf(3000), false, 1, () => {
+      scene.beginAnimation(bulb.core, 0, stf(3000), false, 1, () => {
         if (key + 1 === this.bulbNum) {
           deferred.resolve();
         }
