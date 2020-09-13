@@ -22,6 +22,12 @@ let camera = new BABYLON.ArcRotateCamera(
 camera.attachControl(canvas, true);
 // camera.maxZ = 100000;
 
+var light = new BABYLON.HemisphericLight(
+  "hemi",
+  new BABYLON.Vector3(0, 10, -5),
+  scene
+);
+
 let glow = new BABYLON.GlowLayer("glow", scene, {
   //mainTextureFixedSize: 512,
   blurKernelSize: 16
@@ -85,6 +91,68 @@ let ring1, ring2, ring3;
     .then(() => {
       story = 2;
     });
+})();
+
+// mirror
+(() => {
+  var glass = BABYLON.MeshBuilder.CreateDisc(
+    "cone",
+    { radius: 150, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
+    scene
+  );
+
+  glass.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
+  glass.position.y = -50;
+
+  //Ensure working with new values for glass by computing and obtaining its worldMatrix
+  glass.computeWorldMatrix(true);
+  var glass_worldMatrix = glass.getWorldMatrix();
+
+  //Obtain normals for plane and assign one of them as the normal
+  var glass_vertexData = glass.getVerticesData("normal");
+  var glassNormal = new BABYLON.Vector3(
+    glass_vertexData[0],
+    glass_vertexData[1],
+    glass_vertexData[2]
+  );
+  //Use worldMatrix to transform normal into its current value
+  glassNormal = new BABYLON.Vector3.TransformNormal(
+    glassNormal,
+    glass_worldMatrix
+  );
+
+  //Create reflecting surface for mirror surface
+  var reflector = new BABYLON.Plane.FromPositionAndNormal(
+    glass.position,
+    glassNormal.scale(-1)
+  );
+
+  //Create the mirror material
+  var mirrorMaterial = new BABYLON.StandardMaterial("mirror", scene);
+  //mirrorMaterial.specularColor = BABYLON.Color3.Yellow()
+  mirrorMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+  mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture(
+    "mirror",
+    1024,
+    scene,
+    true
+  );
+  mirrorMaterial.reflectionTexture.mirrorPlane = reflector;
+  mirrorMaterial.reflectionTexture.renderList = [spsRing.mesh];
+  mirrorMaterial.reflectionTexture.level = 1;
+  mirrorMaterial.reflectionTexture.adaptiveBlurKernel = 8;
+
+  glass.material = mirrorMaterial;
+
+  var cone = BABYLON.MeshBuilder.CreateCylinder(
+    "cone",
+    { diameterTop: 298, diameterBottom: 0, height: 100, tessellation: 128 },
+    scene
+  );
+  cone.material = new BABYLON.StandardMaterial("cone", scene);
+  //mirrorMaterial.specularColor = BABYLON.Color3.Yellow()
+  cone.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
+  cone.position.y = -100.4;
 })();
 
 // FPS

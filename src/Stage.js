@@ -38,29 +38,35 @@ export default class Stage {
       mat.disableLighting = true;
       mat.backFaceCulling = false;
 
-      let co = 1 - Math.sin(((i / this.matStep) * Math.PI) / 2);
       mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
+      let co = km.map(
+        1 - Math.sin(((i / this.matStep) * Math.PI) / 2),
+        0,
+        1,
+        0.3,
+        0.4
+      );
       mat.emissiveColorTarget = new BABYLON.Color3(co, co, co);
 
       this.mats.push(mat);
     }
 
-    let n = 0;
     this.sps.addShape(sphere, this.num, {
       positionFunction: (particle, i, s) => {
-        let a = n * km.radians(this.angle);
-        let r = this.gap * Math.sqrt(n);
+        let a = i * km.radians(this.angle);
+        let r = this.gap * Math.sqrt(i);
         let x = r * Math.cos(a);
         let z = r * Math.sin(a);
+        let y =
+          (((((i / this.num) * i) / this.num) * i) / this.num) * this.height +
+          this.y;
 
         particle.position.x = x;
-        particle.position.y = -100;
+        particle.position.y = y;
         particle.position.z = z;
         particle.materialIndex = Math.floor(
           km.map(i, 0, this.num, 0, this.matStep)
         );
-
-        n++;
       }
     });
 

@@ -20,7 +20,7 @@ window.ring1Config = {
     ringDelay: 1000 + 5000,
     bulbDuration: 5000,
     bulbDelay: 65,
-    color: htc("f3fff1"),
+    color: htc("9cbfff"),
     colorDuration: 2200,
     colorDelay: 1000
   },
@@ -52,7 +52,7 @@ window.ring2Config = {
     ringDelay: 3400 + 5000,
     bulbDuration: 3650,
     bulbDelay: 45,
-    color: htc("d9fcff"),
+    color: htc("9eaeff"),
     colorDuration: 2200,
     colorDelay: 2000
   },
@@ -84,7 +84,7 @@ window.ring3Config = {
     ringDelay: 5150 + 5000,
     bulbDuration: 3550,
     bulbDelay: 125,
-    color: htc("dbe9ff"),
+    color: htc("99bcff"),
     colorDuration: 2200,
     colorDelay: 2300
   },
@@ -101,11 +101,13 @@ window.ring3Config = {
 };
 
 window.stageConfig = {
-  num: 10000,
+  num: 5000,
   angle: 137.5,
-  gap: 25,
+  gap: 20,
   matStep: 50,
-  bulbSize: 2
+  bulbSize: 3,
+  height: 300,
+  y: -100
 };
 
 window.bulbNumTotal =
