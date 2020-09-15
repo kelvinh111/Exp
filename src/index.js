@@ -22,14 +22,33 @@ let camera = new BABYLON.ArcRotateCamera(
 camera.attachControl(canvas, true);
 // camera.maxZ = 100000;
 
-BABYLON.SceneLoader.Append(
+// macbook
+let macbookNodes = [];
+function re(t) {
+  if (t._children) {
+    t._children.forEach((v) => {
+      re(v);
+    });
+  } else {
+    macbookNodes.push(t);
+  }
+}
+
+BABYLON.SceneLoader.AppendAsync(
   "https://public.kelvinh.studio/cdn/3d/macbook/",
   "scene.gltf",
-  scene,
-  function (scene) {
-    // do something with the scene
-  }
-);
+  scene
+).then((s) => {
+  s.rootNodes.forEach((v, k) => {
+    if (v.id === "__root__") {
+      v.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+      v.position.y = -50;
+      re(v);
+    }
+  });
+
+  initMirror();
+});
 
 var light = new BABYLON.HemisphericLight(
   "hemi",
@@ -102,8 +121,7 @@ let ring1, ring2, ring3;
     });
 })();
 
-// mirror
-(() => {
+function initMirror() {
   var glass = BABYLON.MeshBuilder.CreateDisc(
     "cone",
     { radius: 150, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
@@ -147,7 +165,9 @@ let ring1, ring2, ring3;
     true
   );
   mirrorMaterial.reflectionTexture.mirrorPlane = reflector;
-  mirrorMaterial.reflectionTexture.renderList = [spsRing.mesh];
+  mirrorMaterial.reflectionTexture.renderList = [spsRing.mesh].concat(
+    macbookNodes
+  );
   mirrorMaterial.reflectionTexture.level = 1;
   mirrorMaterial.reflectionTexture.adaptiveBlurKernel = 8;
 
@@ -162,8 +182,14 @@ let ring1, ring2, ring3;
   //mirrorMaterial.specularColor = BABYLON.Color3.Yellow()
   cone.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
   cone.position.y = -100.4;
-})();
+}
 
+scene.registerAfterRender(function () {
+  ring1.update();
+  ring2.update();
+  ring3.update();
+  spsRing.setParticles();
+});
 // FPS
 let divFps = document.getElementById("fps");
 
@@ -194,13 +220,6 @@ document.querySelector("#wave").addEventListener("click", function () {
   Q.all([ring1.toWave(), ring2.toWave(), ring3.toWave()]).then(() => {
     story = 4;
   });
-});
-
-scene.registerAfterRender(function () {
-  ring1.update();
-  ring2.update();
-  ring3.update();
-  spsRing.setParticles();
 });
 
 engine.runRenderLoop(function () {
