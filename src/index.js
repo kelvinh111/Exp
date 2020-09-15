@@ -22,6 +22,15 @@ let camera = new BABYLON.ArcRotateCamera(
 camera.attachControl(canvas, true);
 // camera.maxZ = 100000;
 
+BABYLON.SceneLoader.Append(
+  "https://public.kelvinh.studio/cdn/3d/macbook/",
+  "scene.gltf",
+  scene,
+  function (scene) {
+    // do something with the scene
+  }
+);
+
 var light = new BABYLON.HemisphericLight(
   "hemi",
   new BABYLON.Vector3(0, 10, -5),
