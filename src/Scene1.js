@@ -19,6 +19,10 @@ export default class Scene1 {
     scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
+    // rtt
+    renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
+    scene.customRenderTargets.push(renderTarget);
+
     let camera = new BABYLON.ArcRotateCamera(
       "Camera",
       -Math.PI / 2,
@@ -101,6 +105,8 @@ export default class Scene1 {
           story = 2;
         });
     })();
+
+    renderTarget.renderList.push(spsRing.mesh);
 
     scene.registerAfterRender(function () {
       ring1.update();

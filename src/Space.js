@@ -74,6 +74,9 @@ export default class Space {
     let mesh = this.sps.buildMesh();
     this.sps.setMultiMaterial(this.mats);
     this.sps.computeSubMeshes();
+
+    // rtt
+    renderTarget.renderList.push(this.sps.mesh);
   }
 
   animate() {

@@ -13,9 +13,17 @@ let divFps = document.getElementById("fps");
 engine.runRenderLoop(function () {
   divFps.innerHTML = engine.getFps().toFixed() + " FPS";
   scene1.render();
+  if (isScene2) {
+    scene2.render();
+  }
+});
+
+document.querySelector("#switch").addEventListener("click", function () {
+  isScene2 = !isScene2;
 });
 
 window.addEventListener("resize", function () {
+  scene2.updateRatio();
   engine.resize();
 });
 engine.resize();

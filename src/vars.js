@@ -15,6 +15,8 @@ window.engine = new BABYLON.Engine(canvas, true);
 window.story = 0;
 window.scene = null;
 window.scene2 = null;
+window.renderTarget = null;
+window.isScene2 = false;
 
 window.spsRing = null;
 window.ringsMats = [];

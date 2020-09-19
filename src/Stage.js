@@ -98,5 +98,10 @@ export default class Stage {
     //mirrorMaterial.specularColor = BABYLON.Color3.Yellow()
     cone.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
     cone.position.y = -100.4;
+
+    // rtt
+    renderTarget.renderList = renderTarget.renderList.concat(this.macbookNodes);
+    renderTarget.renderList.push(glass);
+    renderTarget.renderList.push(cone);
   }
 }
