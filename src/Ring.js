@@ -138,11 +138,11 @@ export default class Ring {
         keysOn = [
           {
             frame: 0,
-            value: mats[bulb.core.materialIndex].emissiveColor
+            value: ringsMats[bulb.core.materialIndex].emissiveColor
           },
           {
             frame: stf(this.dropConfig.dropFirstDelay),
-            value: mats[bulb.core.materialIndex].emissiveColor
+            value: ringsMats[bulb.core.materialIndex].emissiveColor
           },
           {
             frame: stf(
@@ -155,7 +155,7 @@ export default class Ring {
         keysOn = [
           {
             frame: 0,
-            value: mats[bulb.core.materialIndex].emissiveColor
+            value: ringsMats[bulb.core.materialIndex].emissiveColor
           },
           {
             frame: stf(
@@ -163,7 +163,7 @@ export default class Ring {
                 this.dropConfig.bulbDelay * key +
                 this.dropConfig.colorDelay
             ),
-            value: mats[bulb.core.materialIndex].emissiveColor
+            value: ringsMats[bulb.core.materialIndex].emissiveColor
           },
           {
             frame: stf(
@@ -179,10 +179,10 @@ export default class Ring {
 
       aniOn.setKeys(keysOn);
 
-      mats[bulb.core.materialIndex].animations = [aniOn];
+      ringsMats[bulb.core.materialIndex].animations = [aniOn];
 
       scene.beginAnimation(
-        mats[bulb.core.materialIndex],
+        ringsMats[bulb.core.materialIndex],
         0,
         stf(
           this.dropConfig.ringDelay +

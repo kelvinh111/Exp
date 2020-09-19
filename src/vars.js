@@ -1,7 +1,23 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 /* global BABYLON */
 import { stf, htc } from "./util.js";
+window.km = kelvinUtil.math;
+window.canvas = document.getElementById("renderCanvas");
+window.engine = new BABYLON.Engine(canvas, true);
 
+/*
+0: intro
+1: turning to circular
+2: in circular animation
+3: turning to wave
+4: in wave animation
+*/
+window.story = 0;
+window.scene = null;
+window.scene2 = null;
+
+window.spsRing = null;
+window.ringsMats = [];
 window.ring1Config = {
   bulbNum: 16,
   radius: 40,
@@ -100,7 +116,7 @@ window.ring3Config = {
   }
 };
 
-window.stageConfig = {
+window.spaceConfig = {
   num: 5000,
   angle: 137.5,
   gap: 20,
@@ -115,20 +131,3 @@ window.bulbNumTotal =
 window.nbParticles = bulbNumTotal * 7;
 window.bulbCount = 0;
 window.particleCount = 0;
-
-/*
-0: intro
-1: turning to circular
-2: in circular animation
-3: turning to wave
-4: in wave animation
-*/
-window.story = 0;
-
-// multi materials - new material per bulb for changing color
-window.mats = [];
-
-window.spsRing = null;
-window.scene = null;
-
-window.km = kelvinUtil.math;
