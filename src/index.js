@@ -19,11 +19,21 @@ engine.runRenderLoop(function () {
 });
 
 document.querySelector("#switch").addEventListener("click", function () {
+  scene2.updateRatio();
+  engine.resize();
   isScene2 = !isScene2;
+  if (isScene2) {
+    camera.detachControl(canvas);
+    camera2.attachControl(canvas, true);
+  } else {
+    camera.attachControl(canvas, true);
+    camera2.detachControl(canvas);
+  }
 });
 
 window.addEventListener("resize", function () {
   scene2.updateRatio();
   engine.resize();
 });
+scene2.updateRatio();
 engine.resize();

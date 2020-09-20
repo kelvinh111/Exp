@@ -28,8 +28,8 @@ export default class Stage {
     ).then((s) => {
       s.rootNodes.forEach((v, k) => {
         if (v.id === "__root__") {
-          v.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
-          v.position.y = -50;
+          v.scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);
+          v.position.y = -55;
           re(v);
         }
       });
@@ -40,13 +40,13 @@ export default class Stage {
 
   initStage() {
     var glass = BABYLON.MeshBuilder.CreateDisc(
-      "cone",
-      { radius: 150, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
+      "glass",
+      { radius: 60, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
       scene
     );
 
     glass.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
-    glass.position.y = -50;
+    glass.position.y = -55;
 
     glass.computeWorldMatrix(true);
     var glass_worldMatrix = glass.getWorldMatrix();
@@ -91,13 +91,13 @@ export default class Stage {
 
     var cone = BABYLON.MeshBuilder.CreateCylinder(
       "cone",
-      { diameterTop: 298, diameterBottom: 0, height: 100, tessellation: 128 },
+      { diameterTop: 120, diameterBottom: 0, height: 40, tessellation: 128 },
       scene
     );
     cone.material = new BABYLON.StandardMaterial("cone", scene);
     //mirrorMaterial.specularColor = BABYLON.Color3.Yellow()
     cone.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-    cone.position.y = -100.4;
+    cone.position.y = -75.5;
 
     // rtt
     renderTarget.renderList = renderTarget.renderList.concat(this.macbookNodes);

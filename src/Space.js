@@ -43,10 +43,11 @@ export default class Space {
         1 - Math.sin(((i / this.matStep) * Math.PI) / 2),
         0,
         1,
-        0.3,
+        0.2,
         0.4
       );
       mat.emissiveColorTarget = new BABYLON.Color3(co, co, co);
+      // mat.emissiveColorTarget = new BABYLON.Color3(1,1,1);
 
       this.mats.push(mat);
     }

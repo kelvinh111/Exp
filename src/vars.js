@@ -14,7 +14,9 @@ window.engine = new BABYLON.Engine(canvas, true);
 */
 window.story = 0;
 window.scene = null;
+window.camera = null;
 window.scene2 = null;
+window.camera2 = null;
 window.renderTarget = null;
 window.isScene2 = false;
 
@@ -122,10 +124,10 @@ window.spaceConfig = {
   num: 5000,
   angle: 137.5,
   gap: 20,
-  matStep: 50,
-  bulbSize: 3,
-  height: 300,
-  y: -100
+  matStep: 30,
+  bulbSize: 2,
+  height: 200,
+  y: -150
 };
 
 window.bulbNumTotal =

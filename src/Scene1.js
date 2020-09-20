@@ -23,12 +23,12 @@ export default class Scene1 {
     renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
     scene.customRenderTargets.push(renderTarget);
 
-    let camera = new BABYLON.ArcRotateCamera(
+    camera = new BABYLON.ArcRotateCamera(
       "Camera",
-      -Math.PI / 2,
-      Math.PI / 2,
-      800,
-      new BABYLON.Vector3(0, 200, 0),
+      5.445,
+      1.58,
+      472.5,
+      new BABYLON.Vector3(0, 70, 0),
       scene
     );
     camera.attachControl(canvas, true);
@@ -39,6 +39,7 @@ export default class Scene1 {
       new BABYLON.Vector3(0, 10, -5),
       scene
     );
+    // light.intensity =.2
 
     let glow = new BABYLON.GlowLayer("glow", scene, {
       //mainTextureFixedSize: 512,
