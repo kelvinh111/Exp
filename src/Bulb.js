@@ -48,7 +48,7 @@ export default class Bulb {
   initLightsPositions() {
     let mesh = BABYLON.MeshBuilder.CreatePolyhedron(
       "oct",
-      { type: 1, size: this.size },
+      { type: 3, size: this.size },
       scene
     );
     mesh.position = this.position;

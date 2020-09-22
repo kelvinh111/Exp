@@ -58,9 +58,11 @@ export default class Space {
         let r = this.gap * Math.sqrt(i);
         let x = r * Math.cos(a);
         let z = r * Math.sin(a);
-        let y =
-          (((((i / this.num) * i) / this.num) * i) / this.num) * this.height +
-          this.y;
+        // let y =
+        //   i / this.num * i / this.num * i / this.num * this.height +
+        //   this.y;
+
+        let y = (((i / this.num) * i) / this.num) * this.height + this.y;
 
         particle.position.x = x;
         particle.position.y = y;

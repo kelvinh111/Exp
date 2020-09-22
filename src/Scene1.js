@@ -27,23 +27,22 @@ export default class Scene1 {
       "Camera",
       5.445,
       1.58,
-      472.5,
-      new BABYLON.Vector3(0, 70, 0),
+      47.25,
+      new BABYLON.Vector3(0, 7, 0),
       scene
     );
     camera.attachControl(canvas, true);
-    // camera.maxZ = 100000;
 
     var light = new BABYLON.HemisphericLight(
       "hemi",
-      new BABYLON.Vector3(0, 10, -5),
+      new BABYLON.Vector3(0, 1, -0.5),
       scene
     );
     // light.intensity =.2
 
     let glow = new BABYLON.GlowLayer("glow", scene, {
       //mainTextureFixedSize: 512,
-      blurKernelSize: 16
+      blurKernelSize: 30
     });
 
     // space
@@ -68,7 +67,7 @@ export default class Scene1 {
         "sphere",
         {
           segments: 3,
-          diameter: 1
+          diameter: 0.1
         },
         scene
       );

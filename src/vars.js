@@ -24,20 +24,20 @@ window.spsRing = null;
 window.ringsMats = [];
 window.ring1Config = {
   bulbNum: 16,
-  radius: 40,
-  position: new BABYLON.Vector3(0, 400, 0),
+  radius: 4,
+  position: new BABYLON.Vector3(0, 40, 0),
   bulbConfig: {
-    size: 1,
-    coreSize: 2,
-    lightSize: 1.5,
+    size: 0.1,
+    coreSize: 1.2,
+    lightSize: 1,
     rotateDuration: 1000
   },
   dropConfig: {
     dropFirst: true,
     dropFirstDelay: 500,
-    dropFirstDuration: 4000,
+    dropFirstDuration: 6000,
     position: new BABYLON.Vector3(0, 0, 0),
-    ringDelay: 1000 + 5000,
+    ringDelay: 6000,
     bulbDuration: 5000,
     bulbDelay: 65,
     color: htc("9cbfff"),
@@ -45,30 +45,30 @@ window.ring1Config = {
     colorDelay: 1000
   },
   circularConfig: {
-    height: 40,
+    height: 4,
     speed: 0.01,
     offsetDelta: 9,
     rotateDelta: 6
   },
   waveConfig: {
-    height: 7,
+    height: 0.7,
     speed: 0.01
   }
 };
 
 window.ring2Config = {
   bulbNum: 36,
-  radius: 80,
-  position: new BABYLON.Vector3(0, 400, 0),
+  radius: 8,
+  position: new BABYLON.Vector3(0, 40, 0),
   bulbConfig: {
-    size: 1,
-    coreSize: 2,
-    lightSize: 1.5,
+    size: 0.1,
+    coreSize: 1.2,
+    lightSize: 1,
     rotateDuration: 1000
   },
   dropConfig: {
     dropFirst: false,
-    position: new BABYLON.Vector3(0, 60, 0),
+    position: new BABYLON.Vector3(0, 6, 0),
     ringDelay: 3400 + 5000,
     bulbDuration: 3650,
     bulbDelay: 45,
@@ -77,30 +77,30 @@ window.ring2Config = {
     colorDelay: 2000
   },
   circularConfig: {
-    height: 50,
+    height: 5,
     speed: 0.015,
     offsetDelta: 0,
     rotateDelta: 8
   },
   waveConfig: {
-    height: 12.5,
+    height: 1.25,
     speed: 0.015
   }
 };
 
 window.ring3Config = {
   bulbNum: 48,
-  radius: 120,
-  position: new BABYLON.Vector3(0, 400, 0),
+  radius: 12,
+  position: new BABYLON.Vector3(0, 40, 0),
   bulbConfig: {
-    size: 1,
-    coreSize: 2,
-    lightSize: 1.5,
+    size: 0.1,
+    coreSize: 1.2,
+    lightSize: 1,
     rotateDuration: 1000
   },
   dropConfig: {
     dropFirst: false,
-    position: new BABYLON.Vector3(0, 110, 0),
+    position: new BABYLON.Vector3(0, 11, 0),
     ringDelay: 5150 + 5000,
     bulbDuration: 3550,
     bulbDelay: 125,
@@ -109,29 +109,29 @@ window.ring3Config = {
     colorDelay: 2300
   },
   circularConfig: {
-    height: 85,
+    height: 8.5,
     speed: 0.02,
     offsetDelta: 39,
     rotateDelta: 17
   },
   waveConfig: {
-    height: 21,
+    height: 2.1,
     speed: 0.02
   }
 };
 
 window.spaceConfig = {
-  num: 5000,
+  num: 3000,
   angle: 137.5,
-  gap: 20,
+  gap: 2,
   matStep: 30,
-  bulbSize: 2,
-  height: 200,
-  y: -150
+  bulbSize: 0.2,
+  height: 40,
+  y: -15
 };
 
 window.bulbNumTotal =
   ring1Config.bulbNum + ring2Config.bulbNum + ring3Config.bulbNum;
-window.nbParticles = bulbNumTotal * 7;
+window.nbParticles = bulbNumTotal * 13;
 window.bulbCount = 0;
 window.particleCount = 0;

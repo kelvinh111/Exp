@@ -18,7 +18,7 @@ export default class Scene2 {
       "Camera",
       -Math.PI / 2,
       Math.PI / 2,
-      10,
+      1,
       new BABYLON.Vector3(0, 0, 0),
       scene2
     );

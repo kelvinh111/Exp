@@ -17,19 +17,23 @@ export default class Stage {
           re(v);
         });
       } else {
+        // console.log(t)
+        t.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
+        t.animationPropertiesOverride.loopMode = 0;
         this.macbookNodes.push(t);
       }
     };
 
     BABYLON.SceneLoader.AppendAsync(
       "https://public.kelvinh.studio/cdn/3d/macbook/",
-      "scene.gltf",
+      "scene2.gltf",
       scene
     ).then((s) => {
       s.rootNodes.forEach((v, k) => {
         if (v.id === "__root__") {
-          v.scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);
-          v.position.y = -55;
+          // console.log(v)
+          v.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
+          v.position.y = -5.5;
           re(v);
         }
       });
@@ -41,12 +45,12 @@ export default class Stage {
   initStage() {
     var glass = BABYLON.MeshBuilder.CreateDisc(
       "glass",
-      { radius: 60, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
+      { radius: 6, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
       scene
     );
 
     glass.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
-    glass.position.y = -55;
+    glass.position.y = -5.5;
 
     glass.computeWorldMatrix(true);
     var glass_worldMatrix = glass.getWorldMatrix();
@@ -91,13 +95,13 @@ export default class Stage {
 
     var cone = BABYLON.MeshBuilder.CreateCylinder(
       "cone",
-      { diameterTop: 120, diameterBottom: 0, height: 40, tessellation: 128 },
+      { diameterTop: 12, diameterBottom: 0, height: 4, tessellation: 128 },
       scene
     );
     cone.material = new BABYLON.StandardMaterial("cone", scene);
     //mirrorMaterial.specularColor = BABYLON.Color3.Yellow()
     cone.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-    cone.position.y = -75.5;
+    cone.position.y = -7.55;
 
     // rtt
     renderTarget.renderList = renderTarget.renderList.concat(this.macbookNodes);

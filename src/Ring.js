@@ -136,13 +136,17 @@ export default class Ring {
       let keysOn = [];
       if (this.dropConfig.dropFirst && key === 0) {
         keysOn = [
+          // {
+          //   frame: 0,
+          //   value: ringsMats[bulb.core.materialIndex].emissiveColor
+          // },
+          // {
+          //   frame: stf(this.dropConfig.dropFirstDelay),
+          //   value: ringsMats[bulb.core.materialIndex].emissiveColor
+          // },
           {
             frame: 0,
-            value: ringsMats[bulb.core.materialIndex].emissiveColor
-          },
-          {
-            frame: stf(this.dropConfig.dropFirstDelay),
-            value: ringsMats[bulb.core.materialIndex].emissiveColor
+            value: this.dropConfig.color
           },
           {
             frame: stf(
