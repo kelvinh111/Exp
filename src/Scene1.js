@@ -31,6 +31,8 @@ export default class Scene1 {
       new BABYLON.Vector3(0, 7, 0),
       scene
     );
+    // camera = new BABYLON.UniversalCamera("Camera", new BABYLON.Vector3(0, 35, -60), scene);
+    // camera.setTarget(new BABYLON.Vector3(0,40,0))
     camera.attachControl(canvas, true);
 
     var light = new BABYLON.HemisphericLight(
@@ -57,6 +59,7 @@ export default class Scene1 {
         updatable: true
       });
       // needa rotate bulb's core thus not billboard
+      spsRing.computeBoundingBox = true;
       spsRing.billboard = false;
       spsRing.computeParticleRotation = true;
       spsRing.computeParticleColor = false;
