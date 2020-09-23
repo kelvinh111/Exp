@@ -23,17 +23,66 @@ export default class Scene1 {
     renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
     scene.customRenderTargets.push(renderTarget);
 
-    camera = new BABYLON.ArcRotateCamera(
-      "Camera",
-      5.445,
-      1.58,
-      47.25,
-      new BABYLON.Vector3(0, 7, 0),
+    // camera = new BABYLON.ArcRotateCamera(
+    //   "Camera",
+    //   km.radians(311.98), //5.445
+    //   km.radians(90.53), //1.58
+    //   47.25,
+    //   new BABYLON.Vector3(0, 7, 0),
+    //   scene
+    // );
+    // camera = new BABYLON.ArcRotateCamera(
+    //   "Camera",
+    //   km.radians(330),
+    //   km.radians(90.53),
+    //   1.5,
+    //   new BABYLON.Vector3(0, 40, 0),
+    //   scene
+    // );
+
+    camera = new BABYLON.UniversalCamera(
+      "cam1",
+      new BABYLON.Vector3(0, 0, 0),
       scene
     );
-    // camera = new BABYLON.UniversalCamera("Camera", new BABYLON.Vector3(0, 35, -60), scene);
-    // camera.setTarget(new BABYLON.Vector3(0,40,0))
+    camera.position = new BABYLON.Vector3(5, 42, -6);
+    camera.rotation = new BABYLON.Vector3(km.radians(20), km.radians(-41.5), 0);
+
+    // camera = new BABYLON.UniversalCamera(
+    //   "cam2",
+    //   new BABYLON.Vector3(0, 0, 0),
+    //   scene
+    // );
+    // camera.position = new BABYLON.Vector3(5, 0, -6);
+    // camera.rotation = new BABYLON.Vector3(km.radians(20), km.radians(-41.5), 0);
+
+    // camera.setTarget(new BABYLON.Vector3(1, 40, 0));
+    camera.wheelPrecision = 10;
     camera.attachControl(canvas, true);
+
+    var ani1 = new BABYLON.Animation(
+      "ani1",
+      "position",
+      60,
+      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani1.setKeys([
+      {
+        frame: 0,
+        value: camera.position
+      },
+      {
+        frame: stf(500),
+        value: camera.position
+      },
+      {
+        frame: stf(6500),
+        value: new BABYLON.Vector3(5, 0, -6)
+      }
+    ]);
+
+    scene.beginDirectAnimation(camera, [ani1], 0, stf(6500), false);
 
     var light = new BABYLON.HemisphericLight(
       "hemi",
@@ -79,7 +128,7 @@ export default class Scene1 {
         let mat = new BABYLON.StandardMaterial("mat" + i, scene);
         mat.disableLighting = true;
         mat.backFaceCulling = false;
-        mat.emissiveColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+        mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
         ringsMats.push(mat);
       }
 
