@@ -37,7 +37,7 @@ export default class Ring {
       let aniDrop = new BABYLON.Animation(
         "drop" + key,
         "position.y",
-        60,
+        fr,
         BABYLON.Animation.ANIMATIONTYPE_FLOAT,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );
@@ -128,7 +128,7 @@ export default class Ring {
       let aniOn = new BABYLON.Animation(
         "on" + key,
         "emissiveColor",
-        60,
+        fr,
         BABYLON.Animation.ANIMATIONTYPE_COLOR3,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );
@@ -214,7 +214,7 @@ export default class Ring {
       let aniCircular = new BABYLON.Animation(
         "circular" + key,
         "position.y",
-        60,
+        fr,
         BABYLON.Animation.ANIMATIONTYPE_FLOAT,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );
@@ -282,7 +282,7 @@ export default class Ring {
       let aniWave = new BABYLON.Animation(
         "circular" + key,
         "position.y",
-        60,
+        fr,
         BABYLON.Animation.ANIMATIONTYPE_FLOAT,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );

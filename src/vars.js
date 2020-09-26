@@ -1,9 +1,11 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 /* global BABYLON */
 import { stf, htc } from "./util.js";
+console.log(kelvinUtil);
 window.km = kelvinUtil.math;
 window.canvas = document.getElementById("renderCanvas");
 window.engine = new BABYLON.Engine(canvas, true);
+window.fr = 10;
 
 /*
 0: intro
@@ -20,6 +22,7 @@ window.camera2 = null;
 window.renderTarget = null;
 window.isScene2 = false;
 
+window.s1gl = null; // scene1 glow layer
 window.spsRing = null;
 window.ringsMats = [];
 window.ring1Config = {

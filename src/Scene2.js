@@ -22,6 +22,7 @@ export default class Scene2 {
       new BABYLON.Vector3(0, 0, 0),
       scene2
     );
+    camera2.wheelPrecision = 20;
 
     let glow = new BABYLON.GlowLayer("glow", scene2, {
       //mainTextureFixedSize: 512,
@@ -30,7 +31,7 @@ export default class Scene2 {
 
     this.plane = BABYLON.Mesh.CreatePlane("map", 1, scene2);
     this.plane.enableEdgesRendering();
-    this.plane.edgesWidth = 4.0;
+    this.plane.edgesWidth = 1.0;
     this.plane.edgesColor = new BABYLON.Color4(0, 0, 1, 1);
 
     // create a material for the RTT and apply it to the plane

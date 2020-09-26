@@ -2,7 +2,7 @@
 
 // millisecond to frame
 function stf(ms) {
-  return (ms / 1000) * 60;
+  return (ms / 1000) * fr;
   // return (ms / 1000) * 600000;
 }
 

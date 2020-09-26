@@ -23,66 +23,114 @@ export default class Scene1 {
     renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
     scene.customRenderTargets.push(renderTarget);
 
-    // camera = new BABYLON.ArcRotateCamera(
-    //   "Camera",
-    //   km.radians(311.98), //5.445
-    //   km.radians(90.53), //1.58
-    //   47.25,
-    //   new BABYLON.Vector3(0, 7, 0),
-    //   scene
-    // );
-    // camera = new BABYLON.ArcRotateCamera(
-    //   "Camera",
-    //   km.radians(330),
-    //   km.radians(90.53),
-    //   1.5,
-    //   new BABYLON.Vector3(0, 40, 0),
-    //   scene
-    // );
-
-    camera = new BABYLON.UniversalCamera(
-      "cam1",
-      new BABYLON.Vector3(0, 0, 0),
+    camera = new BABYLON.ArcRotateCamera(
+      "Camera",
+      km.radians(-33.7),
+      km.radians(90),
+      36,
+      new BABYLON.Vector3(0, 3, 0),
       scene
     );
-    camera.position = new BABYLON.Vector3(5, 42, -6);
-    camera.rotation = new BABYLON.Vector3(km.radians(20), km.radians(-41.5), 0);
+    // camera.setPosition(new BABYLON.Vector3(30, 5, -20));
 
     // camera = new BABYLON.UniversalCamera(
-    //   "cam2",
+    //   "cam1",
     //   new BABYLON.Vector3(0, 0, 0),
     //   scene
     // );
-    // camera.position = new BABYLON.Vector3(5, 0, -6);
+    // camera.position = new BABYLON.Vector3(40, 42, -48);
     // camera.rotation = new BABYLON.Vector3(km.radians(20), km.radians(-41.5), 0);
-
-    // camera.setTarget(new BABYLON.Vector3(1, 40, 0));
-    camera.wheelPrecision = 10;
+    // camera.setTarget(BABYLON.Vector3.Zero());
+    camera.wheelPrecision = 20;
     camera.attachControl(canvas, true);
 
     var ani1 = new BABYLON.Animation(
       "ani1",
-      "position",
-      60,
-      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+      "alpha",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
     );
     ani1.setKeys([
       {
         frame: 0,
-        value: camera.position
+        value: camera.alpha
       },
       {
         frame: stf(500),
-        value: camera.position
+        value: camera.alpha
       },
       {
         frame: stf(6500),
-        value: new BABYLON.Vector3(5, 0, -6)
+        value: camera.alpha - 0.4
+      },
+      {
+        frame: stf(10000),
+        value: camera.alpha - 0.4
       }
     ]);
 
-    scene.beginDirectAnimation(camera, [ani1], 0, stf(6500), false);
+    var ani2 = new BABYLON.Animation(
+      "ani1",
+      "beta",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani2.setKeys([
+      {
+        frame: 0,
+        value: camera.beta
+      },
+      {
+        frame: stf(3000),
+        value: camera.beta
+      },
+      {
+        frame: stf(10000),
+        value: camera.beta + 0.1
+      }
+    ]);
+    ani2.enableBlending = true;
+    ani2.blendingSpeed = 1;
+
+    // var easingFunction = new BABYLON.CircleEase();
+    // easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEOUT);
+    // ani1.setEasingFunction(easingFunction);
+
+    var ani3 = new BABYLON.Animation(
+      "ani1",
+      "radius",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani3.setKeys([
+      {
+        frame: 0,
+        value: camera.radius
+      },
+      {
+        frame: stf(500),
+        value: camera.radius
+      },
+      {
+        frame: stf(6500),
+        value: camera.radius + 5
+      },
+      {
+        frame: stf(10000),
+        value: camera.radius + 5
+      }
+    ]);
+
+    scene.beginDirectAnimation(
+      camera,
+      [ani1, ani2, ani3],
+      0,
+      stf(10000),
+      false
+    );
 
     var light = new BABYLON.HemisphericLight(
       "hemi",
@@ -91,7 +139,7 @@ export default class Scene1 {
     );
     // light.intensity =.2
 
-    let glow = new BABYLON.GlowLayer("glow", scene, {
+    s1gl = new BABYLON.GlowLayer("glow", scene, {
       //mainTextureFixedSize: 512,
       blurKernelSize: 30
     });

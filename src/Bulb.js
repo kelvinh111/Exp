@@ -106,7 +106,7 @@ export default class Bulb {
     let ani = new BABYLON.Animation(
       "bulbRotation",
       "rotation.y",
-      60,
+      fr,
       BABYLON.Animation.ANIMATIONTYPE_FLOAT,
       BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
     );

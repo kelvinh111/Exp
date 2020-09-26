@@ -18,28 +18,27 @@ export default class Stage {
         });
       } else {
         // console.log(t)
-        t.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
-        t.animationPropertiesOverride.loopMode = 0;
+        // t.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
+        // t.animationPropertiesOverride.loopMode = 0;
+        s1gl.addExcludedMesh(t);
         this.macbookNodes.push(t);
       }
     };
 
-    BABYLON.SceneLoader.AppendAsync(
-      "https://public.kelvinh.studio/cdn/3d/macbook/",
-      "scene2.gltf",
-      scene
-    ).then((s) => {
-      s.rootNodes.forEach((v, k) => {
-        if (v.id === "__root__") {
-          // console.log(v)
-          v.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
-          v.position.y = -5.5;
-          re(v);
-        }
-      });
+    BABYLON.SceneLoader.AppendAsync("./macbook/", "scene2.gltf", scene).then(
+      (s) => {
+        s.rootNodes.forEach((v, k) => {
+          if (v.id === "__root__") {
+            // console.log(v)
+            v.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
+            v.position.y = -5.5;
+            re(v);
+          }
+        });
 
-      this.initStage();
-    });
+        this.initStage();
+      }
+    );
   }
 
   initStage() {

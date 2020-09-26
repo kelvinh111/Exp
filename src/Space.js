@@ -87,7 +87,7 @@ export default class Space {
       let ani = new BABYLON.Animation(
         "on" + k,
         "emissiveColor",
-        60,
+        fr,
         BABYLON.Animation.ANIMATIONTYPE_COLOR3,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );
