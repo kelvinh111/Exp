@@ -25,20 +25,22 @@ export default class Stage {
       }
     };
 
-    BABYLON.SceneLoader.AppendAsync("./macbook/", "scene2.gltf", scene).then(
-      (s) => {
-        s.rootNodes.forEach((v, k) => {
-          if (v.id === "__root__") {
-            // console.log(v)
-            v.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
-            v.position.y = -5.5;
-            re(v);
-          }
-        });
+    BABYLON.SceneLoader.AppendAsync(
+      "https://kelvinh111.github.io/cdn/",
+      "scene.gltf",
+      scene
+    ).then((s) => {
+      s.rootNodes.forEach((v, k) => {
+        if (v.id === "__root__") {
+          // console.log(v)
+          v.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
+          v.position.y = -5.5;
+          re(v);
+        }
+      });
 
-        this.initStage();
-      }
-    );
+      this.initStage();
+    });
   }
 
   initStage() {
