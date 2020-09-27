@@ -40,7 +40,7 @@ window.ring1Config = {
     dropFirstDelay: 0,
     dropFirstDuration: 6.5,
     position: new BABYLON.Vector3(0, 0, 0),
-    ringDelay: 7.5,
+    ringDelay: 9,
     bulbDuration: 5,
     bulbDelay: 0.065,
     color: htc("9cbfff"),
@@ -72,7 +72,7 @@ window.ring2Config = {
   dropConfig: {
     dropFirst: false,
     position: new BABYLON.Vector3(0, 6, 0),
-    ringDelay: 9.9,
+    ringDelay: 11.4,
     bulbDuration: 3.65,
     bulbDelay: 0.065,
     color: htc("9eaeff"),
@@ -104,7 +104,7 @@ window.ring3Config = {
   dropConfig: {
     dropFirst: false,
     position: new BABYLON.Vector3(0, 11, 0),
-    ringDelay: 12.37,
+    ringDelay: 13.87,
     bulbDuration: 3.55,
     bulbDelay: 0.1,
     color: htc("99bcff"),
@@ -124,13 +124,14 @@ window.ring3Config = {
 };
 
 window.spaceConfig = {
-  num: 3000,
+  num: 4000,
   angle: 137.5,
   gap: 2,
-  matStep: 30,
+  matStep: 20,
   bulbSize: 0.2,
-  height: 40,
-  y: -15
+  height: 50,
+  y: -20,
+  delay: 8.1
 };
 
 window.bulbNumTotal =

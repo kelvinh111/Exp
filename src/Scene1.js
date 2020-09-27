@@ -25,7 +25,7 @@ export default class Scene1 {
 
     camera = new BABYLON.ArcRotateCamera(
       "Camera",
-      km.radians(-91),
+      km.radians(-95),
       km.radians(70),
       65,
       new BABYLON.Vector3(0, 3, 0),
@@ -117,11 +117,11 @@ export default class Scene1 {
         value: km.radians(84)
       },
       {
-        frame: stf(0.5),
+        frame: stf(1.5),
         value: km.radians(84)
       },
       {
-        frame: stf(11),
+        frame: stf(12),
         value: km.radians(95)
       }
     ]);
@@ -139,11 +139,11 @@ export default class Scene1 {
         value: 33
       },
       {
-        frame: stf(0.5),
+        frame: stf(1.5),
         value: 33
       },
       {
-        frame: stf(11),
+        frame: stf(12),
         value: 47
       }
     ]);
@@ -161,15 +161,15 @@ export default class Scene1 {
         value: camera.target.y
       },
       {
-        frame: stf(0.5),
+        frame: stf(1.5),
         value: camera.target.y
       },
       {
-        frame: stf(4),
+        frame: stf(5.5),
         value: camera.target.y + 2
       },
       {
-        frame: stf(11),
+        frame: stf(12),
         value: camera.target.y + 3
       }
     ]);
@@ -189,7 +189,7 @@ export default class Scene1 {
           camera,
           [ani4, ani5, ani6],
           0,
-          stf(11),
+          stf(12),
           false
         );
       }
