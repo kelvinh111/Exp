@@ -1,8 +1,8 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 
 // millisecond to frame
-function stf(ms) {
-  return (ms / 1000) * fr;
+function stf(s) {
+  return s * fr;
   // return (ms / 1000) * 600000;
 }
 

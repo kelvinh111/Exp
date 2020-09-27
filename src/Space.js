@@ -98,11 +98,11 @@ export default class Space {
           value: v.emissiveColor
         },
         {
-          frame: stf(k * 150),
+          frame: stf(k * 0.15),
           value: v.emissiveColor
         },
         {
-          frame: stf(k * 150 + 1000),
+          frame: stf(k * 0.15 + 1),
           value: v.emissiveColorTarget
         }
       ];
@@ -111,7 +111,7 @@ export default class Space {
 
       v.animations = [ani];
 
-      scene.beginAnimation(v, 0, stf(k * 500 + 2000), false, 1, () => {});
+      scene.beginAnimation(v, 0, stf(k * 0.5 + 2), false, 1, () => {});
     });
   }
 }

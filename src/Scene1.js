@@ -25,9 +25,9 @@ export default class Scene1 {
 
     camera = new BABYLON.ArcRotateCamera(
       "Camera",
-      km.radians(-33.7),
-      km.radians(90),
-      36,
+      km.radians(-71),
+      km.radians(70),
+      65,
       new BABYLON.Vector3(0, 3, 0),
       scene
     );
@@ -44,6 +44,9 @@ export default class Scene1 {
     camera.wheelPrecision = 20;
     camera.attachControl(canvas, true);
 
+    var ease1 = new BABYLON.BezierCurveEase(0.28, 0.36, 0.7, 0.95);
+    var ease2 = new BABYLON.BezierCurveEase(0, 0, 0.82, 0.97);
+
     var ani1 = new BABYLON.Animation(
       "ani1",
       "alpha",
@@ -57,16 +60,8 @@ export default class Scene1 {
         value: camera.alpha
       },
       {
-        frame: stf(500),
-        value: camera.alpha
-      },
-      {
-        frame: stf(6500),
-        value: camera.alpha - 0.4
-      },
-      {
-        frame: stf(10000),
-        value: camera.alpha - 0.4
+        frame: stf(8.5),
+        value: km.radians(-137)
       }
     ]);
 
@@ -83,20 +78,10 @@ export default class Scene1 {
         value: camera.beta
       },
       {
-        frame: stf(3000),
-        value: camera.beta
-      },
-      {
-        frame: stf(10000),
-        value: camera.beta + 0.1
+        frame: stf(8.5),
+        value: km.radians(84)
       }
     ]);
-    ani2.enableBlending = true;
-    ani2.blendingSpeed = 1;
-
-    // var easingFunction = new BABYLON.CircleEase();
-    // easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEOUT);
-    // ani1.setEasingFunction(easingFunction);
 
     var ani3 = new BABYLON.Animation(
       "ani1",
@@ -111,25 +96,99 @@ export default class Scene1 {
         value: camera.radius
       },
       {
-        frame: stf(500),
-        value: camera.radius
-      },
-      {
-        frame: stf(6500),
-        value: camera.radius + 5
-      },
-      {
-        frame: stf(10000),
-        value: camera.radius + 5
+        frame: stf(8.5),
+        value: 33
       }
     ]);
+    ani1.setEasingFunction(ease1);
+    ani2.setEasingFunction(ease1);
+    ani3.setEasingFunction(ease1);
+
+    var ani4 = new BABYLON.Animation(
+      "ani1",
+      "beta",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani4.setKeys([
+      {
+        frame: 0,
+        value: km.radians(84)
+      },
+      {
+        frame: stf(0.5),
+        value: km.radians(84)
+      },
+      {
+        frame: stf(6),
+        value: km.radians(100)
+      }
+    ]);
+
+    var ani5 = new BABYLON.Animation(
+      "ani1",
+      "radius",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani5.setKeys([
+      {
+        frame: 0,
+        value: 33
+      },
+      {
+        frame: stf(0.5),
+        value: 33
+      },
+      {
+        frame: stf(6),
+        value: 48
+      }
+    ]);
+
+    var ani6 = new BABYLON.Animation(
+      "ani1",
+      "target.y",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani6.setKeys([
+      {
+        frame: 0,
+        value: camera.target.y
+      },
+      {
+        frame: stf(0.5),
+        value: camera.target.y
+      },
+      {
+        frame: stf(6),
+        value: camera.target.y + 4
+      }
+    ]);
+    ani4.setEasingFunction(ease2);
+    ani5.setEasingFunction(ease2);
+    ani6.setEasingFunction(ease2);
 
     scene.beginDirectAnimation(
       camera,
       [ani1, ani2, ani3],
       0,
-      stf(10000),
-      false
+      stf(8.5),
+      false,
+      1,
+      () => {
+        scene.beginDirectAnimation(
+          camera,
+          [ani4, ani5, ani6],
+          0,
+          stf(6),
+          false
+        );
+      }
     );
 
     var light = new BABYLON.HemisphericLight(

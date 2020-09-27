@@ -238,7 +238,7 @@ export default class Ring {
           value: bulb.core.position.y
         },
         {
-          frame: stf(3000),
+          frame: stf(3),
           value: destY
         }
       ];
@@ -247,7 +247,7 @@ export default class Ring {
 
       bulb.core.animations = [aniCircular];
 
-      scene.beginAnimation(bulb.core, 0, stf(3000), false, 1, () => {
+      scene.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
         if (key + 1 === this.bulbNum) {
           deferred.resolve();
         }
@@ -306,7 +306,7 @@ export default class Ring {
           value: bulb.core.position.y
         },
         {
-          frame: stf(3000),
+          frame: stf(3),
           value: destY
         }
       ];
@@ -315,7 +315,7 @@ export default class Ring {
 
       bulb.core.animations = [aniWave];
 
-      scene.beginAnimation(bulb.core, 0, stf(3000), false, 1, () => {
+      scene.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
         if (key + 1 === this.bulbNum) {
           deferred.resolve();
         }
