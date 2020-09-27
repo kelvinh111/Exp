@@ -77,7 +77,7 @@ window.ring2Config = {
     bulbDelay: 0.065,
     color: htc("9eaeff"),
     colorDuration: 2.2,
-    colorDelay: 2
+    colorDelay: 1.2
   },
   circularConfig: {
     height: 5,
@@ -106,10 +106,10 @@ window.ring3Config = {
     position: new BABYLON.Vector3(0, 11, 0),
     ringDelay: 12.37,
     bulbDuration: 3.55,
-    bulbDelay: 0.09,
+    bulbDelay: 0.1,
     color: htc("99bcff"),
     colorDuration: 2.2,
-    colorDelay: 2.3
+    colorDelay: 1.5
   },
   circularConfig: {
     height: 8.5,

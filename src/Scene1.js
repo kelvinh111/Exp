@@ -25,7 +25,7 @@ export default class Scene1 {
 
     camera = new BABYLON.ArcRotateCamera(
       "Camera",
-      km.radians(-71),
+      km.radians(-91),
       km.radians(70),
       65,
       new BABYLON.Vector3(0, 3, 0),
@@ -44,8 +44,8 @@ export default class Scene1 {
     camera.wheelPrecision = 20;
     camera.attachControl(canvas, true);
 
-    var ease1 = new BABYLON.BezierCurveEase(0.28, 0.36, 0.7, 0.95);
-    var ease2 = new BABYLON.BezierCurveEase(0, 0, 0.82, 0.97);
+    var ease1 = new BABYLON.BezierCurveEase(0, 0, 0.75, 1);
+    var ease2 = new BABYLON.BezierCurveEase(0, 0, 0.6, 1);
 
     var ani1 = new BABYLON.Animation(
       "ani1",
@@ -121,8 +121,8 @@ export default class Scene1 {
         value: km.radians(84)
       },
       {
-        frame: stf(6),
-        value: km.radians(100)
+        frame: stf(11),
+        value: km.radians(95)
       }
     ]);
 
@@ -143,8 +143,8 @@ export default class Scene1 {
         value: 33
       },
       {
-        frame: stf(6),
-        value: 48
+        frame: stf(11),
+        value: 47
       }
     ]);
 
@@ -165,8 +165,12 @@ export default class Scene1 {
         value: camera.target.y
       },
       {
-        frame: stf(6),
-        value: camera.target.y + 4
+        frame: stf(4),
+        value: camera.target.y + 2
+      },
+      {
+        frame: stf(11),
+        value: camera.target.y + 3
       }
     ]);
     ani4.setEasingFunction(ease2);
@@ -185,7 +189,7 @@ export default class Scene1 {
           camera,
           [ani4, ani5, ani6],
           0,
-          stf(6),
+          stf(11),
           false
         );
       }
