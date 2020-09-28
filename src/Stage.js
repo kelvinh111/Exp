@@ -12,18 +12,27 @@ export default class Stage {
 
   initMacbook() {
     let re = (t) => {
+      if (t.name === "display.001") {
+        console.log(t.animations[0]);
+        t.animations[0].loopMode = 0;
+        // t.animations[0].stop();
+      }
       if (t._children) {
         t._children.forEach((v) => {
           re(v);
         });
       } else {
-        // console.log(t)
-        // t.animationPropertiesOverride = new BABYLON.AnimationPropertiesOverride();
-        // t.animationPropertiesOverride.loopMode = 0;
         s1gl.addExcludedMesh(t);
         this.macbookNodes.push(t);
       }
     };
+
+    BABYLON.SceneLoader.OnPluginActivatedObservable.addOnce(function (plugin) {
+      if (plugin.name === "gltf") {
+        console.log("yeah");
+        plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
+      }
+    });
 
     BABYLON.SceneLoader.AppendAsync(
       "https://kelvinh111.github.io/cdn/",

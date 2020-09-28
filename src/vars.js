@@ -136,6 +136,7 @@ window.spaceConfig = {
 
 window.bulbNumTotal =
   ring1Config.bulbNum + ring2Config.bulbNum + ring3Config.bulbNum;
-window.nbParticles = bulbNumTotal * 13;
+// window.nbParticles = bulbNumTotal * 13;
+window.nbParticles = bulbNumTotal * 7;
 window.bulbCount = 0;
 window.particleCount = 0;
