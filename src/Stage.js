@@ -9,7 +9,7 @@ export default class Stage {
     this.macbookNodes = [];
     this.initMacbook();
     this.mbAni = null;
-    this.initStage();
+    // this.initStage();
   }
 
   initMacbook() {
@@ -57,6 +57,7 @@ export default class Stage {
       this.mbAni.pause();
       this.mbAni.goToFrame(3.75); // collapse the macbook
       // scene.animationGroups[0].play();
+      this.initStage();
     });
   }
 

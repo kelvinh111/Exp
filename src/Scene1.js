@@ -108,7 +108,7 @@ export default class Scene1 {
         ring3.aniDrop(),
         ring3.aniOn()
       ])
-        .delay(2000)
+        .delay(1200)
         .then(() => {
           story = 2;
         });
@@ -271,7 +271,7 @@ export default class Scene1 {
 
     setTimeout(() => {
       stage.openMacbook();
-    }, 6000);
+    }, 6700);
 
     renderTarget.renderList.push(spsRing.mesh);
 
