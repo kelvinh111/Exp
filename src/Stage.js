@@ -12,11 +12,9 @@ export default class Stage {
 
   initMacbook() {
     let re = (t) => {
-      if (t.name === "display.001") {
-        console.log(t.animations[0]);
-        t.animations[0].loopMode = 0;
-        // t.animations[0].stop();
-      }
+      // if (t.name === "display.001") {
+      //   console.log(Object.keys(t))
+      // }
       if (t._children) {
         t._children.forEach((v) => {
           re(v);
@@ -27,16 +25,16 @@ export default class Stage {
       }
     };
 
+    // no autoplay
     BABYLON.SceneLoader.OnPluginActivatedObservable.addOnce(function (plugin) {
       if (plugin.name === "gltf") {
-        console.log("yeah");
         plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
       }
     });
 
     BABYLON.SceneLoader.AppendAsync(
-      "https://kelvinh111.github.io/cdn/",
-      "scene.gltf",
+      "https://public.kelvinh.studio/cdn/3d/macbook/",
+      "scene_yeah.gltf",
       scene
     ).then((s) => {
       s.rootNodes.forEach((v, k) => {
@@ -48,6 +46,9 @@ export default class Stage {
         }
       });
 
+      // disable loop & manually play it once
+      scene.animationGroups[0].children[0].animation.loopMode = 0;
+      scene.animationGroups[0].play();
       this.initStage();
     });
   }
