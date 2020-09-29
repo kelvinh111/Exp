@@ -28,13 +28,13 @@ export default class Stage {
     // no autoplay
     BABYLON.SceneLoader.OnPluginActivatedObservable.addOnce(function (plugin) {
       if (plugin.name === "gltf") {
-        plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
+        // plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
       }
     });
 
     BABYLON.SceneLoader.AppendAsync(
-      "https://public.kelvinh.studio/cdn/3d/macbook/",
-      "scene_yeah.gltf",
+      "https://public.kelvinh.studio/cdn/3d/macbook3/",
+      "scene.gltf",
       scene
     ).then((s) => {
       s.rootNodes.forEach((v, k) => {
@@ -47,9 +47,12 @@ export default class Stage {
       });
 
       // disable loop & manually play it once
-      scene.animationGroups[0].children[0].animation.loopMode = 0;
-      scene.animationGroups[0].play();
-      this.initStage();
+      // scene.animationGroups[0].children[0].animation.loopMode = 0;
+      // console.log(scene.animationGroups[0])
+      scene.animationGroups[0].loopAnimation = false;
+      scene.animationGroups[0].pause();
+      scene.animationGroups[0].goToFrame(3.75);
+      // scene.animationGroups[0].play();
     });
   }
 
