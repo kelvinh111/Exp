@@ -8,6 +8,8 @@ export default class Stage {
 
     this.macbookNodes = [];
     this.initMacbook();
+    this.mbAni = null;
+    this.initStage();
   }
 
   initMacbook() {
@@ -26,11 +28,11 @@ export default class Stage {
     };
 
     // no autoplay
-    BABYLON.SceneLoader.OnPluginActivatedObservable.addOnce(function (plugin) {
-      if (plugin.name === "gltf") {
-        // plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
-      }
-    });
+    // BABYLON.SceneLoader.OnPluginActivatedObservable.addOnce(function (plugin) {
+    //   if (plugin.name === "gltf") {
+    //     plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
+    //   }
+    // });
 
     BABYLON.SceneLoader.AppendAsync(
       "https://public.kelvinh.studio/cdn/3d/macbook3/",
@@ -49,11 +51,17 @@ export default class Stage {
       // disable loop & manually play it once
       // scene.animationGroups[0].children[0].animation.loopMode = 0;
       // console.log(scene.animationGroups[0])
-      scene.animationGroups[0].loopAnimation = false;
-      scene.animationGroups[0].pause();
-      scene.animationGroups[0].goToFrame(3.75);
+
+      this.mbAni = scene.animationGroups[0];
+      this.mbAni.loopAnimation = false;
+      this.mbAni.pause();
+      this.mbAni.goToFrame(3.75); // collapse the macbook
       // scene.animationGroups[0].play();
     });
+  }
+
+  openMacbook() {
+    this.mbAni.play();
   }
 
   initStage() {

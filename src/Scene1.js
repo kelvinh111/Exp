@@ -44,6 +44,80 @@ export default class Scene1 {
     camera.wheelPrecision = 20;
     camera.attachControl(canvas, true);
 
+    var light = new BABYLON.HemisphericLight(
+      "hemi",
+      new BABYLON.Vector3(0, 1, -0.5),
+      scene
+    );
+    // light.intensity =.2
+
+    s1gl = new BABYLON.GlowLayer("glow", scene, {
+      //mainTextureFixedSize: 512,
+      blurKernelSize: 30
+    });
+
+    // Rings
+    let ring1, ring2, ring3;
+    (() => {
+      spsRing = new BABYLON.SolidParticleSystem("spsRing", scene, {
+        enableMultiMaterial: true,
+        updatable: true
+      });
+      // needa rotate bulb's core thus not billboard
+      spsRing.computeBoundingBox = true;
+      spsRing.billboard = false;
+      spsRing.computeParticleRotation = true;
+      spsRing.computeParticleColor = false;
+      spsRing.computeParticleTexture = false;
+      spsRing.computeParticleVertex = false;
+
+      let circle = BABYLON.MeshBuilder.CreateSphere(
+        "sphere",
+        {
+          segments: 3,
+          diameter: 0.1
+        },
+        scene
+      );
+
+      for (let i = 0; i < bulbNumTotal; i++) {
+        let mat = new BABYLON.StandardMaterial("mat" + i, scene);
+        mat.disableLighting = true;
+        mat.backFaceCulling = false;
+        mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
+        ringsMats.push(mat);
+      }
+
+      spsRing.addShape(circle, nbParticles);
+      circle.dispose();
+      let mesh = spsRing.buildMesh();
+
+      spsRing.setMultiMaterial(ringsMats);
+
+      ring1 = new Ring(ring1Config);
+      ring2 = new Ring(ring2Config);
+      ring3 = new Ring(ring3Config);
+      spsRing.computeSubMeshes();
+      console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
+
+      Q.all([
+        ring1.aniDrop(),
+        ring1.aniOn(),
+        ring2.aniDrop(),
+        ring2.aniOn(),
+        ring3.aniDrop(),
+        ring3.aniOn()
+      ])
+        .delay(2000)
+        .then(() => {
+          story = 2;
+        });
+    })();
+
+    // space
+    let space = new Space(spaceConfig);
+    let stage = new Stage();
+
     var ease1 = new BABYLON.BezierCurveEase(0, 0, 0.75, 1);
     var ease2 = new BABYLON.BezierCurveEase(0, 0, 0.6, 1);
 
@@ -195,79 +269,9 @@ export default class Scene1 {
       }
     );
 
-    var light = new BABYLON.HemisphericLight(
-      "hemi",
-      new BABYLON.Vector3(0, 1, -0.5),
-      scene
-    );
-    // light.intensity =.2
-
-    s1gl = new BABYLON.GlowLayer("glow", scene, {
-      //mainTextureFixedSize: 512,
-      blurKernelSize: 30
-    });
-
-    // space
-    new Space(spaceConfig);
-    new Stage();
-
-    // Rings
-    let ring1, ring2, ring3;
-    (() => {
-      spsRing = new BABYLON.SolidParticleSystem("spsRing", scene, {
-        enableMultiMaterial: true,
-        updatable: true
-      });
-      // needa rotate bulb's core thus not billboard
-      spsRing.computeBoundingBox = true;
-      spsRing.billboard = false;
-      spsRing.computeParticleRotation = true;
-      spsRing.computeParticleColor = false;
-      spsRing.computeParticleTexture = false;
-      spsRing.computeParticleVertex = false;
-
-      let circle = BABYLON.MeshBuilder.CreateSphere(
-        "sphere",
-        {
-          segments: 3,
-          diameter: 0.1
-        },
-        scene
-      );
-
-      for (let i = 0; i < bulbNumTotal; i++) {
-        let mat = new BABYLON.StandardMaterial("mat" + i, scene);
-        mat.disableLighting = true;
-        mat.backFaceCulling = false;
-        mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
-        ringsMats.push(mat);
-      }
-
-      spsRing.addShape(circle, nbParticles);
-      circle.dispose();
-      let mesh = spsRing.buildMesh();
-
-      spsRing.setMultiMaterial(ringsMats);
-
-      ring1 = new Ring(ring1Config);
-      ring2 = new Ring(ring2Config);
-      ring3 = new Ring(ring3Config);
-      spsRing.computeSubMeshes();
-      console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
-
-      Q.all([
-        ring1.aniDrop(),
-        ring1.aniOn(),
-        ring2.aniDrop(),
-        ring2.aniOn(),
-        ring3.aniDrop(),
-        ring3.aniOn()
-      ])
-        .delay(2000)
-        .then(() => {
-          story = 2;
-        });
-    })();
+    setTimeout(() => {
+      stage.openMacbook();
+    }, 6000);
 
     renderTarget.renderList.push(spsRing.mesh);
 
