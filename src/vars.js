@@ -126,12 +126,14 @@ window.ring3Config = {
 window.spaceConfig = {
   num: 4000,
   angle: 137.5,
-  gap: 2,
-  matStep: 20,
+  gap: 2.5,
+  matStep: 15,
   bulbSize: 0.2,
-  height: 50,
+  height: 40,
   y: -20,
-  delay: 8.1
+  delay: 8.1,
+  bulbDelay: 0.3,
+  bulbDuration: 0.8
 };
 
 window.bulbNumTotal =

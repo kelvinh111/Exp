@@ -1,6 +1,6 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 /* global kelvinUtil, BABYLON, Q, gb */
-import { stf, htc } from "./util.js";
+import { stf, htc, hslToRgb } from "./util.js";
 
 export default class Space {
   constructor(options) {
@@ -39,15 +39,16 @@ export default class Space {
       mat.backFaceCulling = false;
 
       mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
-      let co = km.map(
+      let light = km.map(
         1 - Math.sin(((i / this.matStep) * Math.PI) / 2),
         0,
         1,
-        0.2,
-        0.4
+        0.3,
+        0.5
       );
-      mat.emissiveColorTarget = new BABYLON.Color3(co, co, co);
-      // mat.emissiveColorTarget = new BABYLON.Color3(1,1,1);
+
+      let rgb = hslToRgb(Math.random(), 0.15, light);
+      mat.emissiveColorTarget = new BABYLON.Color3(rgb.r, rgb.g, rgb.b);
 
       this.mats.push(mat);
     }
@@ -98,15 +99,11 @@ export default class Space {
           value: v.emissiveColor
         },
         {
-          frame: stf(this.delay),
+          frame: stf(k * this.bulbDelay + this.delay),
           value: v.emissiveColor
         },
         {
-          frame: stf(k * 0.1 + this.delay),
-          value: v.emissiveColor
-        },
-        {
-          frame: stf(k * 0.1 + 0.5 + this.delay),
+          frame: stf(k * this.bulbDelay + this.bulbDuration + this.delay),
           value: v.emissiveColorTarget
         }
       ];
@@ -118,10 +115,8 @@ export default class Space {
       scene.beginAnimation(
         v,
         0,
-        stf(k * 0.5 + 2 + this.delay),
-        false,
-        1,
-        () => {}
+        stf(k * this.bulbDelay + this.bulbDuration + this.delay),
+        false
       );
     });
   }

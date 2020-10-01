@@ -10,7 +10,13 @@ export default class Scene1 {
   constructor(options) {
     Object.assign(this, options);
 
+    this.ring1 = null;
+    this.ring2 = null;
+    this.ring3 = null;
     this.ringsMats = [];
+
+    this.space = null;
+    this.stage = null;
 
     this.init();
   }
@@ -31,93 +37,100 @@ export default class Scene1 {
       new BABYLON.Vector3(0, 3, 0),
       scene
     );
-    // camera.setPosition(new BABYLON.Vector3(30, 5, -20));
-
-    // camera = new BABYLON.UniversalCamera(
-    //   "cam1",
-    //   new BABYLON.Vector3(0, 0, 0),
-    //   scene
-    // );
-    // camera.position = new BABYLON.Vector3(40, 42, -48);
-    // camera.rotation = new BABYLON.Vector3(km.radians(20), km.radians(-41.5), 0);
-    // camera.setTarget(BABYLON.Vector3.Zero());
-    camera.wheelPrecision = 20;
-    camera.attachControl(canvas, true);
 
     var light = new BABYLON.HemisphericLight(
       "hemi",
       new BABYLON.Vector3(0, 1, -0.5),
       scene
     );
-    // light.intensity =.2
 
     s1gl = new BABYLON.GlowLayer("glow", scene, {
       //mainTextureFixedSize: 512,
       blurKernelSize: 30
     });
 
+    this.initRings();
+    this.space = new Space(spaceConfig);
+    this.stage = new Stage();
+    this.initIntro();
+  }
+
+  initRings() {
     // Rings
-    let ring1, ring2, ring3;
-    (() => {
-      spsRing = new BABYLON.SolidParticleSystem("spsRing", scene, {
-        enableMultiMaterial: true,
-        updatable: true
+    spsRing = new BABYLON.SolidParticleSystem("spsRing", scene, {
+      enableMultiMaterial: true,
+      updatable: true
+    });
+    // needa rotate bulb's core thus not billboard
+    spsRing.computeBoundingBox = true;
+    spsRing.billboard = false;
+    spsRing.computeParticleRotation = true;
+    spsRing.computeParticleColor = false;
+    spsRing.computeParticleTexture = false;
+    spsRing.computeParticleVertex = false;
+
+    let circle = BABYLON.MeshBuilder.CreateSphere(
+      "sphere",
+      {
+        segments: 3,
+        diameter: 0.1
+      },
+      scene
+    );
+
+    for (let i = 0; i < bulbNumTotal; i++) {
+      let mat = new BABYLON.StandardMaterial("mat" + i, scene);
+      mat.disableLighting = true;
+      mat.backFaceCulling = false;
+      mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
+      ringsMats.push(mat);
+    }
+
+    spsRing.addShape(circle, nbParticles);
+    circle.dispose();
+    let mesh = spsRing.buildMesh();
+
+    spsRing.setMultiMaterial(ringsMats);
+
+    this.ring1 = new Ring(ring1Config);
+    this.ring2 = new Ring(ring2Config);
+    this.ring3 = new Ring(ring3Config);
+    spsRing.computeSubMeshes();
+    renderTarget.renderList.push(spsRing.mesh);
+    console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
+
+    Q.all([
+      this.ring1.aniDrop(),
+      this.ring1.aniOn(),
+      this.ring2.aniDrop(),
+      this.ring2.aniOn(),
+      this.ring3.aniDrop(),
+      this.ring3.aniOn()
+    ])
+      .delay(1200)
+      .then(() => {
+        story = 2;
+        let alpha = -137;
+        let beta = 95;
+        let radius = 47;
+        camera.wheelPrecision = 20;
+        camera.lowerAlphaLimit = km.radians(-150);
+        camera.upperAlphaLimit = km.radians(-25);
+        camera.lowerBetaLimit = km.radians(beta - 20);
+        camera.upperBetaLimit = km.radians(beta + 10);
+        // camera.lowerRadiusLimit = km.radians(radius - 5);
+        // camera.upperRadiusLimit = km.radians(radius + 5);
+        camera.angularSensibilityX = 8000;
+        camera.angularSensibilityY = 8000;
+        camera.lowerRadiusLimit = camera.radius;
+        camera.upperRadiusLimit = camera.radius;
+        camera.attachControl(canvas, true);
       });
-      // needa rotate bulb's core thus not billboard
-      spsRing.computeBoundingBox = true;
-      spsRing.billboard = false;
-      spsRing.computeParticleRotation = true;
-      spsRing.computeParticleColor = false;
-      spsRing.computeParticleTexture = false;
-      spsRing.computeParticleVertex = false;
 
-      let circle = BABYLON.MeshBuilder.CreateSphere(
-        "sphere",
-        {
-          segments: 3,
-          diameter: 0.1
-        },
-        scene
-      );
+    this.EventHandler();
+  }
 
-      for (let i = 0; i < bulbNumTotal; i++) {
-        let mat = new BABYLON.StandardMaterial("mat" + i, scene);
-        mat.disableLighting = true;
-        mat.backFaceCulling = false;
-        mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
-        ringsMats.push(mat);
-      }
-
-      spsRing.addShape(circle, nbParticles);
-      circle.dispose();
-      let mesh = spsRing.buildMesh();
-
-      spsRing.setMultiMaterial(ringsMats);
-
-      ring1 = new Ring(ring1Config);
-      ring2 = new Ring(ring2Config);
-      ring3 = new Ring(ring3Config);
-      spsRing.computeSubMeshes();
-      console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
-
-      Q.all([
-        ring1.aniDrop(),
-        ring1.aniOn(),
-        ring2.aniDrop(),
-        ring2.aniOn(),
-        ring3.aniDrop(),
-        ring3.aniOn()
-      ])
-        .delay(1200)
-        .then(() => {
-          story = 2;
-        });
-    })();
-
-    // space
-    let space = new Space(spaceConfig);
-    let stage = new Stage();
-
+  initIntro() {
     var ease1 = new BABYLON.BezierCurveEase(0, 0, 0.75, 1);
     var ease2 = new BABYLON.BezierCurveEase(0, 0, 0.6, 1);
 
@@ -153,7 +166,7 @@ export default class Scene1 {
       },
       {
         frame: stf(8.5),
-        value: km.radians(84)
+        value: km.radians(74)
       }
     ]);
 
@@ -188,11 +201,11 @@ export default class Scene1 {
     ani4.setKeys([
       {
         frame: 0,
-        value: km.radians(84)
+        value: km.radians(74)
       },
       {
         frame: stf(1.5),
-        value: km.radians(84)
+        value: km.radians(74)
       },
       {
         frame: stf(12),
@@ -270,15 +283,17 @@ export default class Scene1 {
     );
 
     setTimeout(() => {
-      stage.openMacbook();
+      this.stage.openMacbook();
     }, 6700);
+  }
 
-    renderTarget.renderList.push(spsRing.mesh);
-
-    scene.registerAfterRender(function () {
-      ring1.update();
-      ring2.update();
-      ring3.update();
+  EventHandler() {
+    scene.registerAfterRender(() => {
+      if (this.ring1 && this.ring2 && this.ring3) {
+        this.ring1.update();
+        this.ring2.update();
+        this.ring3.update();
+      }
       spsRing.setParticles();
     });
 
@@ -286,18 +301,24 @@ export default class Scene1 {
       if (story === 0 || story === 1 || story === 2 || story === 3)
         return false;
       story = 1;
-      Q.all([ring1.toCircular(), ring2.toCircular(), ring3.toCircular()]).then(
-        () => {
-          story = 2;
-        }
-      );
+      Q.all([
+        this.ring1.toCircular(),
+        this.ring2.toCircular(),
+        this.ring3.toCircular()
+      ]).then(() => {
+        story = 2;
+      });
     });
 
     document.querySelector("#wave").addEventListener("click", function () {
       if (story === 0 || story === 1 || story === 3 || story === 4)
         return false;
       story = 3;
-      Q.all([ring1.toWave(), ring2.toWave(), ring3.toWave()]).then(() => {
+      Q.all([
+        this.ring1.toWave(),
+        this.ring2.toWave(),
+        this.ring3.toWave()
+      ]).then(() => {
         story = 4;
       });
     });
