@@ -34,9 +34,10 @@ export default class Scene1 {
       km.radians(-95),
       km.radians(70),
       65,
-      new BABYLON.Vector3(0, 3, 0),
+      new BABYLON.Vector3(0, 4, 0),
       scene
     );
+    camera.minZ = 0.1;
 
     var light = new BABYLON.HemisphericLight(
       "hemi",
@@ -120,8 +121,8 @@ export default class Scene1 {
         camera.upperBetaLimit = km.radians(beta + 10);
         // camera.lowerRadiusLimit = km.radians(radius - 5);
         // camera.upperRadiusLimit = km.radians(radius + 5);
-        camera.angularSensibilityX = 8000;
-        camera.angularSensibilityY = 8000;
+        camera.angularSensibilityX = 12000;
+        camera.angularSensibilityY = 12000;
         camera.lowerRadiusLimit = camera.radius;
         camera.upperRadiusLimit = camera.radius;
         camera.attachControl(canvas, true);
@@ -328,9 +329,9 @@ export default class Scene1 {
     document.querySelector("#inspector").addEventListener("click", function () {
       showingInspecter = !showingInspecter;
       if (showingInspecter) {
-        scene.debugLayer.show();
+        scene2.debugLayer.show();
       } else {
-        scene.debugLayer.hide();
+        scene2.debugLayer.hide();
       }
     });
   }

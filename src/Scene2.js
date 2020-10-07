@@ -22,17 +22,25 @@ export default class Scene2 {
       new BABYLON.Vector3(0, 0, 0),
       scene2
     );
-    camera2.wheelPrecision = 20;
+    camera2.wheelPrecision = 200;
+    camera2.minZ = 0.1;
 
-    let glow = new BABYLON.GlowLayer("glow", scene2, {
-      //mainTextureFixedSize: 512,
-      blurKernelSize: 16
-    });
+    var light = new BABYLON.DirectionalLight(
+      "DirectionalLight",
+      new BABYLON.Vector3(0, -1, 0),
+      scene2
+    );
+
+    // let glow = new BABYLON.GlowLayer("glow", scene2, {
+    //   //mainTextureFixedSize: 512,
+    //   blurKernelSize: 16
+    // });
 
     this.plane = BABYLON.Mesh.CreatePlane("map", 1, scene2);
     this.plane.enableEdgesRendering();
     this.plane.edgesWidth = 1.0;
     this.plane.edgesColor = new BABYLON.Color4(0, 0, 1, 1);
+    this.plane.setEnabled(false);
 
     // create a material for the RTT and apply it to the plane
     var rttMaterial = new BABYLON.StandardMaterial("RTT material", scene2);
@@ -40,6 +48,36 @@ export default class Scene2 {
     rttMaterial.disableLighting = true;
 
     this.plane.material = rttMaterial;
+
+    BABYLON.SceneLoader.AppendAsync(
+      "https://public.kelvinh.studio/cdn/3d/bed/",
+      "scene.gltf",
+      scene2
+    ).then((s) => {});
+
+    BABYLON.SceneLoader.ImportMesh(
+      "",
+      "https://public.kelvinh.studio/cdn/3d/macbook6/",
+      "scene.gltf",
+      scene2,
+      (s) => {
+        mb2 = s[0];
+        mb2.scaling = new BABYLON.Vector3(0.0015, 0.0015, 0.0015);
+        mb2.position.x = 0.436;
+        mb2.position.y = -0.045;
+        mb2.position.z = -0.226;
+        mb2.rotation.y = -93.1;
+
+        // mb.position.z = 0.5;
+        // mb.position.y = -5;
+
+        // disable loop & manually play it once
+        // this.mbAni = scene.animationGroups[0];
+        // this.mbAni.loopAnimation = false;
+        // this.mbAni.pause();
+        // this.mbAni.goToFrame(3.75); // collapse the macbook
+      }
+    );
   }
 
   render() {

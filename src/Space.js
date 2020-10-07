@@ -44,10 +44,10 @@ export default class Space {
         0,
         1,
         0.3,
-        0.5
+        0.6
       );
 
-      let rgb = hslToRgb(Math.random(), 0.15, light);
+      let rgb = hslToRgb(km.map(i, 1, this.matStep, 0.5, 1), 0.4, light);
       mat.emissiveColorTarget = new BABYLON.Color3(rgb.r, rgb.g, rgb.b);
 
       this.mats.push(mat);

@@ -20,7 +20,10 @@ window.camera = null;
 window.scene2 = null;
 window.camera2 = null;
 window.renderTarget = null;
-window.isScene2 = false;
+window.isScene2 = true;
+
+window.mb = null;
+window.mb2 = null;
 
 window.s1gl = null; // scene1 glow layer
 window.spsRing = null;
@@ -127,13 +130,13 @@ window.spaceConfig = {
   num: 4000,
   angle: 137.5,
   gap: 2.5,
-  matStep: 15,
+  matStep: 30,
   bulbSize: 0.2,
   height: 40,
   y: -20,
-  delay: 8.1,
-  bulbDelay: 0.3,
-  bulbDuration: 0.8
+  delay: 7.6,
+  bulbDelay: 0.15,
+  bulbDuration: 1
 };
 
 window.bulbNumTotal =

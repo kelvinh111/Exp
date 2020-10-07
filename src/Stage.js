@@ -14,9 +14,6 @@ export default class Stage {
 
   initMacbook() {
     let re = (t) => {
-      // if (t.name === "display.001") {
-      //   console.log(Object.keys(t))
-      // }
       if (t._children) {
         t._children.forEach((v) => {
           re(v);
@@ -27,38 +24,26 @@ export default class Stage {
       }
     };
 
-    // no autoplay
-    // BABYLON.SceneLoader.OnPluginActivatedObservable.addOnce(function (plugin) {
-    //   if (plugin.name === "gltf") {
-    //     plugin.animationStartMode = BABYLON.GLTFLoaderAnimationStartMode.NONE;
-    //   }
-    // });
-
-    BABYLON.SceneLoader.AppendAsync(
+    BABYLON.SceneLoader.ImportMesh(
+      "",
       "https://public.kelvinh.studio/cdn/3d/macbook6/",
       "scene.gltf",
-      scene
-    ).then((s) => {
-      s.rootNodes.forEach((v, k) => {
-        if (v.id === "__root__") {
-          // console.log(v)
-          v.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
-          v.position.y = -5;
-          re(v);
-        }
-      });
+      scene,
+      (s) => {
+        mb = s[0];
+        mb.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
+        mb.position.z = 0.5;
+        mb.position.y = -5;
+        re(mb);
 
-      // disable loop & manually play it once
-      // scene.animationGroups[0].children[0].animation.loopMode = 0;
-      // console.log(scene.animationGroups[0])
-
-      this.mbAni = scene.animationGroups[0];
-      this.mbAni.loopAnimation = false;
-      this.mbAni.pause();
-      this.mbAni.goToFrame(3.75); // collapse the macbook
-      // scene.animationGroups[0].play();
-      this.initStage();
-    });
+        // disable loop & manually play it once
+        this.mbAni = scene.animationGroups[0];
+        this.mbAni.loopAnimation = false;
+        this.mbAni.pause();
+        this.mbAni.goToFrame(3.75); // collapse the macbook
+        this.initStage();
+      }
+    );
   }
 
   openMacbook() {

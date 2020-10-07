@@ -18,6 +18,14 @@ engine.runRenderLoop(function () {
   }
 });
 
+if (isScene2) {
+  camera.detachControl(canvas);
+  camera2.attachControl(canvas, true);
+} else {
+  camera.attachControl(canvas, true);
+  camera2.detachControl(canvas);
+}
+
 document.querySelector("#switch").addEventListener("click", function () {
   scene2.updateRatio();
   engine.resize();
