@@ -39,6 +39,10 @@ document.querySelector("#switch").addEventListener("click", function () {
   }
 });
 
+document.querySelector("#bird").addEventListener("click", function () {
+  scene2.animate();
+});
+
 window.addEventListener("resize", function () {
   scene2.updateRatio();
   engine.resize();

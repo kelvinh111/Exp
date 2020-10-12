@@ -9,7 +9,7 @@ export default class Scene2 {
     //this.camera = null;
 
     this.init();
-    this.updateRatio();
+    // this.makeJson();
   }
 
   init() {
@@ -17,7 +17,8 @@ export default class Scene2 {
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera",
       -Math.PI / 2,
-      Math.PI / 2,
+      // Math.PI / 2,
+      0,
       10,
       new BABYLON.Vector3(0, 0, 0),
       scene2
@@ -50,91 +51,23 @@ export default class Scene2 {
     //   blurKernelSize: 16
     // });
 
-    this.plane = BABYLON.Mesh.CreatePlane("map", 1, scene2);
-    this.plane.enableEdgesRendering();
-    this.plane.edgesWidth = 1.0;
-    this.plane.edgesColor = new BABYLON.Color4(0, 0, 1, 1);
-    this.plane.setEnabled(false);
+    // this.plane = BABYLON.Mesh.CreatePlane("map", 1, scene2);
+    // this.plane.enableEdgesRendering();
+    // this.plane.edgesWidth = 1.0;
+    // this.plane.edgesColor = new BABYLON.Color4(0, 0, 1, 1);
+    // this.plane.setEnabled(false);
+    // this.plane.isVisible = false;
 
     // create a material for the RTT and apply it to the plane
-    var rttMaterial = new BABYLON.StandardMaterial("RTT material", scene2);
-    rttMaterial.emissiveTexture = renderTarget;
-    rttMaterial.disableLighting = true;
-    rttMaterial.backFaceCulling = false;
+    this.rttMaterial = new BABYLON.StandardMaterial("RTT material", scene2);
+    this.rttMaterial.emissiveTexture = renderTarget;
+    this.rttMaterial.disableLighting = true;
+    this.rttMaterial.backFaceCulling = false;
+    // this.plane.material = this.rttMaterial;
 
-    this.plane.material = rttMaterial;
-    this.plane.isVisible = false;
+    let name = "plane1";
 
-    // let re = (t) => {
-    //   if (t.id === "Pillow_02") {
-    //     t.dispose();
-    //   }
-    //   if (t._children) {
-    //     t._children.forEach((v) => {
-    //       re(v);
-    //     });
-    //   }
-    // };
-
-    // BABYLON.SceneLoader.ImportMesh(
-    //   "",
-    //   "https://public.kelvinh.studio/cdn/3d/bed/",
-    //   "scene.gltf",
-    //   scene2,
-    //   (s) => {
-    //     // console.log(s[0])
-    //     re(s[0]);
-    //   }
-    // );
-
-    // BABYLON.SceneLoader.ImportMesh(
-    //   "",
-    //   "https://public.kelvinh.studio/cdn/3d/macbook6/",
-    //   "scene.gltf",
-    //   scene2,
-    //   (s) => {
-    //     mb2 = s[0];
-    //     mb2.scaling = new BABYLON.Vector3(0.0015, 0.0015, 0.0015);
-    //     mb2.position.x = 0.436;
-    //     mb2.position.y = -0.045;
-    //     mb2.position.z = -0.226;
-    //     mb2.rotation.y = Math.PI / 2;
-    //     //  console.log(mb2)
-    //     //"RootNode (gltf orientation matrix)"
-    //     //"RootNode (model correction matrix)"
-    //     //  mb2._children[0].rotation = Math.PI /2
-    //     mb2.rotate(BABYLON.Axis.Y, km.radians(70), BABYLON.Space.WORLD);
-
-    //     // mb.position.z = 0.5;
-    //     // mb.position.y = -5;
-
-    //     // disable loop & manually play it once
-    //     // this.mbAni = scene.animationGroups[0];
-    //     // this.mbAni.loopAnimation = false;
-    //     // this.mbAni.pause();
-    //     // this.mbAni.goToFrame(3.75); // collapse the macbook
-    //   }
-    // );
-
-    // let yeah = [];
-    // for (let i = 0; i <= 100; i++) {
-    //   BABYLON.SceneLoader.ImportMesh(
-    //     "",
-    //     "https://public.kelvinh.studio/cdn/3d/randlettflappingbird/",
-    //     "randlettflappingbird _ " + i + "PercentFolded.obj",
-    //     scene2,
-    //     (s) => {
-    //       let b = s[0];
-    //       var pos = b.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-    //       yeah[i] = pos;
-    //       console.log(i, JSON.stringify(yeah));
-    //     }
-    //   );
-    // }
-    // return;
-
-    //https://public.kelvinh.studio/cdn/3d/randlettflappingbird/randlettflappingbird%20_%200PercentFolded.obj
-    let name = "randlettflappingbird";
+    this.birdJson = [];
     BABYLON.SceneLoader.ImportMesh(
       "",
       `https://public.kelvinh.studio/cdn/3d/${name}/`,
@@ -142,90 +75,103 @@ export default class Scene2 {
       scene2,
       (s) => {
         // console.log(s[0])
-        let b = s[0];
-        b.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-        b.material = rttMaterial;
-        b.enableEdgesRendering();
-        b.edgesWidth = 2.0;
-        b.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
+        this.bird = s[0];
+        this.birdSize = this.bird.getBoundingInfo().boundingBox.extendSize;
+        this.updateRatio();
+        console.log(this.birdSize);
+        // this.bird.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+        this.bird.material = this.rttMaterial;
+        this.bird.enableEdgesRendering();
+        this.bird.edgesWidth = 2.0;
+        this.bird.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
 
-        var pos = b.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-        b.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
+        var pos = this.bird.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+        this.bird.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
 
-        fetch(
-          `https://public.kelvinh.studio/cdn/3d/randlettflappingbird/${name}.json`
-        )
-          .then(function (response) {
+        fetch(`https://public.kelvinh.studio/cdn/3d/${name}/${name}.json`)
+          .then((response) => {
             return response.json();
           })
-          .then(function (myJson) {
+          .then((myJson) => {
             // fix incorrect frame
             myJson[28].forEach((v, k) => {
               myJson[29][k] = (myJson[28][k] + myJson[30][k]) / 2;
               myJson[58][k] = (myJson[57][k] + myJson[59][k]) / 2;
             });
 
-            let j = [];
             for (let i = 0; i < myJson.length; i++) {
-              j.push(myJson[i]);
+              this.birdJson.push(myJson[i]);
               if (myJson[i + 1]) {
                 let tmp = [];
                 myJson[i].forEach((v, k) => {
                   tmp.push((v + myJson[i + 1][k]) / 2);
                 });
-                j.push(tmp);
+                this.birdJson.push(tmp);
               }
             }
-
-            setTimeout(() => {
-              for (let i = 0; i < j.length - 40; i++) {
-                setTimeout(() => {
-                  // console.log(k)
-                  // return
-                  b.disableEdgesRendering();
-                  b.setVerticesData(
-                    BABYLON.VertexBuffer.PositionKind,
-                    j[i],
-                    true
-                  );
-                  b.createNormals();
-                  b.enableEdgesRendering();
-                }, i * 16.67);
-              }
-            }, 3000);
           });
-
-        // BABYLON.SceneLoader.ImportMesh(
-        //   "",
-        //   "https://public.kelvinh.studio/cdn/3d/",
-        //   "randlettflappingbird _ 0PercentFolded.obj",
-        //   scene2,
-        //   (s) => {
-        //     let b2 = s[0];
-
-        //     var pos = b.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-        //     b.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
-
-        //     var pos2 = b2.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-        //     console.log(pos2)
-
-        //     var positionFunction = function (positions) {
-        //       var numberOfVertices = pos.length / 3; //Randomize the vertex coordinates in the array
-        //       for (var i = 0; i < numberOfVertices; i++) {
-        //         pos[i * 3] = pos2[i * 3];
-        //         pos[i * 3 + 1] = pos2[i * 3 + 1];
-        //         pos[i * 3 + 2] = pos2[i * 3 + 2];
-        //       }
-        //     };
-        //     setTimeout(() => {
-        //       b.disableEdgesRendering();
-        //       b.updateMeshPositions(positionFunction, true);
-        //       b.enableEdgesRendering();
-        //     }, 3000);
-        //   }
-        // );
       }
     );
+  }
+
+  animate() {
+    var ani1 = new BABYLON.Animation(
+      "birdAni",
+      "scaling",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    // console.log(this.bird.scaling)
+    ani1.setKeys([
+      {
+        frame: 0,
+        value: this.bird.scaling
+      },
+      {
+        frame: stf(1),
+        value: new BABYLON.Vector3(0.01, 0.01, 0.01)
+      }
+    ]);
+
+    scene.beginDirectAnimation(this.bird, [ani1], 0, stf(1), false, 1, () => {
+      for (let i = 0; i < this.birdJson.length; i++) {
+        setTimeout(() => {
+          // console.log(i)
+          // return
+          this.bird.disableEdgesRendering();
+          this.bird.setVerticesData(
+            BABYLON.VertexBuffer.PositionKind,
+            this.birdJson[i],
+            true
+          );
+          this.bird.createNormals();
+          this.bird.enableEdgesRendering();
+          // }, i * 50);
+        }, i * 16.67);
+      }
+    });
+  }
+
+  makeJson() {
+    let name = "plane1";
+    let yeah = [];
+    for (let i = 0; i <= 100; i++) {
+      BABYLON.SceneLoader.ImportMesh(
+        "",
+        `https://public.kelvinh.studio/cdn/3d/${name}/`,
+        `${name} _ ${i}PercentFolded.obj`,
+        scene2,
+        (s) => {
+          let b = s[0];
+          var pos = b.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+          yeah[i] = pos;
+          if (i === 100) {
+            console.log(i, JSON.stringify(yeah));
+          }
+        }
+      );
+    }
   }
 
   render() {
@@ -237,9 +183,14 @@ export default class Scene2 {
   }
 
   updateRatio() {
-    let y = 2 * camera2.position.length() * Math.tan(camera2.fov / 2);
-    let x = y * engine.getAspectRatio(camera2);
-    this.plane.scaling.x = x;
-    this.plane.scaling.y = y;
+    if (!this.birdSize) return false;
+    let z =
+      (camera2.position.length() * Math.tan(camera2.fov / 2)) / this.birdSize.z;
+    let x = z * engine.getAspectRatio(camera2);
+    // this.plane.scaling.x = x;
+    // this.plane.scaling.y = y;
+    // console.log(z);
+    this.bird.scaling.x = x;
+    this.bird.scaling.z = z;
   }
 }
