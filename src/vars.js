@@ -15,12 +15,21 @@ window.fr = 10;
 4: in wave animation
 */
 window.story = 0;
+
+/*
+0: in screen ready
+1: turning to paperplane
+2: in paperplane animation
+3: turning to back to screen
+*/
+window.story2 = 0;
+
+window.isScene2 = false;
 window.scene = null;
 window.camera = null;
 window.scene2 = null;
 window.camera2 = null;
 window.renderTarget = null;
-window.isScene2 = true;
 
 window.mb = null;
 window.mb2 = null;

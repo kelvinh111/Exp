@@ -39,8 +39,12 @@ document.querySelector("#switch").addEventListener("click", function () {
   }
 });
 
-document.querySelector("#bird").addEventListener("click", function () {
-  scene2.animate();
+document.querySelector("#plane").addEventListener("click", function () {
+  if (story2 === 0) scene2.toPlane();
+});
+
+document.querySelector("#screen").addEventListener("click", function () {
+  if (story2 === 2) scene2.toScreen();
 });
 
 window.addEventListener("resize", function () {

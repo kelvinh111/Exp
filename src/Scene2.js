@@ -67,7 +67,7 @@ export default class Scene2 {
 
     let name = "plane1";
 
-    this.birdJson = [];
+    this.planeJson = [];
     BABYLON.SceneLoader.ImportMesh(
       "",
       `https://public.kelvinh.studio/cdn/3d/${name}/`,
@@ -75,18 +75,22 @@ export default class Scene2 {
       scene2,
       (s) => {
         // console.log(s[0])
-        this.bird = s[0];
-        this.birdSize = this.bird.getBoundingInfo().boundingBox.extendSize;
+        this.plane = s[0];
+        this.planeSize = this.plane.getBoundingInfo().boundingBox.extendSize;
         this.updateRatio();
-        console.log(this.birdSize);
-        // this.bird.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-        this.bird.material = this.rttMaterial;
-        this.bird.enableEdgesRendering();
-        this.bird.edgesWidth = 2.0;
-        this.bird.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
+        console.log(this.planeSize);
+        // this.plane.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
+        this.plane.material = this.rttMaterial;
+        this.plane.enableEdgesRendering();
+        this.plane.edgesWidth = 2.0;
+        this.plane.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
 
-        var pos = this.bird.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-        this.bird.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
+        var pos = this.plane.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+        this.plane.setVerticesData(
+          BABYLON.VertexBuffer.PositionKind,
+          pos,
+          true
+        );
 
         fetch(`https://public.kelvinh.studio/cdn/3d/${name}/${name}.json`)
           .then((response) => {
@@ -100,13 +104,13 @@ export default class Scene2 {
             });
 
             for (let i = 0; i < myJson.length; i++) {
-              this.birdJson.push(myJson[i]);
+              this.planeJson.push(myJson[i]);
               if (myJson[i + 1]) {
                 let tmp = [];
                 myJson[i].forEach((v, k) => {
                   tmp.push((v + myJson[i + 1][k]) / 2);
                 });
-                this.birdJson.push(tmp);
+                this.planeJson.push(tmp);
               }
             }
           });
@@ -114,19 +118,20 @@ export default class Scene2 {
     );
   }
 
-  animate() {
+  toPlane() {
+    story2 = 1;
     var ani1 = new BABYLON.Animation(
-      "birdAni",
+      "toPlaneAni",
       "scaling",
       fr,
       BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
     );
-    // console.log(this.bird.scaling)
+    // console.log(this.plane.scaling)
     ani1.setKeys([
       {
         frame: 0,
-        value: this.bird.scaling
+        value: this.plane.scaling
       },
       {
         frame: stf(1),
@@ -134,23 +139,137 @@ export default class Scene2 {
       }
     ]);
 
-    scene.beginDirectAnimation(this.bird, [ani1], 0, stf(1), false, 1, () => {
-      for (let i = 0; i < this.birdJson.length; i++) {
+    scene.beginDirectAnimation(this.plane, [ani1], 0, stf(1), false, 1, () => {
+      for (let i = 0; i < this.planeJson.length; i++) {
         setTimeout(() => {
           // console.log(i)
           // return
-          this.bird.disableEdgesRendering();
-          this.bird.setVerticesData(
+          this.plane.disableEdgesRendering();
+          this.plane.setVerticesData(
             BABYLON.VertexBuffer.PositionKind,
-            this.birdJson[i],
+            this.planeJson[i],
             true
           );
-          this.bird.createNormals();
-          this.bird.enableEdgesRendering();
+          this.plane.createNormals();
+          this.plane.enableEdgesRendering();
+          if (i === this.planeJson.length - 1) {
+            story2 = 2;
+          }
           // }, i * 50);
         }, i * 16.67);
       }
     });
+  }
+
+  toScreen() {
+    story2 = 3;
+
+    for (
+      let i = 0, j = this.planeJson.length - 1;
+      i < this.planeJson.length;
+      i++, j--
+    ) {
+      setTimeout(() => {
+        // console.log(i,j);
+        // return
+        this.plane.disableEdgesRendering();
+        this.plane.setVerticesData(
+          BABYLON.VertexBuffer.PositionKind,
+          this.planeJson[j],
+          true
+        );
+        this.plane.createNormals();
+        this.plane.enableEdgesRendering();
+
+        if (j === 0) {
+          let z =
+            (camera2.position.length() * Math.tan(camera2.fov / 2)) /
+            this.planeSize.z;
+          let x = z * engine.getAspectRatio(camera2);
+          // this.plane.scaling.x = x;
+          // this.plane.scaling.y = y;
+          // console.log(z);
+          var ani1 = new BABYLON.Animation(
+            "toScreenAni",
+            "scaling",
+            fr,
+            BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+          );
+          // console.log(this.plane.scaling)
+          ani1.setKeys([
+            {
+              frame: 0,
+              value: this.plane.scaling
+            },
+            {
+              frame: stf(1),
+              value: new BABYLON.Vector3(x, 1, z)
+            }
+          ]);
+
+          var ani2 = new BABYLON.Animation(
+            "ani2",
+            "alpha",
+            fr,
+            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+          );
+          ani2.setKeys([
+            {
+              frame: 0,
+              value: camera2.alpha
+            },
+            {
+              frame: stf(1),
+              value: -Math.PI / 2
+            }
+          ]);
+
+          var ani3 = new BABYLON.Animation(
+            "ani3",
+            "beta",
+            fr,
+            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+          );
+          ani3.setKeys([
+            {
+              frame: 0,
+              value: camera2.beta
+            },
+            {
+              frame: stf(1),
+              value: 0
+            }
+          ]);
+
+          scene.beginDirectAnimation(
+            this.plane,
+            [ani1],
+            0,
+            stf(1),
+            false,
+            1,
+            () => {
+              story2 = 0;
+            }
+          );
+
+          scene.beginDirectAnimation(
+            camera2,
+            [ani2, ani3],
+            0,
+            stf(1),
+            false,
+            1,
+            () => {
+              // story2 = 0;
+            }
+          );
+        }
+      }, i * 16.67);
+    }
   }
 
   makeJson() {
@@ -183,14 +302,16 @@ export default class Scene2 {
   }
 
   updateRatio() {
-    if (!this.birdSize) return false;
+    if (!this.planeSize) return false;
+    if (story2 !== 0) return false;
     let z =
-      (camera2.position.length() * Math.tan(camera2.fov / 2)) / this.birdSize.z;
+      (camera2.position.length() * Math.tan(camera2.fov / 2)) /
+      this.planeSize.z;
     let x = z * engine.getAspectRatio(camera2);
     // this.plane.scaling.x = x;
     // this.plane.scaling.y = y;
     // console.log(z);
-    this.bird.scaling.x = x;
-    this.bird.scaling.z = z;
+    this.plane.scaling.x = x;
+    this.plane.scaling.z = z;
   }
 }
