@@ -44,7 +44,7 @@ document.querySelector("#bird").addEventListener("click", function () {
 });
 
 document.querySelector("#screen").addEventListener("click", function () {
-  if (story2 === 2) scene2.toScreen();
+  if (story2 === 3) scene2.toScreen();
 });
 
 window.addEventListener("resize", function () {

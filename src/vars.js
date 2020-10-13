@@ -18,9 +18,10 @@ window.story = 0;
 
 /*
 0: in screen ready
-1: turning to paperplane
-2: in paperplane animation
-3: turning to back to screen
+1: turning to bird
+2: bird flapping animation
+3: bird fly animation
+4: turning to back to screen
 */
 window.story2 = 0;
 
@@ -149,10 +150,11 @@ window.spaceConfig = {
 };
 
 window.birdConfig = {
-  flyRadius: 30,
-  y: 30,
-  flySpeed: 0.03,
-  flapSpeed: 0.4
+  scaling: 0.008,
+  flyRadius: 20,
+  y: 10,
+  flySpeed: 0.025,
+  flapSpeed: 0.5
 };
 window.birdConfig.z = -window.birdConfig.flyRadius;
 

@@ -22,7 +22,7 @@ export default class Scene2 {
       -Math.PI / 2,
       // Math.PI / 2,
       0,
-      30,
+      7,
       new BABYLON.Vector3(0, 0, 0),
       scene2
     );
@@ -49,15 +49,15 @@ export default class Scene2 {
       scene2
     );
 
-    // this.dome = new BABYLON.PhotoDome(
-    //   "testdome",
-    //   "https://public.kelvinh.studio/cdn/images/sky1.png",
-    //   {
-    //     resolution: 32,
-    //     size: 1000
-    //   },
-    //   scene2
-    // );
+    this.dome = new BABYLON.PhotoDome(
+      "testdome",
+      "https://public.kelvinh.studio/cdn/images/sky6.png",
+      {
+        resolution: 32,
+        size: 1000
+      },
+      scene2
+    );
     // this.dome.position.z = -100;
 
     this.rttMaterial = new BABYLON.StandardMaterial("RTT material", scene2);
@@ -71,9 +71,10 @@ export default class Scene2 {
       "scene.gltf",
       scene2,
       (s) => {
-        let cage = s[0];
-        cage.scaling = new BABYLON.Vector3(0.3, 0.3, 0.3);
-        cage.position.y = -40;
+        this.cage = s[0];
+        this.cage.scaling = new BABYLON.Vector3(0.3, 0.3, 0.3);
+        this.cage.position.y = -30;
+        this.cage.setEnabled(false);
       }
     );
 
@@ -91,7 +92,7 @@ export default class Scene2 {
         // console.log(this.birdSize);
         this.bird.material = this.rttMaterial;
         this.bird.enableEdgesRendering();
-        this.bird.edgesWidth = 3.0;
+        this.bird.edgesWidth = 2.0;
         this.bird.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
 
         var pos = this.bird.getVerticesData(BABYLON.VertexBuffer.PositionKind);
@@ -134,7 +135,7 @@ export default class Scene2 {
       BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
     );
-    let sx = this.bird.scaling.x * 0.6;
+    let sx = this.bird.scaling.x * 0.5;
     ani1.setKeys([
       {
         frame: 0,
@@ -146,26 +147,6 @@ export default class Scene2 {
       }
     ]);
 
-    // // bird position
-    // var ani2 = new BABYLON.Animation(
-    //   "toBirdAni",
-    //   "position.z",
-    //   fr,
-    //   BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-    //   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-    // );
-    // ani2.setKeys([
-    //   {
-    //     frame: 0,
-    //     value: this.bird.position.z
-    //   },
-    //   {
-    //     frame: stf(4),
-    //     value: birdConfig.z
-    //   }
-    // ]);
-
-    // camera beta
     var ani2 = new BABYLON.Animation(
       "ani2",
       "beta",
@@ -240,7 +221,7 @@ export default class Scene2 {
                 },
                 {
                   frame: stf(1),
-                  value: new BABYLON.Vector3(-200, 0, -200)
+                  value: new BABYLON.Vector3(-100, 0, -100)
                 }
               ]);
               scene2.beginDirectAnimation(
@@ -251,6 +232,15 @@ export default class Scene2 {
                 false,
                 1,
                 () => {
+                  this.cage.setEnabled(true);
+                  this.bird.scaling = new BABYLON.Vector3(
+                    birdConfig.scaling,
+                    birdConfig.scaling,
+                    birdConfig.scaling
+                  );
+                  story2 = 3;
+                  // this.fly();
+
                   var ani5 = new BABYLON.Animation(
                     "ani2",
                     "radius",
@@ -264,7 +254,7 @@ export default class Scene2 {
                       value: _.clone(camera2.radius)
                     },
                     {
-                      frame: stf(4),
+                      frame: stf(7),
                       value: 65
                     }
                   ]);
@@ -282,15 +272,15 @@ export default class Scene2 {
                       value: _.clone(camera2.target.y)
                     },
                     {
-                      frame: stf(4),
-                      value: -17
+                      frame: stf(7),
+                      value: -8
                     }
                   ]);
                   scene2.beginDirectAnimation(
                     camera2,
                     [ani5, ani6],
                     0,
-                    stf(4),
+                    stf(7),
                     false,
                     1,
                     () => {}
@@ -306,7 +296,7 @@ export default class Scene2 {
   }
 
   toScreen() {
-    story2 = 3;
+    story2 = 4;
 
     for (
       let i = 0, j = this.birdJson.length - 1;
@@ -447,13 +437,11 @@ export default class Scene2 {
   }
 
   fly() {
-    this.bird.position.x = 20 * Math.sin(this.deltaFly);
-    this.bird.position.z = 20 * Math.cos(this.deltaFly);
-    this.deltaFly += 0.03;
-    this.bird.rotation.y = -Math.atan2(
-      this.bird.position.z,
-      this.bird.position.x
-    );
+    this.bird.position.x = birdConfig.flyRadius * Math.sin(this.deltaFly);
+    this.bird.position.z = birdConfig.flyRadius * Math.cos(this.deltaFly);
+    this.deltaFly += birdConfig.flySpeed;
+    this.bird.rotation.y =
+      Math.atan2(this.bird.position.z, this.bird.position.x) + km.radians(130);
   }
 
   updateRatio() {
@@ -470,7 +458,10 @@ export default class Scene2 {
   render() {
     if (story2 === 2) {
       this.flap();
-      // this.fly();
+    }
+    if (story2 === 3) {
+      this.flap();
+      this.fly();
     }
     scene2.render();
   }
