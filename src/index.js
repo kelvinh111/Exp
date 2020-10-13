@@ -39,8 +39,8 @@ document.querySelector("#switch").addEventListener("click", function () {
   }
 });
 
-document.querySelector("#plane").addEventListener("click", function () {
-  if (story2 === 0) scene2.toPlane();
+document.querySelector("#bird").addEventListener("click", function () {
+  if (story2 === 0) scene2.toBird();
 });
 
 document.querySelector("#screen").addEventListener("click", function () {

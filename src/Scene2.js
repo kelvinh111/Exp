@@ -5,17 +5,20 @@ import { stf, htc } from "./util.js";
 export default class Scene2 {
   constructor(options) {
     Object.assign(this, options);
-    this.plane = null;
+    this.bird = null;
     //this.camera = null;
 
     this.ori = "bird4";
     this.init();
-    this.delta = 0;
+    this.deltaFlap = 0;
+    this.deltaFly = 0;
+
     // this.makeJson();
   }
 
   init() {
     scene2 = new BABYLON.Scene(engine);
+    scene2.clearColor = htc("dddddd");
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera",
       -Math.PI / 2,
@@ -48,38 +51,35 @@ export default class Scene2 {
       scene2
     );
 
-    this.dome = new BABYLON.PhotoDome(
-      "testdome",
-      "https://public.kelvinh.studio/cdn/images/sky1.png",
-      {
-        resolution: 32,
-        size: 1000
-      },
-      scene2
-    );
-    // this.dome.rotation.
-    this.dome.position.z = -100;
+    // this.dome = new BABYLON.PhotoDome(
+    //   "testdome",
+    //   "https://public.kelvinh.studio/cdn/images/sky1.png",
+    //   {
+    //     resolution: 32,
+    //     size: 1000
+    //   },
+    //   scene2
+    // );
+    // this.dome.position.z = -100;
 
-    // let glow = new BABYLON.GlowLayer("glow", scene2, {
-    //   //mainTextureFixedSize: 512,
-    //   blurKernelSize: 16
-    // });
-
-    // this.plane = BABYLON.Mesh.CreatePlane("map", 1, scene2);
-    // this.plane.enableEdgesRendering();
-    // this.plane.edgesWidth = 1.0;
-    // this.plane.edgesColor = new BABYLON.Color4(0, 0, 1, 1);
-    // this.plane.setEnabled(false);
-    // this.plane.isVisible = false;
-
-    // create a material for the RTT and apply it to the plane
     this.rttMaterial = new BABYLON.StandardMaterial("RTT material", scene2);
     this.rttMaterial.emissiveTexture = renderTarget;
     this.rttMaterial.disableLighting = true;
     this.rttMaterial.backFaceCulling = false;
-    // this.plane.material = this.rttMaterial;
 
-    this.planeJson = [];
+    BABYLON.SceneLoader.ImportMesh(
+      "",
+      "https://public.kelvinh.studio/cdn/3d/birdcage/",
+      "scene.gltf",
+      scene2,
+      (s) => {
+        let cage = s[0];
+        cage.scaling = new BABYLON.Vector3(0.3, 0.3, 0.3);
+        cage.position.y = -40;
+      }
+    );
+
+    this.birdJson = [];
     BABYLON.SceneLoader.ImportMesh(
       "",
       `https://public.kelvinh.studio/cdn/3d/${this.ori}/`,
@@ -87,22 +87,17 @@ export default class Scene2 {
       scene2,
       (s) => {
         // console.log(s[0])
-        this.plane = s[0];
-        this.planeSize = this.plane.getBoundingInfo().boundingBox.extendSize;
+        this.bird = s[0];
+        this.birdSize = this.bird.getBoundingInfo().boundingBox.extendSize;
         this.updateRatio();
-        // console.log(this.planeSize);
-        // this.plane.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-        this.plane.material = this.rttMaterial;
-        this.plane.enableEdgesRendering();
-        this.plane.edgesWidth = 3.0;
-        this.plane.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
+        // console.log(this.birdSize);
+        this.bird.material = this.rttMaterial;
+        this.bird.enableEdgesRendering();
+        this.bird.edgesWidth = 3.0;
+        this.bird.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
 
-        var pos = this.plane.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-        this.plane.setVerticesData(
-          BABYLON.VertexBuffer.PositionKind,
-          pos,
-          true
-        );
+        var pos = this.bird.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+        this.bird.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
 
         fetch(
           `https://public.kelvinh.studio/cdn/3d/${this.ori}/${this.ori}.json`
@@ -118,13 +113,13 @@ export default class Scene2 {
             });
 
             for (let i = 0; i < myJson.length; i++) {
-              this.planeJson.push(myJson[i]);
+              this.birdJson.push(myJson[i]);
               if (myJson[i + 1]) {
                 let tmp = [];
                 myJson[i].forEach((v, k) => {
                   tmp.push((v + myJson[i + 1][k]) / 2);
                 });
-                this.planeJson.push(tmp);
+                this.birdJson.push(tmp);
               }
             }
           });
@@ -132,10 +127,10 @@ export default class Scene2 {
     );
   }
 
-  toPlane() {
+  toBird() {
     story2 = 1;
     var ani1 = new BABYLON.Animation(
-      "toPlaneAni",
+      "toBirdAni",
       "scaling",
       fr,
       BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
@@ -144,7 +139,7 @@ export default class Scene2 {
     ani1.setKeys([
       {
         frame: 0,
-        value: this.plane.scaling
+        value: this.bird.scaling
       },
       {
         frame: stf(1.5),
@@ -189,24 +184,24 @@ export default class Scene2 {
     ]);
 
     scene2.beginDirectAnimation(
-      this.plane,
+      this.bird,
       [ani1],
       0,
       stf(1.5),
       false,
       1,
       () => {
-        for (let i = 0; i < this.planeJson.length; i++) {
+        for (let i = 0; i < this.birdJson.length; i++) {
           setTimeout(() => {
-            this.plane.disableEdgesRendering();
-            this.plane.setVerticesData(
+            this.bird.disableEdgesRendering();
+            this.bird.setVerticesData(
               BABYLON.VertexBuffer.PositionKind,
-              this.planeJson[i],
+              this.birdJson[i],
               true
             );
-            this.plane.createNormals();
-            this.plane.enableEdgesRendering();
-            if (i === this.planeJson.length - 1) {
+            this.bird.createNormals();
+            this.bird.enableEdgesRendering();
+            if (i === this.birdJson.length - 1) {
               story2 = 2;
             }
             // }, i * 50);
@@ -230,24 +225,24 @@ export default class Scene2 {
     story2 = 3;
 
     for (
-      let i = 0, j = this.planeJson.length - 1;
-      i < this.planeJson.length;
+      let i = 0, j = this.birdJson.length - 1;
+      i < this.birdJson.length;
       i++, j--
     ) {
       setTimeout(() => {
-        this.plane.disableEdgesRendering();
-        this.plane.setVerticesData(
+        this.bird.disableEdgesRendering();
+        this.bird.setVerticesData(
           BABYLON.VertexBuffer.PositionKind,
-          this.planeJson[j],
+          this.birdJson[j],
           true
         );
-        this.plane.createNormals();
-        this.plane.enableEdgesRendering();
+        this.bird.createNormals();
+        this.bird.enableEdgesRendering();
 
         if (j === 0) {
           let z =
             (camera2.position.length() * Math.tan(camera2.fov / 2)) /
-            this.planeSize.z;
+            this.birdSize.z;
           let x = z * engine.getAspectRatio(camera2);
           var ani1 = new BABYLON.Animation(
             "toScreenAni",
@@ -259,7 +254,7 @@ export default class Scene2 {
           ani1.setKeys([
             {
               frame: 0,
-              value: this.plane.scaling
+              value: this.bird.scaling
             },
             {
               frame: stf(1),
@@ -304,7 +299,7 @@ export default class Scene2 {
           ]);
 
           scene2.beginDirectAnimation(
-            this.plane,
+            this.bird,
             [ani1],
             0,
             stf(1),
@@ -353,30 +348,39 @@ export default class Scene2 {
   }
 
   flap() {
-    this.delta += 0.3;
-    let frame = parseInt(km.map(Math.cos(this.delta), -1, 1, 120, 200));
+    this.deltaFlap += 0.5;
+    let frame = parseInt(km.map(Math.cos(this.deltaFlap), -1, 1, 120, 200));
     // console.log(frame)
 
-    this.plane.disableEdgesRendering();
-    this.plane.setVerticesData(
+    this.bird.disableEdgesRendering();
+    this.bird.setVerticesData(
       BABYLON.VertexBuffer.PositionKind,
-      this.planeJson[frame],
+      this.birdJson[frame],
       true
     );
-    this.plane.createNormals();
-    this.plane.enableEdgesRendering();
+    this.bird.createNormals();
+    this.bird.enableEdgesRendering();
+  }
+
+  fly() {
+    this.bird.position.x = 20 * Math.sin(this.deltaFly);
+    this.bird.position.z = 20 * Math.cos(this.deltaFly);
+    this.deltaFly += 0.03;
+    this.bird.rotation.y = -Math.atan2(
+      this.bird.position.z,
+      this.bird.position.x
+    );
   }
 
   updateRatio() {
-    if (!this.planeSize) return false;
+    if (!this.birdSize) return false;
     if (story2 !== 0) return false;
     let z =
-      (camera2.position.length() * Math.tan(camera2.fov / 2)) /
-      this.planeSize.z;
+      (camera2.position.length() * Math.tan(camera2.fov / 2)) / this.birdSize.z;
     let x = z * engine.getAspectRatio(camera2);
     // console.log(x,z);
-    this.plane.scaling.x = x;
-    this.plane.scaling.z = z;
+    this.bird.scaling.x = x;
+    this.bird.scaling.z = z;
   }
 
   render() {
@@ -384,7 +388,8 @@ export default class Scene2 {
     //   this.dome.rotation.y -= 0.003;
     // }
     if (story2 === 2) {
-      this.flap();
+      // this.flap();
+      // this.fly();
     }
     scene2.render();
   }
