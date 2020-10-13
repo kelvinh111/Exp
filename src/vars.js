@@ -148,6 +148,18 @@ window.spaceConfig = {
   bulbDuration: 1
 };
 
+window.birdConfig = {
+  flyRadius: 30,
+  y: 30,
+  flySpeed: 0.03,
+  flapSpeed: 0.4
+};
+window.birdConfig.z = -window.birdConfig.flyRadius;
+
+window.camera2Config = {
+  startRadius: 30
+};
+
 window.bulbNumTotal =
   ring1Config.bulbNum + ring2Config.bulbNum + ring3Config.bulbNum;
 // window.nbParticles = bulbNumTotal * 13;

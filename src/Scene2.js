@@ -5,14 +5,12 @@ import { stf, htc } from "./util.js";
 export default class Scene2 {
   constructor(options) {
     Object.assign(this, options);
-    this.bird = null;
-    //this.camera = null;
 
     this.ori = "bird4";
-    this.init();
     this.deltaFlap = 0;
     this.deltaFly = 0;
 
+    this.init();
     // this.makeJson();
   }
 
@@ -24,7 +22,7 @@ export default class Scene2 {
       -Math.PI / 2,
       // Math.PI / 2,
       0,
-      30,
+      90,
       new BABYLON.Vector3(0, 0, 0),
       scene2
     );
@@ -98,37 +96,37 @@ export default class Scene2 {
 
         var pos = this.bird.getVerticesData(BABYLON.VertexBuffer.PositionKind);
         this.bird.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
-
-        fetch(
-          `https://public.kelvinh.studio/cdn/3d/${this.ori}/${this.ori}.json`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((myJson) => {
-            // fix incorrect frame
-            myJson[28].forEach((v, k) => {
-              myJson[29][k] = (myJson[28][k] + myJson[30][k]) / 2;
-              myJson[58][k] = (myJson[57][k] + myJson[59][k]) / 2;
-            });
-
-            for (let i = 0; i < myJson.length; i++) {
-              this.birdJson.push(myJson[i]);
-              if (myJson[i + 1]) {
-                let tmp = [];
-                myJson[i].forEach((v, k) => {
-                  tmp.push((v + myJson[i + 1][k]) / 2);
-                });
-                this.birdJson.push(tmp);
-              }
-            }
-          });
       }
     );
+
+    fetch(`https://public.kelvinh.studio/cdn/3d/${this.ori}/${this.ori}.json`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((myJson) => {
+        // fix incorrect frame
+        myJson[28].forEach((v, k) => {
+          myJson[29][k] = (myJson[28][k] + myJson[30][k]) / 2;
+          myJson[58][k] = (myJson[57][k] + myJson[59][k]) / 2;
+        });
+
+        for (let i = 0; i < myJson.length; i++) {
+          this.birdJson.push(myJson[i]);
+          if (myJson[i + 1]) {
+            let tmp = [];
+            myJson[i].forEach((v, k) => {
+              tmp.push((v + myJson[i + 1][k]) / 2);
+            });
+            this.birdJson.push(tmp);
+          }
+        }
+      });
   }
 
   toBird() {
     story2 = 1;
+
+    // bird scaling
     var ani1 = new BABYLON.Animation(
       "toBirdAni",
       "scaling",
@@ -136,20 +134,41 @@ export default class Scene2 {
       BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
     );
+    let sx = this.bird.scaling.x * 0.8;
     ani1.setKeys([
       {
         frame: 0,
         value: this.bird.scaling
       },
       {
-        frame: stf(1.5),
-        value: new BABYLON.Vector3(0.01, 0.01, 0.01)
+        frame: stf(1),
+        value: new BABYLON.Vector3(sx, sx, sx)
       }
     ]);
 
+    // // bird position
+    // var ani2 = new BABYLON.Animation(
+    //   "toBirdAni",
+    //   "position.z",
+    //   fr,
+    //   BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+    //   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    // );
+    // ani2.setKeys([
+    //   {
+    //     frame: 0,
+    //     value: this.bird.position.z
+    //   },
+    //   {
+    //     frame: stf(4),
+    //     value: birdConfig.z
+    //   }
+    // ]);
+
+    // camera beta
     var ani2 = new BABYLON.Animation(
       "ani2",
-      "alpha",
+      "beta",
       fr,
       BABYLON.Animation.ANIMATIONTYPE_FLOAT,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
@@ -157,17 +176,17 @@ export default class Scene2 {
     ani2.setKeys([
       {
         frame: 0,
-        value: camera2.alpha
+        value: _.clone(camera2.beta)
       },
       {
-        frame: stf(4),
-        value: km.radians(-190)
+        frame: stf(3),
+        value: km.radians(90)
       }
     ]);
 
     var ani3 = new BABYLON.Animation(
       "ani3",
-      "beta",
+      "target.y",
       fr,
       BABYLON.Animation.ANIMATIONTYPE_FLOAT,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
@@ -175,50 +194,71 @@ export default class Scene2 {
     ani3.setKeys([
       {
         frame: 0,
-        value: camera2.beta
+        value: _.clone(camera2.target.y)
       },
       {
-        frame: stf(4),
-        value: km.radians(104)
+        frame: stf(3),
+        value: -10
       }
     ]);
 
-    scene2.beginDirectAnimation(
-      this.bird,
-      [ani1],
-      0,
-      stf(1.5),
-      false,
-      1,
-      () => {
-        for (let i = 0; i < this.birdJson.length; i++) {
-          setTimeout(() => {
-            this.bird.disableEdgesRendering();
-            this.bird.setVerticesData(
-              BABYLON.VertexBuffer.PositionKind,
-              this.birdJson[i],
-              true
-            );
-            this.bird.createNormals();
-            this.bird.enableEdgesRendering();
-            if (i === this.birdJson.length - 1) {
-              story2 = 2;
-            }
-            // }, i * 50);
-          }, i * 16.67);
-        }
+    var ani4 = new BABYLON.Animation(
+      "ani4",
+      "position",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani4.setKeys([
+      {
+        frame: 0,
+        value: this.bird.position
+      },
+      {
+        frame: stf(1),
+        value: new BABYLON.Vector3(-200, 0, -200)
       }
-    );
+    ]);
 
-    scene2.beginDirectAnimation(
-      camera2,
-      [ani2, ani3],
-      0,
-      stf(4),
-      false,
-      1,
-      () => {}
-    );
+    scene2.beginDirectAnimation(this.bird, [ani1], 0, stf(1), false, 1, () => {
+      scene2.beginDirectAnimation(
+        camera2,
+        [ani2, ani3],
+        0,
+        stf(3),
+        false,
+        1,
+        () => {}
+      );
+
+      for (let i = 0; i < this.birdJson.length; i++) {
+        setTimeout(() => {
+          this.bird.disableEdgesRendering();
+          this.bird.setVerticesData(
+            BABYLON.VertexBuffer.PositionKind,
+            this.birdJson[i],
+            true
+          );
+          this.bird.createNormals();
+          this.bird.enableEdgesRendering();
+          if (i === this.birdJson.length - 1) {
+            story2 = 2;
+            setTimeout(() => {
+              scene2.beginDirectAnimation(
+                this.bird,
+                [ani4],
+                0,
+                stf(1),
+                false,
+                1,
+                () => {}
+              );
+            }, 1000);
+          }
+          // }, i * 50);
+        }, i * 16.67);
+      }
+    });
   }
 
   toScreen() {
@@ -348,7 +388,7 @@ export default class Scene2 {
   }
 
   flap() {
-    this.deltaFlap += 0.5;
+    this.deltaFlap += birdConfig.flapSpeed;
     let frame = parseInt(km.map(Math.cos(this.deltaFlap), -1, 1, 120, 200));
     // console.log(frame)
 
@@ -384,11 +424,8 @@ export default class Scene2 {
   }
 
   render() {
-    // if (story2 === 2 || story2 === 3) {
-    //   this.dome.rotation.y -= 0.003;
-    // }
     if (story2 === 2) {
-      // this.flap();
+      this.flap();
       // this.fly();
     }
     scene2.render();
