@@ -24,7 +24,7 @@ window.story = 0;
 */
 window.story2 = 0;
 
-window.isScene2 = false;
+window.isScene2 = true;
 window.scene = null;
 window.camera = null;
 window.scene2 = null;

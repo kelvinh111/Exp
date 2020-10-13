@@ -298,7 +298,7 @@ export default class Scene1 {
       spsRing.setParticles();
     });
 
-    document.querySelector("#circular").addEventListener("click", function () {
+    document.querySelector("#circular").addEventListener("click", () => {
       if (story === 0 || story === 1 || story === 2 || story === 3)
         return false;
       story = 1;
@@ -311,7 +311,7 @@ export default class Scene1 {
       });
     });
 
-    document.querySelector("#wave").addEventListener("click", function () {
+    document.querySelector("#wave").addEventListener("click", () => {
       if (story === 0 || story === 1 || story === 3 || story === 4)
         return false;
       story = 3;
@@ -326,7 +326,7 @@ export default class Scene1 {
 
     // Inspector
     let showingInspecter = false;
-    document.querySelector("#inspector").addEventListener("click", function () {
+    document.querySelector("#inspector").addEventListener("click", () => {
       showingInspecter = !showingInspecter;
       if (showingInspecter) {
         scene2.debugLayer.show();
