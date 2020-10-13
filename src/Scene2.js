@@ -22,7 +22,7 @@ export default class Scene2 {
       -Math.PI / 2,
       // Math.PI / 2,
       0,
-      90,
+      30,
       new BABYLON.Vector3(0, 0, 0),
       scene2
     );
@@ -134,7 +134,7 @@ export default class Scene2 {
       BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
     );
-    let sx = this.bird.scaling.x * 0.8;
+    let sx = this.bird.scaling.x * 0.6;
     ani1.setKeys([
       {
         frame: 0,
@@ -180,50 +180,32 @@ export default class Scene2 {
       },
       {
         frame: stf(3),
-        value: km.radians(90)
+        value: km.radians(110)
       }
     ]);
 
-    var ani3 = new BABYLON.Animation(
-      "ani3",
-      "target.y",
-      fr,
-      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-    );
-    ani3.setKeys([
-      {
-        frame: 0,
-        value: _.clone(camera2.target.y)
-      },
-      {
-        frame: stf(3),
-        value: -10
-      }
-    ]);
-
-    var ani4 = new BABYLON.Animation(
-      "ani4",
-      "position",
-      fr,
-      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-    );
-    ani4.setKeys([
-      {
-        frame: 0,
-        value: this.bird.position
-      },
-      {
-        frame: stf(1),
-        value: new BABYLON.Vector3(-200, 0, -200)
-      }
-    ]);
+    // var ani3 = new BABYLON.Animation(
+    //   "ani3",
+    //   "target.y",
+    //   fr,
+    //   BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+    //   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    // );
+    // ani3.setKeys([
+    //   {
+    //     frame: 0,
+    //     value: _.clone(camera2.target.y)
+    //   },
+    //   {
+    //     frame: stf(3),
+    //     value: -10
+    //   }
+    // ]);
 
     scene2.beginDirectAnimation(this.bird, [ani1], 0, stf(1), false, 1, () => {
       scene2.beginDirectAnimation(
         camera2,
-        [ani2, ani3],
+        [ani2],
         0,
         stf(3),
         false,
@@ -244,6 +226,23 @@ export default class Scene2 {
           if (i === this.birdJson.length - 1) {
             story2 = 2;
             setTimeout(() => {
+              var ani4 = new BABYLON.Animation(
+                "ani4",
+                "position",
+                fr,
+                BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+                BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+              );
+              ani4.setKeys([
+                {
+                  frame: 0,
+                  value: this.bird.position
+                },
+                {
+                  frame: stf(1),
+                  value: new BABYLON.Vector3(-200, 0, -200)
+                }
+              ]);
               scene2.beginDirectAnimation(
                 this.bird,
                 [ani4],
@@ -251,7 +250,52 @@ export default class Scene2 {
                 stf(1),
                 false,
                 1,
-                () => {}
+                () => {
+                  var ani5 = new BABYLON.Animation(
+                    "ani2",
+                    "radius",
+                    fr,
+                    BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+                    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+                  );
+                  ani5.setKeys([
+                    {
+                      frame: 0,
+                      value: _.clone(camera2.radius)
+                    },
+                    {
+                      frame: stf(4),
+                      value: 65
+                    }
+                  ]);
+
+                  var ani6 = new BABYLON.Animation(
+                    "ani2",
+                    "target.y",
+                    fr,
+                    BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+                    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+                  );
+                  ani6.setKeys([
+                    {
+                      frame: 0,
+                      value: _.clone(camera2.target.y)
+                    },
+                    {
+                      frame: stf(4),
+                      value: -17
+                    }
+                  ]);
+                  scene2.beginDirectAnimation(
+                    camera2,
+                    [ani5, ani6],
+                    0,
+                    stf(4),
+                    false,
+                    1,
+                    () => {}
+                  );
+                }
               );
             }, 1000);
           }
