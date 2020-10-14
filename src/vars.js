@@ -151,7 +151,7 @@ window.spaceConfig = {
 
 window.birdConfig = {
   scaling: 0.008,
-  flyRadius: 20,
+  flyRadius: 15,
   y: 10,
   flySpeed: 0.025,
   flapSpeed: 0.5
