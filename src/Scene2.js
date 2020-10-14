@@ -9,6 +9,7 @@ export default class Scene2 {
     this.ori = "bird4";
     this.deltaFlap = 0;
     this.deltaFly = 0;
+    // this.deltaFly = Math.PI * 2;
 
     this.init();
     // this.makeJson();
@@ -135,7 +136,7 @@ export default class Scene2 {
       BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
       BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
     );
-    let sx = this.bird.scaling.x * 0.5;
+    let sx = this.bird.scaling.x * 0.4;
     ani1.setKeys([
       {
         frame: 0,
@@ -161,7 +162,7 @@ export default class Scene2 {
       },
       {
         frame: stf(3),
-        value: km.radians(110)
+        value: km.radians(135)
       }
     ]);
 
@@ -239,7 +240,7 @@ export default class Scene2 {
                     birdConfig.scaling
                   );
                   story2 = 3;
-                  // this.fly();
+                  this.fly();
 
                   var ani5 = new BABYLON.Animation(
                     "ani2",
@@ -425,7 +426,7 @@ export default class Scene2 {
     this.deltaFlap += birdConfig.flapSpeed;
     let frame = parseInt(km.map(Math.cos(this.deltaFlap), -1, 1, 120, 200));
     // console.log(frame)
-
+    ``;
     this.bird.disableEdgesRendering();
     this.bird.setVerticesData(
       BABYLON.VertexBuffer.PositionKind,
@@ -441,7 +442,8 @@ export default class Scene2 {
     this.bird.position.z = birdConfig.flyRadius * Math.cos(this.deltaFly);
     this.deltaFly += birdConfig.flySpeed;
     this.bird.rotation.y =
-      Math.atan2(this.bird.position.z, this.bird.position.x) + km.radians(130);
+      Math.PI * 2 -
+      (Math.atan2(this.bird.position.z, this.bird.position.x) + Math.PI / 4);
   }
 
   updateRatio() {
