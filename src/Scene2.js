@@ -11,6 +11,11 @@ export default class Scene2 {
     this.deltaFly = 0;
     // this.deltaFly = Math.PI * 2;
 
+    this.alpha = -Math.PI / 2;
+    this.beta = 0;
+    this.radius = 7;
+    this.target = new BABYLON.Vector3(0, 0, 0);
+
     this.init();
     // this.makeJson();
   }
@@ -21,7 +26,6 @@ export default class Scene2 {
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera",
       -Math.PI / 2,
-      // Math.PI / 2,
       0,
       7,
       new BABYLON.Vector3(0, 0, 0),
@@ -125,187 +129,194 @@ export default class Scene2 {
       });
   }
 
-  aniBirdScale() {
-    var deferred = Q.defer();
-    var ani = new BABYLON.Animation(
-      "toBirdAni",
-      "scaling",
-      fr,
-      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-    );
-    let sx = this.bird.scaling.x * 0.4;
-    ani.setKeys([
-      {
-        frame: 0,
-        value: this.bird.scaling
-      },
-      {
-        frame: stf(1),
-        value: new BABYLON.Vector3(sx, sx, sx)
-      }
-    ]);
-
-    scene2.beginDirectAnimation(this.bird, [ani], 0, stf(1), false, 1, () => {
-      deferred.resolve();
-    });
-    return deferred.promise;
-  }
-
-  aniCamBeta() {
-    var deferred = Q.defer();
-
-    var ani = new BABYLON.Animation(
-      "ani2",
-      "beta",
-      fr,
-      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-    );
-    ani.setKeys([
-      {
-        frame: 0,
-        value: _.clone(camera2.beta)
-      },
-      {
-        frame: stf(3),
-        value: km.radians(135)
-      }
-    ]);
-    scene2.beginDirectAnimation(camera2, [ani], 0, stf(3), false, 1, () => {
-      deferred.resolve();
-    });
-
-    return deferred.promise;
-  }
-
-  aniBirdOri() {
-    var deferred = Q.defer();
-
-    for (let i = 0; i < this.birdJson.length; i++) {
-      setTimeout(() => {
-        this.bird.disableEdgesRendering();
-        this.bird.setVerticesData(
-          BABYLON.VertexBuffer.PositionKind,
-          this.birdJson[i],
-          true
-        );
-        this.bird.createNormals();
-        this.bird.enableEdgesRendering();
-        if (i === this.birdJson.length - 1) {
-          story2 = 2;
-
-          deferred.resolve();
-        }
-        // }, i * 50);
-      }, i * 16.67);
-    }
-
-    return deferred.promise;
-  }
-
-  aniBirdPos() {
-    var deferred = Q.defer();
-
-    var ani4 = new BABYLON.Animation(
-      "ani4",
-      "position",
-      fr,
-      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-    );
-    ani4.setKeys([
-      {
-        frame: 0,
-        value: this.bird.position
-      },
-      {
-        frame: stf(1),
-        value: new BABYLON.Vector3(-100, 0, -100)
-      }
-    ]);
-    scene2.beginDirectAnimation(this.bird, [ani4], 0, stf(1), false, 1, () => {
-      this.cage.setEnabled(true);
-      this.bird.scaling = new BABYLON.Vector3(
-        birdConfig.scaling,
-        birdConfig.scaling,
-        birdConfig.scaling
-      );
-      story2 = 3;
-      // this.fly();
-
-      deferred.resolve();
-    });
-
-    return deferred.promise;
-  }
-
-  aniCamMove() {
-    var deferred = Q.defer();
-
-    var ani5 = new BABYLON.Animation(
-      "ani2",
-      "radius",
-      fr,
-      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-    );
-    ani5.setKeys([
-      {
-        frame: 0,
-        value: _.clone(camera2.radius)
-      },
-      {
-        frame: stf(7),
-        value: 65
-      }
-    ]);
-
-    var ani6 = new BABYLON.Animation(
-      "ani2",
-      "target.y",
-      fr,
-      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-    );
-    ani6.setKeys([
-      {
-        frame: 0,
-        value: _.clone(camera2.target.y)
-      },
-      {
-        frame: stf(7),
-        value: -8
-      }
-    ]);
-    scene2.beginDirectAnimation(
-      camera2,
-      [ani5, ani6],
-      0,
-      stf(7),
-      false,
-      1,
-      () => {
-        deferred.resolve();
-      }
-    );
-
-    return deferred.promise;
-  }
-
   toBird() {
     story2 = 1;
 
-    this.aniBirdScale()
+    let aniStartBirdScale = () => {
+      var deferred = Q.defer();
+      var ani = new BABYLON.Animation(
+        "toBirdAni",
+        "scaling",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      let sx = this.bird.scaling.x * 0.4;
+      ani.setKeys([
+        {
+          frame: 0,
+          value: this.bird.scaling
+        },
+        {
+          frame: stf(1),
+          value: new BABYLON.Vector3(sx, sx, sx)
+        }
+      ]);
+
+      scene2.beginDirectAnimation(this.bird, [ani], 0, stf(1), false, 1, () => {
+        deferred.resolve();
+      });
+      return deferred.promise;
+    };
+
+    let aniStartCamBeta = () => {
+      var deferred = Q.defer();
+
+      var ani = new BABYLON.Animation(
+        "ani2",
+        "beta",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani.setKeys([
+        {
+          frame: 0,
+          value: _.clone(camera2.beta)
+        },
+        {
+          frame: stf(3),
+          value: km.radians(135)
+        }
+      ]);
+      scene2.beginDirectAnimation(camera2, [ani], 0, stf(3), false, 1, () => {
+        deferred.resolve();
+      });
+
+      return deferred.promise;
+    };
+
+    let aniStartBirdOri = () => {
+      var deferred = Q.defer();
+
+      for (let i = 0; i < this.birdJson.length; i++) {
+        setTimeout(() => {
+          this.bird.disableEdgesRendering();
+          this.bird.setVerticesData(
+            BABYLON.VertexBuffer.PositionKind,
+            this.birdJson[i],
+            true
+          );
+          this.bird.createNormals();
+          this.bird.enableEdgesRendering();
+          if (i === this.birdJson.length - 1) {
+            story2 = 2;
+
+            deferred.resolve();
+          }
+        }, i * 16.67);
+      }
+
+      return deferred.promise;
+    };
+
+    let aniStartBirdPos = () => {
+      var deferred = Q.defer();
+
+      var ani4 = new BABYLON.Animation(
+        "ani4",
+        "position",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani4.setKeys([
+        {
+          frame: 0,
+          value: this.bird.position
+        },
+        {
+          frame: stf(1),
+          value: new BABYLON.Vector3(-100, 0, -100)
+        }
+      ]);
+      scene2.beginDirectAnimation(
+        this.bird,
+        [ani4],
+        0,
+        stf(1),
+        false,
+        1,
+        () => {
+          this.cage.setEnabled(true);
+          this.bird.scaling = new BABYLON.Vector3(
+            birdConfig.scaling,
+            birdConfig.scaling,
+            birdConfig.scaling
+          );
+          story2 = 3;
+          // this.fly();
+
+          deferred.resolve();
+        }
+      );
+
+      return deferred.promise;
+    };
+
+    let aniStartCamMove = () => {
+      var deferred = Q.defer();
+
+      var ani5 = new BABYLON.Animation(
+        "ani2",
+        "radius",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani5.setKeys([
+        {
+          frame: 0,
+          value: _.clone(camera2.radius)
+        },
+        {
+          frame: stf(1),
+          value: 65
+        }
+      ]);
+
+      var ani6 = new BABYLON.Animation(
+        "ani2",
+        "target.y",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani6.setKeys([
+        {
+          frame: 0,
+          value: _.clone(camera2.target.y)
+        },
+        {
+          frame: stf(1),
+          value: -8
+        }
+      ]);
+      scene2.beginDirectAnimation(
+        camera2,
+        [ani5, ani6],
+        0,
+        stf(1),
+        false,
+        1,
+        () => {
+          deferred.resolve();
+        }
+      );
+
+      return deferred.promise;
+    };
+
+    aniStartBirdScale()
       .then(() => {
-        return Q.all([this.aniCamBeta(), this.aniBirdOri()]);
+        return Q.all([aniStartCamBeta(), aniStartBirdOri()]);
       })
-      .delay(1000)
+      // .delay(1000)
       .then(() => {
-        return this.aniBirdPos();
+        return aniStartBirdPos();
       })
       .then(() => {
-        return this.aniCamMove();
+        return aniStartCamMove();
       })
       .catch(function (error) {
         // Handle any error from all above steps
@@ -314,8 +325,8 @@ export default class Scene2 {
       .done();
   }
 
-  toScreen() {
-    story2 = 4;
+  aniEndBirdOri() {
+    var deferred = Q.defer();
 
     for (
       let i = 0, j = this.birdJson.length - 1;
@@ -331,92 +342,184 @@ export default class Scene2 {
         );
         this.bird.createNormals();
         this.bird.enableEdgesRendering();
-
         if (j === 0) {
-          let z =
-            (camera2.position.length() * Math.tan(camera2.fov / 2)) /
-            this.birdSize.z;
-          let x = z * engine.getAspectRatio(camera2);
-          var ani1 = new BABYLON.Animation(
-            "toScreenAni",
-            "scaling",
-            fr,
-            BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
-            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-          );
-          ani1.setKeys([
-            {
-              frame: 0,
-              value: this.bird.scaling
-            },
-            {
-              frame: stf(1),
-              value: new BABYLON.Vector3(x, 1, z)
-            }
-          ]);
-
-          var ani2 = new BABYLON.Animation(
-            "ani2",
-            "alpha",
-            fr,
-            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-          );
-          ani2.setKeys([
-            {
-              frame: 0,
-              value: camera2.alpha
-            },
-            {
-              frame: stf(1),
-              value: -Math.PI / 2
-            }
-          ]);
-
-          var ani3 = new BABYLON.Animation(
-            "ani3",
-            "beta",
-            fr,
-            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-          );
-          ani3.setKeys([
-            {
-              frame: 0,
-              value: camera2.beta
-            },
-            {
-              frame: stf(1),
-              value: 0
-            }
-          ]);
-
-          scene2.beginDirectAnimation(
-            this.bird,
-            [ani1],
-            0,
-            stf(1),
-            false,
-            1,
-            () => {
-              story2 = 0;
-            }
-          );
-
-          scene2.beginDirectAnimation(
-            camera2,
-            [ani2, ani3],
-            0,
-            stf(1),
-            false,
-            1,
-            () => {
-              // story2 = 0;
-            }
-          );
+          deferred.resolve();
         }
       }, i * 16.67);
     }
+    return deferred.promise;
+  }
+
+  aniEndCamMove() {
+    var deferred = Q.defer();
+
+    var ani1 = new BABYLON.Animation(
+      "ani1",
+      "beta",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani1.setKeys([
+      {
+        frame: 0,
+        value: _.clone(camera2.beta)
+      },
+      {
+        frame: stf(1),
+        value: 0
+      }
+    ]);
+
+    var ani2 = new BABYLON.Animation(
+      "ani2",
+      "radius",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani2.setKeys([
+      {
+        frame: 0,
+        value: _.clone(camera2.radius)
+      },
+      {
+        frame: stf(1),
+        value: 15
+      }
+    ]);
+
+    var ani3 = new BABYLON.Animation(
+      "ani3",
+      "target.y",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani3.setKeys([
+      {
+        frame: 0,
+        value: camera2.target.y
+      },
+      {
+        frame: stf(1),
+        value: 0
+      }
+    ]);
+
+    scene2.beginDirectAnimation(
+      camera2,
+      [ani1, ani2, ani3],
+      0,
+      stf(1),
+      false,
+      1,
+      () => {
+        deferred.resolve();
+      }
+    );
+
+    return deferred.promise;
+  }
+
+  aniEndBirdPos() {
+    var deferred = Q.defer();
+
+    var ani1 = new BABYLON.Animation(
+      "yeah",
+      "position",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani1.setKeys([
+      {
+        frame: 0,
+        value: this.bird.position
+      },
+      {
+        frame: stf(1),
+        value: new BABYLON.Vector3(0, 0, 0)
+      }
+    ]);
+
+    scene2.beginDirectAnimation(this.bird, [ani1], 0, stf(1), false, 1, () => {
+      deferred.resolve();
+    });
+
+    return deferred.promise;
+  }
+
+  aniEndBirdScale() {
+    var deferred = Q.defer();
+
+    let z =
+      (camera2.position.length() * Math.tan(camera2.fov / 2)) / this.birdSize.z;
+    let x = z * engine.getAspectRatio(camera2);
+
+    var ani1 = new BABYLON.Animation(
+      "toScreenAni",
+      "scaling",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani1.setKeys([
+      {
+        frame: 0,
+        value: this.bird.scaling
+      },
+      {
+        frame: stf(1),
+        value: new BABYLON.Vector3(x, 1, z)
+      }
+    ]);
+
+    var ani2 = new BABYLON.Animation(
+      "toScreenAni",
+      "rotation.y",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani2.setKeys([
+      {
+        frame: 0,
+        value: this.bird.rotation.y
+      },
+      {
+        frame: stf(1),
+        value: 0
+      }
+    ]);
+
+    scene2.beginDirectAnimation(
+      this.bird,
+      [ani1, ani2],
+      0,
+      stf(1),
+      false,
+      1,
+      () => {
+        deferred.resolve();
+      }
+    );
+
+    return deferred.promise;
+  }
+
+  toScreen() {
+    story2 = 4;
+    Q.all([this.aniEndBirdPos(), this.aniEndCamMove()])
+      .then(() => {
+        return this.aniEndBirdOri();
+      })
+      .then(() => {
+        return this.aniEndBirdScale();
+      })
+      .done(() => {
+        story2 = 0;
+      });
   }
 
   makeJson() {
