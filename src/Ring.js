@@ -100,7 +100,7 @@ export default class Ring {
 
       bulb.core.animations = [aniDrop];
 
-      scene1.beginAnimation(
+      scene.beginAnimation(
         bulb.core,
         0,
         stf(
@@ -185,7 +185,7 @@ export default class Ring {
 
       ringsMats[bulb.core.materialIndex].animations = [aniOn];
 
-      scene1.beginAnimation(
+      scene.beginAnimation(
         ringsMats[bulb.core.materialIndex],
         0,
         stf(
@@ -247,7 +247,7 @@ export default class Ring {
 
       bulb.core.animations = [aniCircular];
 
-      scene1.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
+      scene.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
         if (key + 1 === this.bulbNum) {
           deferred.resolve();
         }
@@ -315,7 +315,7 @@ export default class Ring {
 
       bulb.core.animations = [aniWave];
 
-      scene1.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
+      scene.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
         if (key + 1 === this.bulbNum) {
           deferred.resolve();
         }

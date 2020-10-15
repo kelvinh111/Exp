@@ -6,7 +6,7 @@ import Bulb from "./Bulb";
 import Space from "./Space";
 import Stage from "./Stage";
 
-export default class Stage1 {
+export default class Scene1 {
   constructor(options) {
     Object.assign(this, options);
 
@@ -22,12 +22,12 @@ export default class Stage1 {
   }
 
   init() {
-    scene1 = new BABYLON.Scene(engine);
-    scene1.clearColor = new BABYLON.Color3(0, 0, 0);
+    scene = new BABYLON.Scene(engine);
+    scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
     // rtt
-    renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene1, true);
-    scene1.customRenderTargets.push(renderTarget);
+    renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
+    scene.customRenderTargets.push(renderTarget);
 
     camera = new BABYLON.ArcRotateCamera(
       "Camera",
@@ -35,17 +35,17 @@ export default class Stage1 {
       km.radians(70),
       65,
       new BABYLON.Vector3(0, 4, 0),
-      scene1
+      scene
     );
     camera.minZ = 0.1;
 
     var light = new BABYLON.HemisphericLight(
       "hemi",
       new BABYLON.Vector3(0, 1, -0.5),
-      scene1
+      scene
     );
 
-    s1gl = new BABYLON.GlowLayer("glow", scene1, {
+    s1gl = new BABYLON.GlowLayer("glow", scene, {
       //mainTextureFixedSize: 512,
       blurKernelSize: 30
     });
@@ -58,7 +58,7 @@ export default class Stage1 {
 
   initRings() {
     // Rings
-    spsRing = new BABYLON.SolidParticleSystem("spsRing", scene1, {
+    spsRing = new BABYLON.SolidParticleSystem("spsRing", scene, {
       enableMultiMaterial: true,
       updatable: true
     });
@@ -76,11 +76,11 @@ export default class Stage1 {
         segments: 3,
         diameter: 0.1
       },
-      scene1
+      scene
     );
 
     for (let i = 0; i < bulbNumTotal; i++) {
-      let mat = new BABYLON.StandardMaterial("mat" + i, scene1);
+      let mat = new BABYLON.StandardMaterial("mat" + i, scene);
       mat.disableLighting = true;
       mat.backFaceCulling = false;
       mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
@@ -265,7 +265,7 @@ export default class Stage1 {
     ani5.setEasingFunction(ease2);
     ani6.setEasingFunction(ease2);
 
-    scene1.beginDirectAnimation(
+    scene.beginDirectAnimation(
       camera,
       [ani1, ani2, ani3],
       0,
@@ -273,7 +273,7 @@ export default class Stage1 {
       false,
       1,
       () => {
-        scene1.beginDirectAnimation(
+        scene.beginDirectAnimation(
           camera,
           [ani4, ani5, ani6],
           0,
@@ -289,7 +289,7 @@ export default class Stage1 {
   }
 
   EventHandler() {
-    scene1.registerAfterRender(() => {
+    scene.registerAfterRender(() => {
       if (this.ring1 && this.ring2 && this.ring3) {
         this.ring1.update();
         this.ring2.update();
@@ -337,6 +337,6 @@ export default class Stage1 {
   }
 
   render() {
-    scene1.render();
+    scene.render();
   }
 }

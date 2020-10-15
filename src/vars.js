@@ -24,19 +24,18 @@ window.story = 0;
 4: turning to back to screen
 */
 window.story2 = 0;
-window.isStage2 = true;
 
-window.stage1 = null;
-window.scene1 = null;
+window.isScene2 = true;
+window.scene = null;
 window.camera = null;
-
-window.stage2 = null;
 window.scene2 = null;
 window.camera2 = null;
 window.renderTarget = null;
 
 window.mb = null;
 window.mb2 = null;
+window.cage = null;
+window.bird = null;
 
 window.s1gl = null; // scene1 glow layer
 window.spsRing = null;

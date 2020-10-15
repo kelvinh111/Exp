@@ -49,7 +49,7 @@ export default class Bulb {
     let mesh = BABYLON.MeshBuilder.CreatePolyhedron(
       "oct",
       { type: 1, size: this.size },
-      scene1
+      scene
     );
     mesh.position = this.position;
     let arr = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
@@ -127,6 +127,6 @@ export default class Bulb {
     });
     ani.setKeys(anikeys);
 
-    scene1.beginDirectAnimation(this.core, [ani], 0, this.rotateDuration, true);
+    scene.beginDirectAnimation(this.core, [ani], 0, this.rotateDuration, true);
   }
 }

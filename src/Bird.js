@@ -9,13 +9,17 @@ export default class Bird {
     this.ori = "bird4";
     this.deltaFlap = 0;
     this.deltaFly = 0;
-    this.birdJson = [];
 
     this.init();
-    // this.makeJson();
   }
 
   init() {
+    this.rttMaterial = new BABYLON.StandardMaterial("RTT material", scene2);
+    this.rttMaterial.emissiveTexture = renderTarget;
+    this.rttMaterial.disableLighting = true;
+    this.rttMaterial.backFaceCulling = false;
+
+    this.birdJson = [];
     BABYLON.SceneLoader.ImportMesh(
       "",
       `https://public.kelvinh.studio/cdn/3d/${this.ori}/`,
@@ -170,7 +174,7 @@ export default class Bird {
         false,
         1,
         () => {
-          stage2.cage.setEnabled(true);
+          cage.setEnabled(true);
           this.bird.scaling = new BABYLON.Vector3(
             birdConfig.scaling,
             birdConfig.scaling,
@@ -463,32 +467,9 @@ export default class Bird {
       });
   }
 
-  makeJson() {
-    let name = "bird4";
-    let yeah = [];
-    for (let i = 0; i <= 100; i++) {
-      BABYLON.SceneLoader.ImportMesh(
-        "",
-        `https://public.kelvinh.studio/cdn/3d/${name}/`,
-        `${name} _ ${i}PercentFolded.obj`,
-        scene2,
-        (s) => {
-          let b = s[0];
-          var pos = b.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-          yeah[i] = pos;
-          if (i === 100) {
-            console.log(i, JSON.stringify(yeah));
-          }
-        }
-      );
-    }
-  }
-
   flap() {
     this.deltaFlap += birdConfig.flapSpeed;
     let frame = parseInt(km.map(Math.cos(this.deltaFlap), -1, 1, 120, 200));
-    // console.log(frame)
-
     this.bird.disableEdgesRendering();
     this.bird.setVerticesData(
       BABYLON.VertexBuffer.PositionKind,

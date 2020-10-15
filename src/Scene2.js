@@ -1,13 +1,15 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 /* global kelvinUtil, BABYLON, Q, gb */
-import Bird from "./Bird.js";
 import { stf, htc } from "./util.js";
+import Bird from "./Bird";
 
-export default class Stage2 {
+export default class Scene2 {
   constructor(options) {
     Object.assign(this, options);
 
     this.init();
+    bird = new Bird();
+    // this.makeJson();
   }
 
   init() {
@@ -55,34 +57,49 @@ export default class Stage2 {
     );
     // this.dome.position.z = -100;
 
-    this.rttMaterial = new BABYLON.StandardMaterial("RTT material", scene2);
-    this.rttMaterial.emissiveTexture = renderTarget;
-    this.rttMaterial.disableLighting = true;
-    this.rttMaterial.backFaceCulling = false;
-
     BABYLON.SceneLoader.ImportMesh(
       "",
       "https://public.kelvinh.studio/cdn/3d/birdcage/",
       "scene.gltf",
       scene2,
       (s) => {
-        this.cage = s[0];
-        this.cage.scaling = new BABYLON.Vector3(0.3, 0.3, 0.3);
-        this.cage.position.y = -30;
-        this.cage.setEnabled(false);
+        cage = s[0];
+        cage.scaling = new BABYLON.Vector3(0.3, 0.3, 0.3);
+        cage.position.y = -30;
+        cage.setEnabled(false);
       }
     );
+  }
 
-    this.bird = new Bird();
+  makeJson() {
+    let name = "bird4";
+    let yeah = [];
+    gg;
+    for (let i = 0; i <= 100; i++) {
+      BABYLON.SceneLoader.ImportMesh(
+        "",
+        `https://public.kelvinh.studio/cdn/3d/${name}/`,
+        `${name} _ ${i}PercentFolded.obj`,
+        scene2,
+        (s) => {
+          let b = s[0];
+          var pos = b.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+          yeah[i] = pos;
+          if (i === 100) {
+            console.log(i, JSON.stringify(yeah));
+          }
+        }
+      );
+    }
   }
 
   render() {
     if (story2 === 2) {
-      this.bird.flap();
+      bird.flap();
     }
     if (story2 === 3) {
-      this.bird.flap();
-      this.bird.fly();
+      bird.flap();
+      bird.fly();
     }
     scene2.render();
   }
