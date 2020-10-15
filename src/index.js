@@ -1,24 +1,24 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 import "./styles.scss";
 import { stf, htc } from "./util.js";
-import Scene1 from "./Scene1";
-import Scene2 from "./Scene2";
+import Stage1 from "./Stage1";
+import Stage2 from "./Stage2";
 
-let scene1 = new Scene1();
-let scene2 = new Scene2();
+stage1 = new Stage1();
+stage2 = new Stage2();
 
 // FPS
 let divFps = document.getElementById("fps");
 
 engine.runRenderLoop(function () {
   divFps.innerHTML = engine.getFps().toFixed() + " FPS";
-  scene1.render();
-  if (isScene2) {
-    scene2.render();
+  stage1.render();
+  if (isStage2) {
+    stage2.render();
   }
 });
 
-if (isScene2) {
+if (isStage2) {
   camera.detachControl(canvas);
   camera2.attachControl(canvas, true);
 } else {
@@ -27,10 +27,10 @@ if (isScene2) {
 }
 
 document.querySelector("#switch").addEventListener("click", function () {
-  scene2.updateRatio();
+  stage2.updateRatio();
   engine.resize();
-  isScene2 = !isScene2;
-  if (isScene2) {
+  isStage2 = !isStage2;
+  if (isStage2) {
     camera.detachControl(canvas);
     camera2.attachControl(canvas, true);
   } else {
@@ -40,16 +40,16 @@ document.querySelector("#switch").addEventListener("click", function () {
 });
 
 document.querySelector("#bird").addEventListener("click", function () {
-  if (story2 === 0) scene2.toBird();
+  if (story2 === 0) stage2.bird.toBird();
 });
 
 document.querySelector("#screen").addEventListener("click", function () {
-  if (story2 === 3) scene2.toScreen();
+  if (story2 === 3) stage2.bird.toScreen();
 });
 
 window.addEventListener("resize", function () {
-  scene2.updateRatio();
+  stage2.bird.updateRatio();
   engine.resize();
 });
-scene2.updateRatio();
+stage2.bird.updateRatio();
 engine.resize();

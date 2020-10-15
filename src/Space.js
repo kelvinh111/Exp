@@ -12,7 +12,7 @@ export default class Space {
   }
 
   init() {
-    this.sps = new BABYLON.SolidParticleSystem("this.sps", scene, {
+    this.sps = new BABYLON.SolidParticleSystem("this.sps", scene1, {
       enableMultiMaterial: true,
       updatable: false
     });
@@ -29,12 +29,12 @@ export default class Space {
         segments: 2,
         diameter: this.bulbSize
       },
-      scene
+      scene1
     );
 
     // multi materials - from brightest to dark
     for (let i = 1; i <= this.matStep; i++) {
-      let mat = new BABYLON.StandardMaterial("mat" + i, scene);
+      let mat = new BABYLON.StandardMaterial("mat" + i, scene1);
       mat.disableLighting = true;
       mat.backFaceCulling = false;
 
@@ -112,7 +112,7 @@ export default class Space {
 
       v.animations = [ani];
 
-      scene.beginAnimation(
+      scene1.beginAnimation(
         v,
         0,
         stf(k * this.bulbDelay + this.bulbDuration + this.delay),

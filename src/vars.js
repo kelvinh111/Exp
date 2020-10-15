@@ -24,10 +24,13 @@ window.story = 0;
 4: turning to back to screen
 */
 window.story2 = 0;
+window.isStage2 = true;
 
-window.isScene2 = true;
-window.scene = null;
+window.stage1 = null;
+window.scene1 = null;
 window.camera = null;
+
+window.stage2 = null;
 window.scene2 = null;
 window.camera2 = null;
 window.renderTarget = null;
