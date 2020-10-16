@@ -66,8 +66,6 @@ export default class Bird {
   }
 
   toBird() {
-    story2 = 1;
-
     let aniStartBirdScale = () => {
       var deferred = Q.defer();
       var ani = new BABYLON.Animation(
@@ -116,7 +114,7 @@ export default class Bird {
       ani.setKeys([
         {
           frame: 0,
-          value: _.clone(camera2.beta)
+          value: camera2.beta
         },
         {
           frame: stf(birdConfig.aniStart.camBetaDur),
@@ -152,8 +150,6 @@ export default class Bird {
           this.bird.createNormals();
           this.bird.enableEdgesRendering();
           if (i === this.birdJson.length - 1) {
-            story2 = 2;
-
             deferred.resolve();
           }
         }, i * 16.67);
@@ -196,8 +192,6 @@ export default class Bird {
             birdConfig.scaling,
             birdConfig.scaling
           );
-          story2 = 3;
-          // this.fly();
 
           deferred.resolve();
         }
@@ -219,7 +213,7 @@ export default class Bird {
       ani5.setKeys([
         {
           frame: 0,
-          value: _.clone(camera2.radius)
+          value: camera2.radius
         },
         {
           frame: stf(birdConfig.aniStart.camMoveDur),
@@ -237,7 +231,7 @@ export default class Bird {
       ani6.setKeys([
         {
           frame: 0,
-          value: _.clone(camera2.target.y)
+          value: camera2.target.y
         },
         {
           frame: stf(birdConfig.aniStart.camMoveDur),
@@ -259,34 +253,37 @@ export default class Bird {
       return deferred.promise;
     };
 
+    g.story2 = 1;
     aniStartBirdScale()
       .then(() => {
         return Q.all([aniStartCamBeta(), aniStartBirdOri()]);
+      })
+      .then(() => {
+        g.story2 = 2;
       })
       .delay(birdConfig.aniStart.posDelay)
       .then(() => {
         return aniStartBirdPos();
       })
       .then(() => {
+        g.story2 = 3;
         return aniStartCamMove();
       })
       .catch(function (error) {
         // Handle any error from all above steps
         console.error(error);
       })
-      .done();
+      .done(() => {});
   }
 
   toScreen() {
-    story2 = 4;
-
     let aniEndBirdOri = () => {
       var deferred = Q.defer();
 
       for (
         let i = 0, j = this.birdJson.length - 1;
-        i < this.birdJson.length;
-        i++, j--
+        i < this.birdJson.length && j >= 0;
+        i++, j -= 2
       ) {
         setTimeout(() => {
           this.bird.disableEdgesRendering();
@@ -318,7 +315,7 @@ export default class Bird {
       ani1.setKeys([
         {
           frame: 0,
-          value: _.clone(camera2.beta)
+          value: camera2.beta
         },
         {
           frame: stf(birdConfig.aniEnd.camMoveDur),
@@ -336,7 +333,7 @@ export default class Bird {
       ani2.setKeys([
         {
           frame: 0,
-          value: _.clone(camera2.radius)
+          value: camera2.radius
         },
         {
           frame: stf(birdConfig.aniEnd.camMoveDur),
@@ -471,6 +468,8 @@ export default class Bird {
 
       return deferred.promise;
     };
+
+    g.story2 = 4;
     Q.all([aniEndBirdPos(), aniEndCamMove()])
       .then(() => {
         return aniEndBirdOri();
@@ -479,7 +478,7 @@ export default class Bird {
         return aniEndBirdScale();
       })
       .done(() => {
-        story2 = 0;
+        g.story2 = 0;
       });
   }
 
@@ -507,7 +506,7 @@ export default class Bird {
 
   updateRatio() {
     if (!this.birdSize) return false;
-    if (story2 !== 0) return false;
+    if (g.story2 !== 0) return false;
     let z =
       (camera2.position.length() * Math.tan(camera2.fov / 2)) / this.birdSize.z;
     let x = z * engine.getAspectRatio(camera2);

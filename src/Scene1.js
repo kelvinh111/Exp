@@ -110,7 +110,7 @@ export default class Scene1 {
     ])
       .delay(1200)
       .then(() => {
-        story = 2;
+        g.story = 2;
         let alpha = -137;
         let beta = 95;
         let radius = 47;
@@ -299,28 +299,28 @@ export default class Scene1 {
     });
 
     document.querySelector("#circular").addEventListener("click", () => {
-      if (story === 0 || story === 1 || story === 2 || story === 3)
+      if (g.story === 0 || g.story === 1 || g.story === 2 || g.story === 3)
         return false;
-      story = 1;
+      g.story = 1;
       Q.all([
         this.ring1.toCircular(),
         this.ring2.toCircular(),
         this.ring3.toCircular()
       ]).then(() => {
-        story = 2;
+        g.story = 2;
       });
     });
 
     document.querySelector("#wave").addEventListener("click", () => {
-      if (story === 0 || story === 1 || story === 3 || story === 4)
+      if (g.story === 0 || g.story === 1 || g.story === 3 || g.story === 4)
         return false;
-      story = 3;
+      g.story = 3;
       Q.all([
         this.ring1.toWave(),
         this.ring2.toWave(),
         this.ring3.toWave()
       ]).then(() => {
-        story = 4;
+        g.story = 4;
       });
     });
 

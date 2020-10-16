@@ -74,7 +74,6 @@ export default class Scene2 {
   makeJson() {
     let name = "bird4";
     let yeah = [];
-    gg;
     for (let i = 0; i <= 100; i++) {
       BABYLON.SceneLoader.ImportMesh(
         "",
@@ -94,10 +93,10 @@ export default class Scene2 {
   }
 
   render() {
-    if (story2 === 2) {
+    if (g.story2 === 2) {
       bird.flap();
     }
-    if (story2 === 3) {
+    if (g.story2 === 3) {
       bird.flap();
       bird.fly();
     }

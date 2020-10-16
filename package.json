@@ -8,7 +8,7 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "babylonjs": "4.1.0"
+    "on-change": "2.1.4"
   },
   "devDependencies": {
     "@babel/core": "7.2.0",

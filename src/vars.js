@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 /* global BABYLON */
 import { stf, htc } from "./util.js";
-console.log(kelvinUtil);
+
 window.km = kelvinUtil.math;
 window.canvas = document.getElementById("renderCanvas");
 window.engine = new BABYLON.Engine(canvas, true);
@@ -14,7 +14,7 @@ window.fr = 10;
 3: turning to wave
 4: in wave animation
 */
-window.story = 0;
+// window.story = 0;
 
 /*
 0: in screen ready
@@ -23,9 +23,9 @@ window.story = 0;
 3: bird fly animation
 4: turning to back to screen
 */
-window.story2 = 0;
+// window.story2 = 0;
 
-window.isScene2 = true;
+// window.isScene2 = true;
 window.scene = null;
 window.camera = null;
 window.scene2 = null;
@@ -182,7 +182,7 @@ window.birdConfig = {
   flyRadius: 15,
   y: 10,
   flySpeed: 0.03,
-  flapSpeed: 0.7
+  flapSpeed: 0.6
 };
 window.birdConfig.z = -window.birdConfig.flyRadius;
 

@@ -344,7 +344,7 @@ export default class Ring {
   }
 
   update() {
-    if (story === 2) this.aniCircular();
-    if (story === 4) this.aniWave();
+    if (g.story === 2) this.aniCircular();
+    if (g.story === 4) this.aniWave();
   }
 }

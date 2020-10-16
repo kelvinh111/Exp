@@ -47,7 +47,7 @@ export default class Stage {
   }
 
   openMacbook() {
-    // this.mbAni.play();
+    this.mbAni.play();
   }
 
   initStage() {
