@@ -77,21 +77,29 @@ export default class Bird {
         BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );
-      let sx = this.bird.scaling.x * 0.4;
+      let sx = this.bird.scaling.x * birdConfig.aniStart.scaling;
       ani.setKeys([
         {
           frame: 0,
           value: this.bird.scaling
         },
         {
-          frame: stf(1),
+          frame: stf(birdConfig.aniStart.scalingDur),
           value: new BABYLON.Vector3(sx, sx, sx)
         }
       ]);
 
-      scene2.beginDirectAnimation(this.bird, [ani], 0, stf(1), false, 1, () => {
-        deferred.resolve();
-      });
+      scene2.beginDirectAnimation(
+        this.bird,
+        [ani],
+        0,
+        stf(birdConfig.aniStart.scalingDur),
+        false,
+        1,
+        () => {
+          deferred.resolve();
+        }
+      );
       return deferred.promise;
     };
 
@@ -111,13 +119,21 @@ export default class Bird {
           value: _.clone(camera2.beta)
         },
         {
-          frame: stf(3),
-          value: km.radians(135)
+          frame: stf(birdConfig.aniStart.camBetaDur),
+          value: birdConfig.aniStart.camBeta
         }
       ]);
-      scene2.beginDirectAnimation(camera2, [ani], 0, stf(3), false, 1, () => {
-        deferred.resolve();
-      });
+      scene2.beginDirectAnimation(
+        camera2,
+        [ani],
+        0,
+        stf(birdConfig.aniStart.camBetaDur),
+        false,
+        1,
+        () => {
+          deferred.resolve();
+        }
+      );
 
       return deferred.promise;
     };
@@ -162,15 +178,15 @@ export default class Bird {
           value: this.bird.position
         },
         {
-          frame: stf(1),
-          value: new BABYLON.Vector3(-100, 0, -100)
+          frame: stf(birdConfig.aniStart.posDur),
+          value: birdConfig.aniStart.pos
         }
       ]);
       scene2.beginDirectAnimation(
         this.bird,
         [ani4],
         0,
-        stf(1),
+        stf(birdConfig.aniStart.posDur),
         false,
         1,
         () => {
@@ -206,8 +222,8 @@ export default class Bird {
           value: _.clone(camera2.radius)
         },
         {
-          frame: stf(1),
-          value: 65
+          frame: stf(birdConfig.aniStart.camMoveDur),
+          value: birdConfig.aniStart.camMoveRadius
         }
       ]);
 
@@ -224,15 +240,15 @@ export default class Bird {
           value: _.clone(camera2.target.y)
         },
         {
-          frame: stf(1),
-          value: -8
+          frame: stf(birdConfig.aniStart.camMoveDur),
+          value: birdConfig.aniStart.camMoveTargetY
         }
       ]);
       scene2.beginDirectAnimation(
         camera2,
         [ani5, ani6],
         0,
-        stf(1),
+        stf(birdConfig.aniStart.camMoveDur),
         false,
         1,
         () => {
@@ -247,7 +263,7 @@ export default class Bird {
       .then(() => {
         return Q.all([aniStartCamBeta(), aniStartBirdOri()]);
       })
-      // .delay(1000)
+      .delay(birdConfig.aniStart.posDelay)
       .then(() => {
         return aniStartBirdPos();
       })
@@ -305,8 +321,8 @@ export default class Bird {
           value: _.clone(camera2.beta)
         },
         {
-          frame: stf(1),
-          value: 0
+          frame: stf(birdConfig.aniEnd.camMoveDur),
+          value: birdConfig.aniEnd.camMoveBeta
         }
       ]);
 
@@ -323,8 +339,8 @@ export default class Bird {
           value: _.clone(camera2.radius)
         },
         {
-          frame: stf(1),
-          value: 15
+          frame: stf(birdConfig.aniEnd.camMoveDur),
+          value: birdConfig.aniEnd.camMoveRadius
         }
       ]);
 
@@ -341,8 +357,8 @@ export default class Bird {
           value: camera2.target.y
         },
         {
-          frame: stf(1),
-          value: 0
+          frame: stf(birdConfig.aniEnd.camMoveDur),
+          value: birdConfig.aniEnd.camMoveTargetY
         }
       ]);
 
@@ -350,7 +366,7 @@ export default class Bird {
         camera2,
         [ani1, ani2, ani3],
         0,
-        stf(1),
+        stf(birdConfig.aniEnd.camMoveDur),
         false,
         1,
         () => {
@@ -377,8 +393,8 @@ export default class Bird {
           value: this.bird.position
         },
         {
-          frame: stf(1),
-          value: new BABYLON.Vector3(0, 0, 0)
+          frame: stf(birdConfig.aniEnd.posDur),
+          value: birdConfig.aniEnd.pos
         }
       ]);
 
@@ -386,7 +402,7 @@ export default class Bird {
         this.bird,
         [ani1],
         0,
-        stf(1),
+        stf(birdConfig.aniEnd.posDur),
         false,
         1,
         () => {
@@ -418,7 +434,7 @@ export default class Bird {
           value: this.bird.scaling
         },
         {
-          frame: stf(1),
+          frame: stf(birdConfig.aniEnd.scalingDur),
           value: new BABYLON.Vector3(x, 1, z)
         }
       ]);
@@ -436,7 +452,7 @@ export default class Bird {
           value: this.bird.rotation.y
         },
         {
-          frame: stf(1),
+          frame: stf(birdConfig.aniEnd.scalingDur),
           value: 0
         }
       ]);
@@ -445,7 +461,7 @@ export default class Bird {
         this.bird,
         [ani1, ani2],
         0,
-        stf(1),
+        stf(birdConfig.aniEnd.scalingDur),
         false,
         1,
         () => {

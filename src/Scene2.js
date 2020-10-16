@@ -18,9 +18,9 @@ export default class Scene2 {
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera",
       -Math.PI / 2,
-      0,
-      7,
-      new BABYLON.Vector3(0, 0, 0),
+      birdConfig.cam.beta,
+      birdConfig.cam.radius,
+      birdConfig.cam.target,
       scene2
     );
     // camera2.wheelPrecision = 200;

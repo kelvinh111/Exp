@@ -152,11 +152,37 @@ window.spaceConfig = {
 };
 
 window.birdConfig = {
-  scaling: 0.008,
+  cam: {
+    beta: 0,
+    radius: 7,
+    target: new BABYLON.Vector3(0, 0, 0)
+  },
+  aniStart: {
+    scaling: 0.4,
+    scalingDur: 1,
+    camBeta: km.radians(135),
+    camBetaDur: 3.3,
+    posDelay: 1 * 1000,
+    pos: new BABYLON.Vector3(-50, 0, -50),
+    posDur: 1,
+    camMoveRadius: 65,
+    camMoveTargetY: -8,
+    camMoveDur: 5
+  },
+  aniEnd: {
+    camMoveDur: 1,
+    camMoveBeta: 0,
+    camMoveRadius: 15,
+    camMoveTargetY: 0,
+    pos: new BABYLON.Vector3(0, 0, 0),
+    posDur: 1,
+    scalingDur: 1
+  },
+  scaling: 0.006,
   flyRadius: 15,
   y: 10,
-  flySpeed: 0.025,
-  flapSpeed: 0.5
+  flySpeed: 0.03,
+  flapSpeed: 0.7
 };
 window.birdConfig.z = -window.birdConfig.flyRadius;
 
