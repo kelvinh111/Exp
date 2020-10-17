@@ -18,7 +18,7 @@ function sceneChange() {
     camera.detachControl(canvas);
 
     if (g.story2 === 3) {
-      // camera2.attachControl(canvas, true);
+      camera2.attachControl(canvas, true);
     }
   }
 }
@@ -40,7 +40,7 @@ story2
 */
 window.g = onChange(
   {
-    scene: 1,
+    scene: 2,
     story: 0,
     story2: 0
   },
@@ -70,11 +70,11 @@ document.querySelector("#switch").addEventListener("click", function () {
 });
 
 document.querySelector("#bird").addEventListener("click", function () {
-  if (g.story2 === 0) bird.toBird();
+  if (g.scene === 2 && g.story2 === 0) bird.toBird();
 });
 
 document.querySelector("#screen").addEventListener("click", function () {
-  if (g.story2 === 3) bird.toScreen();
+  if (g.scene === 2 && g.story2 === 3) bird.toScreen();
 });
 
 window.addEventListener("resize", function () {

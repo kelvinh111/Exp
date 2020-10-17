@@ -319,18 +319,36 @@ export default class Bird {
         },
         {
           frame: stf(birdConfig.aniEnd.camMoveDur),
-          value: birdConfig.aniEnd.camMoveBeta
+          value: birdConfig.cam.beta
         }
       ]);
 
       var ani2 = new BABYLON.Animation(
         "ani2",
-        "radius",
+        "alpha",
         fr,
         BABYLON.Animation.ANIMATIONTYPE_FLOAT,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );
       ani2.setKeys([
+        {
+          frame: 0,
+          value: camera2.alpha
+        },
+        {
+          frame: stf(birdConfig.aniEnd.camMoveDur),
+          value: birdConfig.cam.alpha
+        }
+      ]);
+
+      var ani3 = new BABYLON.Animation(
+        "ani3",
+        "radius",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani3.setKeys([
         {
           frame: 0,
           value: camera2.radius
@@ -341,14 +359,14 @@ export default class Bird {
         }
       ]);
 
-      var ani3 = new BABYLON.Animation(
+      var ani4 = new BABYLON.Animation(
         "ani3",
         "target.y",
         fr,
         BABYLON.Animation.ANIMATIONTYPE_FLOAT,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );
-      ani3.setKeys([
+      ani4.setKeys([
         {
           frame: 0,
           value: camera2.target.y
@@ -361,7 +379,7 @@ export default class Bird {
 
       scene2.beginDirectAnimation(
         camera2,
-        [ani1, ani2, ani3],
+        [ani1, ani2, ani3, ani4],
         0,
         stf(birdConfig.aniEnd.camMoveDur),
         false,

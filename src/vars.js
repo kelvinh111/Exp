@@ -153,6 +153,7 @@ window.spaceConfig = {
 
 window.birdConfig = {
   cam: {
+    alpha: -Math.PI / 2,
     beta: 0,
     radius: 7,
     target: new BABYLON.Vector3(0, 0, 0)
@@ -167,22 +168,21 @@ window.birdConfig = {
     posDur: 1,
     camMoveRadius: 65,
     camMoveTargetY: -8,
-    camMoveDur: 5
+    camMoveDur: 0.5
   },
   aniEnd: {
     camMoveDur: 1,
-    camMoveBeta: 0,
     camMoveRadius: 15,
     camMoveTargetY: 0,
     pos: new BABYLON.Vector3(0, 0, 0),
     posDur: 1,
     scalingDur: 1
   },
-  scaling: 0.006,
+  scaling: 0.005,
   flyRadius: 15,
   y: 10,
-  flySpeed: 0.03,
-  flapSpeed: 0.6
+  flySpeed: 0.025,
+  flapSpeed: 0.4
 };
 window.birdConfig.z = -window.birdConfig.flyRadius;
 
