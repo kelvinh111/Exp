@@ -54,13 +54,14 @@ export default class Bird {
 
         for (let i = 0; i < myJson.length; i++) {
           this.birdJson.push(myJson[i]);
-          if (myJson[i + 1]) {
-            let tmp = [];
-            myJson[i].forEach((v, k) => {
-              tmp.push((v + myJson[i + 1][k]) / 2);
-            });
-            this.birdJson.push(tmp);
-          }
+          // added extra frames to make the animation smoother
+          // if (myJson[i + 1]) {
+          //   let tmp = [];
+          //   myJson[i].forEach((v, k) => {
+          //     tmp.push((v + myJson[i + 1][k]) / 2);
+          //   });
+          //   this.birdJson.push(tmp);
+          // }
         }
       });
   }
@@ -152,8 +153,7 @@ export default class Bird {
           if (i === this.birdJson.length - 1) {
             deferred.resolve();
           }
-          // }, i * 16.67);
-        }, i * 10);
+        }, i * 16.67);
       }
 
       return deferred.promise;
