@@ -6,7 +6,7 @@ export default class Bird {
   constructor(options) {
     Object.assign(this, options);
 
-    this.ori = "bird4";
+    this.ori = "yeah";
     this.deltaFlap = 0;
     this.deltaFly = 0;
 
@@ -152,7 +152,8 @@ export default class Bird {
           if (i === this.birdJson.length - 1) {
             deferred.resolve();
           }
-        }, i * 16.67);
+          // }, i * 16.67);
+        }, i * 10);
       }
 
       return deferred.promise;
@@ -186,7 +187,7 @@ export default class Bird {
         false,
         1,
         () => {
-          cage.setEnabled(true);
+          // cage.setEnabled(true);
           this.bird.scaling = new BABYLON.Vector3(
             birdConfig.scaling,
             birdConfig.scaling,
@@ -261,18 +262,18 @@ export default class Bird {
       .then(() => {
         g.story2 = 2;
       })
-      .delay(birdConfig.aniStart.posDelay)
-      .then(() => {
-        return aniStartBirdPos();
-      })
-      .then(() => {
-        g.story2 = 3;
-        return aniStartCamMove();
-      })
-      .catch(function (error) {
-        // Handle any error from all above steps
-        console.error(error);
-      })
+      // .delay(birdConfig.aniStart.posDelay)
+      // .then(() => {
+      //   return aniStartBirdPos();
+      // })
+      // .then(() => {
+      //   g.story2 = 3;
+      //   return aniStartCamMove();
+      // })
+      // .catch(function (error) {
+      //   // Handle any error from all above steps
+      //   console.error(error);
+      // })
       .done(() => {});
   }
 

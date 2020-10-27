@@ -15,7 +15,8 @@ function sceneChange() {
       camera.attachControl(canvas, true);
     }
   } else if (g.scene === 2) {
-    camera.detachControl(canvas);
+    // camera.detachControl(canvas);
+    camera2.attachControl(canvas, true);
 
     if (g.story2 === 3) {
       camera2.attachControl(canvas, true);
