@@ -34,10 +34,8 @@ story
 
 story2
 0: in screen ready
-1: turning to bird
-2: bird flapping animation
-3: bird fly animation
-4: turning to back to screen
+1: turning to paper
+2: 
 */
 window.g = onChange(
   {
@@ -64,23 +62,23 @@ engine.runRenderLoop(function () {
 });
 
 document.querySelector("#switch").addEventListener("click", function () {
-  bird.updateRatio();
+  paper.updateRatio();
   engine.resize();
 
   g.scene === 1 ? (g.scene = 2) : (g.scene = 1);
 });
 
-document.querySelector("#bird").addEventListener("click", function () {
-  if (g.scene === 2 && g.story2 === 0) bird.toBird();
+document.querySelector("#paper").addEventListener("click", function () {
+  if (g.scene === 2 && g.story2 === 0) paper.toPaper();
 });
 
 document.querySelector("#screen").addEventListener("click", function () {
-  if (g.scene === 2 && g.story2 === 3) bird.toScreen();
+  if (g.scene === 2 && g.story2 === 3) paper.toScreen();
 });
 
 window.addEventListener("resize", function () {
-  bird.updateRatio();
+  paper.updateRatio();
   engine.resize();
 });
-bird.updateRatio();
+paper.updateRatio();
 engine.resize();

@@ -154,6 +154,7 @@ export default class Bird {
             deferred.resolve();
           }
         }, i * 16.67);
+        // }, i * 12);
       }
 
       return deferred.promise;

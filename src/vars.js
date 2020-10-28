@@ -18,9 +18,9 @@ window.fr = 10;
 
 /*
 0: in screen ready
-1: turning to bird
-2: bird flapping animation
-3: bird fly animation
+1: turning to paper
+2: paper flapping animation
+3: paper fly animation
 4: turning to back to screen
 */
 // window.story2 = 0;
@@ -35,7 +35,7 @@ window.renderTarget = null;
 window.mb = null;
 window.mb2 = null;
 window.cage = null;
-window.bird = null;
+window.paper = null;
 
 window.s1gl = null; // scene1 glow layer
 window.spsRing = null;
@@ -151,7 +151,7 @@ window.spaceConfig = {
   bulbDuration: 1
 };
 
-window.birdConfig = {
+window.paperConfig = {
   cam: {
     alpha: -Math.PI / 2,
     beta: 0,
@@ -184,7 +184,7 @@ window.birdConfig = {
   flySpeed: 0.025,
   flapSpeed: 0.4
 };
-window.birdConfig.z = -window.birdConfig.flyRadius;
+window.paperConfig.z = -window.paperConfig.flyRadius;
 
 window.camera2Config = {
   startRadius: 30
