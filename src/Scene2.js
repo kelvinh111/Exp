@@ -15,14 +15,13 @@ export default class Scene2 {
 
   init() {
     scene2 = new BABYLON.Scene(engine);
-    // scene2.clearColor = htc("dddddd");
-    scene2.clearColor = new BABYLON.Color3(1, 1, 1);
-    // scene.ambientColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-    scene2.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
-    scene2.fogColor = new BABYLON.Color3(1, 1, 1);
-    scene2.fogDensity = 0.01;
-    scene2.fogStart = 100;
-    scene2.fogEnd = 200.0;
+    // scene2.clearColor = new BABYLON.Color3(1, 1, 1);
+    scene2.clearColor = htc("FFD28A");
+    // scene2.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
+    // scene2.fogColor = htc('ffffff')
+    // scene2.fogDensity = 0.01;
+    // scene2.fogStart = 60;
+    // scene2.fogEnd = 120.0;
 
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera",
@@ -40,7 +39,9 @@ export default class Scene2 {
       new BABYLON.Vector3(0, 1, -1),
       scene2
     );
-    light.intensity = 0.8;
+    light.diffuse = htc("FFC883");
+    light.ground = htc("FFC883");
+    light.intensity = 0.65;
 
     var light2 = new BABYLON.DirectionalLight(
       "light2",
@@ -48,24 +49,27 @@ export default class Scene2 {
       scene2
     );
     light2.position = new BABYLON.Vector3(0, 0, 20);
-    light2.intensity = 0.5;
+    light2.intensity = 0.9;
+    light2.diffuse = htc("FFC883");
     light2.specular = new BABYLON.Color3(0, 0, 0);
 
     var ground = BABYLON.MeshBuilder.CreateGround(
       "ground",
-      { width: 1000, height: 1000 },
+      { width: 3000, height: 3000 },
       scene2
     );
     ground.receiveShadows = true;
     ground.position.y = -20;
+    // ground.material = new BABYLON.StandardMaterial('ground', scene2)
+    // ground.material.emissiveColor = new BABYLON.Color3(1,1,1)
 
     let dt = 6;
     let db = 5;
-    let rings = [];
+    this.rings = [];
 
     for (let i = 0; i < 5; i++) {
       var ring = BABYLON.CylinderBuilder.CreateCylinder(
-        "ring1",
+        "ring" + i,
         {
           height: 2,
           diameterTop: dt,
@@ -112,7 +116,7 @@ export default class Scene2 {
       ring.material = material;
       ring.speed = Math.random() * 0.01;
 
-      rings.push(ring);
+      this.rings.push(ring);
     }
 
     var pot = BABYLON.CylinderBuilder.CreateCylinder(
@@ -148,9 +152,10 @@ export default class Scene2 {
     potBottom.rotation.x = Math.PI / 2;
     potBottom.position.y = -19.9;
     potBottom.material = new BABYLON.StandardMaterial("pb", scene2);
-    potBottom.material.diffuseColor = new BABYLON.Color3(0.7, 0.7, 0.7);
-    potBottom.material.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+    potBottom.material.diffuseColor = htc("FFC883");
+    // potBottom.material.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
 
+    // light.includedOnlyMeshes = [ground];
     light2.includedOnlyMeshes = [ground, pot];
 
     // potBottom.receiveShadows = true
@@ -190,6 +195,7 @@ export default class Scene2 {
         // sg.usePercentageCloserFiltering = true;
         sg.blurBoxOffset = 2;
         // sg.usePoissonSampling = true;
+        sg.setDarkness(0);
         sg.addShadowCaster(pot);
         sg.enableSoftTransparentShadow = true;
         sg.transparencyShadow = true;
@@ -219,6 +225,9 @@ export default class Scene2 {
   }
 
   render() {
+    this.rings.forEach((v) => {
+      v.rotation.y += v.speed;
+    });
     scene2.render();
   }
 }
