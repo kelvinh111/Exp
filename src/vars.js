@@ -159,7 +159,7 @@ window.paperConfig = {
     target: new BABYLON.Vector3(0, 0, 0)
   },
   aniStart: {
-    scaling: 0.6,
+    scaling: 0.4,
     scalingDur: 1,
     camBeta: km.radians(135),
     camBetaDur: 3.3,

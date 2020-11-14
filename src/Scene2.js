@@ -221,7 +221,7 @@ export default class Scene2 {
 
     var light = new BABYLON.DirectionalLight(
       "light",
-      new BABYLON.Vector3(0, -1, 1),
+      new BABYLON.Vector3(0, -0.5, 1),
       scene2
     );
     light.intensity = 0.5;
@@ -231,13 +231,68 @@ export default class Scene2 {
     ground.material = new BABYLON.ShadowOnlyMaterial("mat", scene2);
     // ground.material.shadowColor = BABYLON.Color3.Red()
     ground.receiveShadows = true;
+    ground.position.y = -20;
 
-    // ground.position.y = -50;
+    let dt = 6;
+    let db = 5;
+    this.rings = [];
+
+    for (let i = 0; i < 5; i++) {
+      var ring = BABYLON.CylinderBuilder.CreateCylinder(
+        "ring" + i,
+        {
+          height: 2,
+          diameterTop: dt,
+          diameterBottom: db,
+          cap: BABYLON.Mesh.NO_CAP,
+          enclose: false,
+          sideOrientation: BABYLON.Mesh.DOUBLESIDE
+        },
+        scene2
+      );
+      ring.position.y = i * 2 - 20 + 1;
+      dt++;
+      db++;
+
+      //Create dynamic texture
+      // var textureResolution = 256;
+      var texture = new BABYLON.DynamicTexture(
+        "dynamic texture",
+        { width: 1024, height: 70 },
+        scene2
+      );
+      // var textureContext = texture.getContext();
+
+      var material = new BABYLON.StandardMaterial("Mat", scene2);
+      material.alpha = 1;
+      material.diffuseTexture = texture;
+      material.diffuseTexture.hasAlpha = true;
+      material.diffuseTexture.vAng = Math.PI;
+      material.backFaceCulling = false;
+
+      //Add text to dynamic texture
+      var font = "bold 92px sans-serif";
+      texture.drawText(
+        "ASDF ASDFJKDASF FASDF FK",
+        0,
+        68,
+        font,
+        "black",
+        "transparent",
+        true,
+        true
+      );
+
+      ring.material = material;
+      ring.speed = Math.random() * 0.01;
+
+      this.rings.push(ring);
+    }
 
     var shadowGenerator = new BABYLON.ShadowGenerator(512, light);
     shadowGenerator.useBlurExponentialShadowMap = true;
-    shadowGenerator.blurScale = 2;
-    shadowGenerator.setDarkness(0.2);
+    shadowGenerator.blurScale = 1;
+    shadowGenerator.setDarkness(0);
 
     var mat = new BABYLON.StandardMaterial("mat", scene2);
     mat.diffuseTexture = new BABYLON.Texture(
@@ -247,7 +302,7 @@ export default class Scene2 {
     mat.diffuseTexture.hasAlpha = true;
     mat.transparencyMode = BABYLON.Material.MATERIAL_ALPHATEST;
     mat.useAlphaFromDiffuseTexture = true;
-    mat.alpha = 0.5;
+    mat.alpha = 0;
 
     var pot = BABYLON.CylinderBuilder.CreateCylinder(
       "pot",
@@ -259,7 +314,7 @@ export default class Scene2 {
       },
       scene2
     );
-    // pot.position.y = -18;
+    pot.position.y = -18;
     pot.material = mat;
     shadowGenerator.getShadowMap().renderList.push(pot);
 
@@ -270,6 +325,7 @@ export default class Scene2 {
       scene2,
       function (sc) {
         sc[0].scaling = new BABYLON.Vector3(20, 20, 20);
+        sc[0].position.y = -16;
         sc.forEach((v) => {
           shadowGenerator.getShadowMap().renderList.push(v);
           v.material = mat;
