@@ -204,8 +204,8 @@ export default class Scene2 {
     */
 
     scene2 = new BABYLON.Scene(engine);
-    scene2.clearColor = new BABYLON.Color4(0, 0, 0, 0);
-    scene2.ambientColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+    scene2.clearColor = htc("bbbbbb");
+    // scene2.ambientColor = new BABYLON.Color3(0.4, 0.4, 0.4);
 
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera2",
@@ -221,7 +221,7 @@ export default class Scene2 {
 
     var light = new BABYLON.DirectionalLight(
       "light",
-      new BABYLON.Vector3(0, -0.5, 1),
+      new BABYLON.Vector3(0, -0.4, 1),
       scene2
     );
     light.intensity = 0.5;
@@ -229,7 +229,7 @@ export default class Scene2 {
     var ground = BABYLON.Mesh.CreatePlane("ground", 1000, scene2);
     ground.rotation.x = Math.PI / 2;
     ground.material = new BABYLON.ShadowOnlyMaterial("mat", scene2);
-    // ground.material.shadowColor = BABYLON.Color3.Red()
+    ground.material.shadowColor = htc("770000");
     ground.receiveShadows = true;
     ground.position.y = -20;
 
@@ -267,11 +267,12 @@ export default class Scene2 {
       material.alpha = 1;
       material.diffuseTexture = texture;
       material.diffuseTexture.hasAlpha = true;
-      material.diffuseTexture.vAng = Math.PI;
+      // material.diffuseTexture.vAng = Math.PI;
       material.backFaceCulling = false;
+      // material.emissiveColor = new BABYLON.Color3(1, 1, 1)
 
       //Add text to dynamic texture
-      var font = "bold 92px sans-serif";
+      var font = "normal 92px 'Crimson Text', sans-serif";
       texture.drawText(
         "ASDF ASDFJKDASF FASDF FK",
         0,
@@ -356,9 +357,9 @@ export default class Scene2 {
   }
 
   render() {
-    // this.rings.forEach((v) => {
-    //   v.rotation.y += v.speed;
-    // });
+    this.rings.forEach((v) => {
+      v.rotation.y += v.speed;
+    });
     scene2.render();
   }
 }

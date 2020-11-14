@@ -8,6 +8,7 @@ function stf(s) {
 
 // color hex (000000) to babylon color3
 function htc(hex) {
+  if (hex.length === 7) hex = hex.substring(1);
   if (hex.length !== 6) return BABYLON.Color3.White();
   let r = parseInt("0x" + hex[0] + hex[1]);
   let g = parseInt("0x" + hex[2] + hex[3]);
