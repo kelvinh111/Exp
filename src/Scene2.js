@@ -14,9 +14,10 @@ export default class Scene2 {
   }
 
   init() {
+    /*
     scene2 = new BABYLON.Scene(engine);
     // scene2.clearColor = new BABYLON.Color3(1, 1, 1);
-    scene2.clearColor = htc("FFD28A");
+    // scene2.clearColor = htc("ff00ff");
     // scene2.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
     // scene2.fogColor = htc('ffffff')
     // scene2.fogDensity = 0.01;
@@ -53,14 +54,12 @@ export default class Scene2 {
     light2.diffuse = htc("FFC883");
     light2.specular = new BABYLON.Color3(0, 0, 0);
 
-    var ground = BABYLON.MeshBuilder.CreateGround(
-      "ground",
-      { width: 3000, height: 3000 },
-      scene2
-    );
-    ground.receiveShadows = true;
+    var ground = BABYLON.Mesh.CreatePlane("ground", 3000, scene2);
+    ground.rotation.x = Math.PI / 2;
     ground.position.y = -20;
-    // ground.material = new BABYLON.StandardMaterial('ground', scene2)
+    // ground.material = new BABYLON.ShadowOnlyMaterial("ground", scene2);
+    ground.receiveShadows = true;
+    ground.material = new BABYLON.StandardMaterial("ground", scene2);
     // ground.material.emissiveColor = new BABYLON.Color3(1,1,1)
 
     let dt = 6;
@@ -130,8 +129,8 @@ export default class Scene2 {
       scene2
     );
     pot.position.y = -18;
-    var mat = new BABYLON.StandardMaterial("mat", scene2);
 
+    var mat = new BABYLON.StandardMaterial("mat", scene2);
     mat.diffuseTexture = new BABYLON.Texture(
       "https://public.kelvinh.studio/cdn/images/white.png",
       scene2
@@ -140,9 +139,6 @@ export default class Scene2 {
     mat.transparencyMode = BABYLON.Material.MATERIAL_ALPHATESTANDBLEND;
     mat.useAlphaFromDiffuseTexture = true;
     mat.alpha = 0;
-
-    pot.material = mat;
-    pot.material.backFaceCulling = false;
 
     var potBottom = BABYLON.MeshBuilder.CreateDisc(
       "disc",
@@ -161,7 +157,7 @@ export default class Scene2 {
     // potBottom.receiveShadows = true
 
     function mat_alpha(obj) {
-      console.log(obj.name);
+      // console.log(obj.name);
       if (
         obj.hasOwnProperty("_material") &&
         obj._material &&
@@ -177,28 +173,107 @@ export default class Scene2 {
       }
     }
 
+    var sg = new BABYLON.ShadowGenerator(1024, light2);
+    sg.useBlurExponentialShadowMap = true;
+    // sg.blurScale = 2;
+    sg.usePercentageCloserFiltering = true;
+    sg.blurBoxOffset = 2;
+    // sg.usePoissonSampling = true;
+    sg.setDarkness(0);
+    sg.addShadowCaster(pot);
+    sg.enableSoftTransparentShadow = true;
+    sg.transparencyShadow = true;
+
     BABYLON.SceneLoader.ImportMesh(
       "",
       "https://public.kelvinh.studio/cdn/3d/colored_flower/",
-      "scene.gltf",
+      "scene2.gltf",
       scene2,
       (s) => {
         mb = s[0];
+        sg.getShadowMap().renderList.push(mb);
+
+        pot.material = mat;
         mat_alpha(mb);
 
         mb.scaling = new BABYLON.Vector3(0.25, 0.25, 0.25);
         mb.position = new BABYLON.Vector3(0, 2, 0);
         mb.parent = pot;
+      }
+    );
+    */
 
-        var sg = new BABYLON.ShadowGenerator(1024, light2);
-        sg.useBlurExponentialShadowMap = true;
-        // sg.usePercentageCloserFiltering = true;
-        sg.blurBoxOffset = 2;
-        // sg.usePoissonSampling = true;
-        sg.setDarkness(0);
-        sg.addShadowCaster(pot);
-        sg.enableSoftTransparentShadow = true;
-        sg.transparencyShadow = true;
+    scene2 = new BABYLON.Scene(engine);
+    scene2.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+    scene2.ambientColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+
+    camera2 = new BABYLON.ArcRotateCamera(
+      "Camera2",
+      paperConfig.cam.alpha,
+      paperConfig.cam.beta,
+      paperConfig.cam.radius,
+      paperConfig.cam.target,
+      scene2
+    );
+    // camera2.attachControl(canvas, true);
+    // camera2.wheelPrecision = 200;
+    camera2.minZ = 0.1;
+
+    var light = new BABYLON.DirectionalLight(
+      "light",
+      new BABYLON.Vector3(0, -1, 1),
+      scene2
+    );
+    light.intensity = 0.5;
+
+    var ground = BABYLON.Mesh.CreatePlane("ground", 1000, scene2);
+    ground.rotation.x = Math.PI / 2;
+    ground.material = new BABYLON.ShadowOnlyMaterial("mat", scene2);
+    // ground.material.shadowColor = BABYLON.Color3.Red()
+    ground.receiveShadows = true;
+
+    // ground.position.y = -50;
+
+    var shadowGenerator = new BABYLON.ShadowGenerator(512, light);
+    shadowGenerator.useBlurExponentialShadowMap = true;
+    shadowGenerator.blurScale = 2;
+    shadowGenerator.setDarkness(0.2);
+
+    var mat = new BABYLON.StandardMaterial("mat", scene2);
+    mat.diffuseTexture = new BABYLON.Texture(
+      "https://public.kelvinh.studio/cdn/images/white.png",
+      scene2
+    );
+    mat.diffuseTexture.hasAlpha = true;
+    mat.transparencyMode = BABYLON.Material.MATERIAL_ALPHATEST;
+    mat.useAlphaFromDiffuseTexture = true;
+    mat.alpha = 0.5;
+
+    var pot = BABYLON.CylinderBuilder.CreateCylinder(
+      "pot",
+      {
+        height: 4,
+        diameterTop: 7,
+        diameterBottom: 5,
+        sideOrientation: BABYLON.Mesh.DOUBLESIDE
+      },
+      scene2
+    );
+    // pot.position.y = -18;
+    pot.material = mat;
+    shadowGenerator.getShadowMap().renderList.push(pot);
+
+    BABYLON.SceneLoader.ImportMesh(
+      "",
+      "https://public.kelvinh.studio/cdn/3d/",
+      "fa.glb",
+      scene2,
+      function (sc) {
+        sc[0].scaling = new BABYLON.Vector3(20, 20, 20);
+        sc.forEach((v) => {
+          shadowGenerator.getShadowMap().renderList.push(v);
+          v.material = mat;
+        });
       }
     );
   }
@@ -225,9 +300,9 @@ export default class Scene2 {
   }
 
   render() {
-    this.rings.forEach((v) => {
-      v.rotation.y += v.speed;
-    });
+    // this.rings.forEach((v) => {
+    //   v.rotation.y += v.speed;
+    // });
     scene2.render();
   }
 }
