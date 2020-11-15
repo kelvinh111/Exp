@@ -160,29 +160,9 @@ window.paperConfig = {
   },
   aniStart: {
     scaling: 0.4,
-    scalingDur: 1,
-    camBeta: km.radians(135),
-    camBetaDur: 3.3,
-    posDelay: 1 * 1000,
-    pos: new BABYLON.Vector3(-50, 0, -50),
-    posDur: 1,
-    camMoveRadius: 65,
-    camMoveTargetY: -8,
-    camMoveDur: 0.5
-  },
-  aniEnd: {
-    camMoveDur: 1,
-    camMoveRadius: 15,
-    camMoveTargetY: 0,
-    pos: new BABYLON.Vector3(0, 0, 0),
-    posDur: 1,
     scalingDur: 1
   },
-  scaling: 0.005,
-  flyRadius: 15,
-  y: 10,
-  flySpeed: 0.025,
-  flapSpeed: 0.4
+  aniEnd: {}
 };
 window.paperConfig.z = -window.paperConfig.flyRadius;
 

@@ -70,7 +70,7 @@ export default class Paper {
     let aniStartPaperScale = () => {
       var deferred = Q.defer();
       var ani = new BABYLON.Animation(
-        "toBirdAni",
+        "aniStartPaperScale",
         "scaling",
         fr,
         BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
@@ -124,10 +124,98 @@ export default class Paper {
       return deferred.promise;
     };
 
+    let aniStartPaperDrop = () => {
+      var deferred = Q.defer();
+
+      var ani = new BABYLON.Animation(
+        "aniStartPaperDrop",
+        "position",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani.setKeys([
+        {
+          frame: 0,
+          value: this.paper.position
+        },
+        {
+          frame: stf(0.2),
+          value: new BABYLON.Vector3(0, -19.1, 0)
+        },
+        {
+          frame: stf(0.3),
+          value: new BABYLON.Vector3(0.6, -18, 0)
+        },
+        {
+          frame: stf(0.49),
+          value: new BABYLON.Vector3(0.9, -19.1, 0)
+        },
+        {
+          frame: stf(0.53),
+          value: new BABYLON.Vector3(0.6, -19.2, 0.7)
+        },
+        {
+          frame: stf(0.6),
+          value: new BABYLON.Vector3(0.6, -19.2, 0.7)
+        }
+      ]);
+
+      var ani2 = new BABYLON.Animation(
+        "aniStartPaperDrop",
+        "rotation",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani2.setKeys([
+        {
+          frame: 0,
+          value: this.paper.rotation
+        },
+        {
+          frame: stf(0.2),
+          value: this.paper.rotation
+        },
+        {
+          frame: stf(0.3),
+          value: new BABYLON.Vector3(0, 0, km.radians(-60))
+        },
+        {
+          frame: stf(0.51),
+          value: new BABYLON.Vector3(
+            km.radians(7),
+            km.radians(8),
+            km.radians(-30)
+          )
+        },
+        {
+          frame: stf(0.6),
+          value: new BABYLON.Vector3(km.radians(17), km.radians(17), 0)
+        }
+      ]);
+
+      scene2.beginDirectAnimation(
+        this.paper,
+        [ani, ani2],
+        0,
+        stf(0.6),
+        false,
+        1,
+        () => {
+          deferred.resolve();
+        }
+      );
+      return deferred.promise;
+    };
+
     g.story2 = 1;
     aniStartPaperScale()
       .then(() => {
-        return Q.all([aniStartPaperOri()]);
+        return aniStartPaperOri();
+      })
+      .then(() => {
+        return aniStartPaperDrop();
       })
       // .then(() => {
       //   g.story2 = 2;
