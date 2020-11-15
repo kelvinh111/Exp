@@ -204,8 +204,13 @@ export default class Scene2 {
     */
 
     scene2 = new BABYLON.Scene(engine);
-    scene2.clearColor = htc("bbbbbb");
-    // scene2.ambientColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+    scene2.clearColor = htc("1D3358");
+    scene2.ambientColor = new BABYLON.Color3(0.4, 0.4, 0.4);
+    scene2.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
+    scene2.fogColor = htc("1D3358");
+    // scene2.fogDensity = 0.01;
+    scene2.fogStart = 80;
+    scene2.fogEnd = 300.0;
 
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera2",
@@ -226,12 +231,39 @@ export default class Scene2 {
     );
     light.intensity = 0.5;
 
+    var light2 = new BABYLON.HemisphericLight(
+      "light2",
+      new BABYLON.Vector3(0, 0.5, 0),
+      scene2
+    );
+    light.intensity = 0.8;
+
     var ground = BABYLON.Mesh.CreatePlane("ground", 1000, scene2);
     ground.rotation.x = Math.PI / 2;
     ground.material = new BABYLON.ShadowOnlyMaterial("mat", scene2);
-    ground.material.shadowColor = htc("770000");
+    ground.material.shadowColor = htc("4472a7");
     ground.receiveShadows = true;
     ground.position.y = -20;
+
+    let ground2 = BABYLON.MeshBuilder.CreateGround(
+      "ground2",
+      { width: 1000, height: 1000 },
+      scene2
+    );
+    ground2.position.y = -20.1;
+    ground2.material = new BABYLON.StandardMaterial("ground2", scene2);
+    ground2.material.diffuseColor = htc("B7A9AD");
+    ground2.material.specularColor = htc("261C19");
+
+    let sky = BABYLON.MeshBuilder.CreateSphere(
+      "sphere",
+      { diameter: 1500 },
+      scene2
+    );
+    sky.material = new BABYLON.StandardMaterial("sky", scene2);
+    sky.material.emissiveColor = htc("ff0000");
+    sky.material.backFaceCulling = false;
+    sky.material.disableLighting = true;
 
     let dt = 6;
     let db = 5;
@@ -292,7 +324,7 @@ export default class Scene2 {
 
     var shadowGenerator = new BABYLON.ShadowGenerator(512, light);
     shadowGenerator.useBlurExponentialShadowMap = true;
-    shadowGenerator.blurScale = 1;
+    shadowGenerator.blurScale = 2;
     shadowGenerator.setDarkness(0);
 
     var mat = new BABYLON.StandardMaterial("mat", scene2);
@@ -319,10 +351,21 @@ export default class Scene2 {
     pot.material = mat;
     shadowGenerator.getShadowMap().renderList.push(pot);
 
+    var potBottom = BABYLON.MeshBuilder.CreateDisc(
+      "disc",
+      { radius: 2.5 },
+      scene2
+    );
+    potBottom.rotation.x = Math.PI / 2;
+    potBottom.position.y = -19.9;
+    potBottom.material = new BABYLON.StandardMaterial("pb", scene2);
+    potBottom.material.diffuseColor = htc("1E2A3F");
+    potBottom.material.emissiveColor = htc("000000");
+
     BABYLON.SceneLoader.ImportMesh(
       "",
-      "https://public.kelvinh.studio/cdn/3d/",
-      "fa.glb",
+      "https://public.kelvinh.studio/cdn/3d/fah/",
+      "fah.gltf",
       scene2,
       function (sc) {
         sc[0].scaling = new BABYLON.Vector3(20, 20, 20);
