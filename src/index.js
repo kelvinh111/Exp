@@ -69,7 +69,7 @@ document.querySelector("#switch").addEventListener("click", function () {
 });
 
 document.querySelector("#paper").addEventListener("click", function () {
-  if (g.scene === 2 && g.story2 === 0) paper.toPaper();
+  if (g.scene === 2 && g.story2 === 0) s2.animate();
 });
 
 document.querySelector("#screen").addEventListener("click", function () {

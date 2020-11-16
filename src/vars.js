@@ -6,6 +6,7 @@ window.km = kelvinUtil.math;
 window.canvas = document.getElementById("renderCanvas");
 window.engine = new BABYLON.Engine(canvas, true);
 window.fr = 10;
+window.ee = new EventEmitter();
 
 /*
 0: intro

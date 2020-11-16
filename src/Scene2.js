@@ -40,6 +40,7 @@ export default class Scene2 {
       new BABYLON.Vector3(-0.8, -0.4, -1),
       scene2
     );
+    light.position = new BABYLON.Vector3(0, 10, 0);
     light.intensity = 0.5;
 
     var light2 = new BABYLON.HemisphericLight(
@@ -187,6 +188,14 @@ export default class Scene2 {
         });
       }
     );
+
+    // ee.addListener('ani-paper-end', (success, res) => {
+    //   console.log(success, res)
+    // })
+  }
+
+  animate() {
+    paper.toPaper();
   }
 
   makeJson() {
