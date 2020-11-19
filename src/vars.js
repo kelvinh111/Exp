@@ -37,6 +37,8 @@ window.mb = null;
 window.mb2 = null;
 window.cage = null;
 window.paper = null;
+window.flower = null;
+window.s2light = null;
 
 window.s1gl = null; // scene1 glow layer
 window.spsRing = null;

@@ -35,20 +35,19 @@ export default class Scene2 {
     // camera2.wheelPrecision = 200;
     camera2.minZ = 0.1;
 
-    var light = new BABYLON.DirectionalLight(
+    s2light = new BABYLON.DirectionalLight(
       "light",
-      new BABYLON.Vector3(-0.8, -0.4, -1),
+      new BABYLON.Vector3(0, -0.4, 0),
       scene2
     );
-    light.position = new BABYLON.Vector3(0, 10, 0);
-    light.intensity = 0.5;
+    s2light.position = new BABYLON.Vector3(0, 10, 0);
+    s2light.intensity = 0.8;
 
     var light2 = new BABYLON.HemisphericLight(
       "light2",
       new BABYLON.Vector3(0, 0.5, 0),
       scene2
     );
-    light.intensity = 0.8;
 
     var ground = BABYLON.Mesh.CreatePlane("ground", 1000, scene2);
     ground.rotation.x = Math.PI / 2;
@@ -134,9 +133,9 @@ export default class Scene2 {
       this.rings.push(ring);
     }
 
-    var shadowGenerator = new BABYLON.ShadowGenerator(512, light);
+    var shadowGenerator = new BABYLON.ShadowGenerator(512, s2light);
     shadowGenerator.useBlurExponentialShadowMap = true;
-    shadowGenerator.blurScale = 2;
+    shadowGenerator.blurScale = 1;
     shadowGenerator.setDarkness(0);
 
     var mat = new BABYLON.StandardMaterial("mat", scene2);
@@ -180,18 +179,15 @@ export default class Scene2 {
       "fah.gltf",
       scene2,
       function (sc) {
-        sc[0].scaling = new BABYLON.Vector3(20, 20, 20);
-        sc[0].position.y = -14;
+        flower = sc[0];
+        flower.scaling = new BABYLON.Vector3(1, 1, 1);
+        flower.position.y = -14;
         sc.forEach((v) => {
           shadowGenerator.getShadowMap().renderList.push(v);
           v.material = mat;
         });
       }
     );
-
-    // ee.addListener('ani-paper-end', (success, res) => {
-    //   console.log(success, res)
-    // })
   }
 
   animate() {

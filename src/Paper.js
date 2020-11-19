@@ -205,21 +205,9 @@ export default class Paper {
       var deferred = Q.defer();
 
       let opts = {
-        beta: [camera2.beta, camera2.beta, 1.2],
-        radius: [camera2.radius, camera2.radius, 70],
-        dur: [0, stf(2), stf(8)]
-      };
-
-      let optsCam = {
-        "target.x": [camera2.target.x, -21.3],
-        "target.y": [camera2.target.y, -25.5],
-        "target.z": [camera2.target.z, -7],
-        // target: [
-        //   camera2.target,
-        //   new BABYLON.Vector3(0, -5, 0),
-        //   new BABYLON.Vector3(-21.3, -25.5, -7)
-        // ],
-        dur: [0, stf(11)]
+        beta: [camera2.beta, camera2.beta, 0.8, 1.2],
+        radius: [camera2.radius, camera2.radius, 50, 70],
+        dur: [0, stf(2.3), stf(6), stf(9)]
       };
 
       let anis = [];
@@ -241,28 +229,10 @@ export default class Paper {
           });
         });
         ani.setKeys(keys);
+        let ease = new BABYLON.SineEase();
+        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+        ani.setEasingFunction(ease);
         anis.push(ani);
-      });
-
-      let anisCam = [];
-      _.forEach(optsCam, (v, k) => {
-        var ani = new BABYLON.Animation(
-          "ani" + k,
-          k,
-          fr,
-          BABYLON.Animation.ANIMATIONTYPE_FLOAT
-        );
-        let keys = [];
-        v.forEach((v2, k2) => {
-          keys.push({
-            frame: opts.dur[k2],
-            value: v2
-          });
-        });
-        ani.setKeys(keys);
-        var ease1 = new BABYLON.BezierCurveEase(0, 0, 0.75, 1);
-        ani.setEasingFunction(ease1);
-        anisCam.push(ani);
       });
 
       scene2.beginDirectAnimation(
@@ -277,6 +247,39 @@ export default class Paper {
         }
       );
 
+      return deferred.promise;
+    };
+
+    let aniStartCam2 = () => {
+      var deferred = Q.defer();
+
+      let optsCam = {
+        "target.x": [camera2.target.x, -21.3],
+        "target.y": [camera2.target.y, -25.5],
+        "target.z": [camera2.target.z, -7],
+        dur: [0, stf(4)]
+      };
+      let anisCam = [];
+      _.forEach(optsCam, (v, k) => {
+        var ani = new BABYLON.Animation(
+          "ani" + k,
+          k,
+          fr,
+          BABYLON.Animation.ANIMATIONTYPE_FLOAT
+        );
+        let keys = [];
+        v.forEach((v2, k2) => {
+          keys.push({
+            frame: optsCam.dur[k2],
+            value: v2
+          });
+        });
+        ani.setKeys(keys);
+        let ease = new BABYLON.SineEase();
+        ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+        ani.setEasingFunction(ease);
+        anisCam.push(ani);
+      });
       setTimeout(() => {
         scene2.beginDirectAnimation(
           camera2,
@@ -289,38 +292,84 @@ export default class Paper {
             deferred.resolve();
           }
         );
-      }, 7000);
-
-      // var ani4 = new BABYLON.Animation(
-      //   "ani4",
-      //   "target.y",
-      //   fr,
-      //   BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-      //   BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
-      // );
-      // ani4.setKeys([
-      //   {
-      //     frame: 0,
-      //     value: camera2.target.y
-      //   },
-      //   {
-      //     frame: stf(7),
-      //     value: camera2.target.y
-      //   },
-      //   {
-      //     frame: stf(12),
-      //     value: -25.5
-      //   }
-      // ]);
-      // scene2.beginDirectAnimation(camera2, [ani4], 0, stf(12), false, 1, () => {
-      //   deferred.resolve();
-      // });
+      }, 6000);
       return deferred.promise;
     };
 
-    aniStartCam();
+    let aniStartLight = () => {
+      var ani = new BABYLON.Animation(
+        "aniLight",
+        "direction",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani.setKeys([
+        {
+          frame: 0,
+          value: s2light.direction
+        },
+        {
+          frame: stf(3),
+          value: new BABYLON.Vector3(-0.8, -0.4, -1)
+        }
+      ]);
+      let ease = new BABYLON.SineEase();
+      ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEOUT);
+
+      var ani2 = new BABYLON.Animation(
+        "aniFlower",
+        "scaling",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani2.setKeys([
+        {
+          frame: 0,
+          value: flower.scaling
+        },
+        {
+          frame: stf(3),
+          value: new BABYLON.Vector3(20, 20, 20)
+        }
+      ]);
+
+      ani.setEasingFunction(ease);
+      ani2.setEasingFunction(ease);
+
+      setTimeout(() => {
+        scene2.beginDirectAnimation(
+          s2light,
+          [ani],
+          0,
+          stf(3),
+          false,
+          1,
+          () => {}
+        );
+
+        scene2.beginDirectAnimation(
+          flower,
+          [ani2],
+          0,
+          stf(3),
+          false,
+          1,
+          () => {}
+        );
+      }, 9000);
+    };
 
     g.story2 = 1;
+
+    // Q.all([aniStartCam(), aniStartCam2()]).then(() => {
+    // ee.emitEvent("ani-cam-end");
+    // });
+    aniStartCam();
+    aniStartCam2();
+    aniStartLight();
+
     aniStartPaperScale()
       .then(() => {
         return aniStartPaperOri();
@@ -328,12 +377,12 @@ export default class Paper {
       .then(() => {
         return aniStartPaperDrop();
       })
-      .then(() => {
-        ee.emitEvent("ani-paper-end");
-      })
       // .then(() => {
-      //   g.story2 = 2;
+      //   ee.emitEvent("ani-paper-end");
       // })
+      .then(() => {
+        g.story2 = 2;
+      })
       .catch(function (error) {
         // Handle any error from all above steps
         console.error(error);
