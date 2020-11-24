@@ -1,5 +1,3 @@
-/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
-/* global kelvinUtil, BABYLON, Q, gb */
 import { stf, htc, hslToRgb } from "./util.js";
 
 export default class Space {

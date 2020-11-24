@@ -1,5 +1,3 @@
-/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
-
 export default class Bulb {
   constructor(options = {}) {
     Object.assign(this, options);

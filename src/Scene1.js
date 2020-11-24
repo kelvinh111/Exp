@@ -1,5 +1,3 @@
-/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
-/* global kelvinUtil, BABYLON, Q, gb */
 import { stf, htc } from "./util.js";
 import Ring from "./Ring";
 import Bulb from "./Bulb";
@@ -25,6 +23,41 @@ export default class Scene1 {
     scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
+    var assetsManager = new BABYLON.AssetsManager(scene);
+
+    var meshTask = assetsManager.addMeshTask(
+      "macbook",
+      "",
+      "https://public.kelvinh.studio/cdn/3d/macbook6/",
+      "scene.gltf"
+    );
+
+    meshTask.onSuccess = function (task) {
+      console.log(1, task);
+    };
+
+    var textureTask = assetsManager.addTextureTask(
+      "image task",
+      "https://public.kelvinh.studio/cdn/images/white.png"
+    );
+    textureTask.onSuccess = function (task) {
+      console.log(2, task);
+    };
+
+    assetsManager.onProgress = function (
+      remainingCount,
+      totalCount,
+      lastFinishedTask
+    ) {
+      console.log(3, remainingCount, totalCount, lastFinishedTask);
+    };
+
+    assetsManager.onFinish = function (tasks) {
+      console.log(4, tasks)
+    };
+
+    assetsManager.load();
+
     // rtt
     renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
     scene.customRenderTargets.push(renderTarget);
@@ -47,7 +80,7 @@ export default class Scene1 {
 
     s1gl = new BABYLON.GlowLayer("glow", scene, {
       //mainTextureFixedSize: 512,
-      blurKernelSize: 30
+      blurKernelSize: 30,
     });
 
     this.initRings();
@@ -60,7 +93,7 @@ export default class Scene1 {
     // Rings
     spsRing = new BABYLON.SolidParticleSystem("spsRing", scene, {
       enableMultiMaterial: true,
-      updatable: true
+      updatable: true,
     });
     // needa rotate bulb's core thus not billboard
     spsRing.computeBoundingBox = true;
@@ -74,7 +107,7 @@ export default class Scene1 {
       "sphere",
       {
         segments: 3,
-        diameter: 0.1
+        diameter: 0.1,
       },
       scene
     );
@@ -106,7 +139,7 @@ export default class Scene1 {
       this.ring2.aniDrop(),
       this.ring2.aniOn(),
       this.ring3.aniDrop(),
-      this.ring3.aniOn()
+      this.ring3.aniOn(),
     ])
       .delay(1200)
       .then(() => {
@@ -145,12 +178,12 @@ export default class Scene1 {
     ani1.setKeys([
       {
         frame: 0,
-        value: camera.alpha
+        value: camera.alpha,
       },
       {
         frame: stf(8.5),
-        value: km.radians(-137)
-      }
+        value: km.radians(-137),
+      },
     ]);
 
     var ani2 = new BABYLON.Animation(
@@ -163,12 +196,12 @@ export default class Scene1 {
     ani2.setKeys([
       {
         frame: 0,
-        value: camera.beta
+        value: camera.beta,
       },
       {
         frame: stf(8.5),
-        value: km.radians(74)
-      }
+        value: km.radians(74),
+      },
     ]);
 
     var ani3 = new BABYLON.Animation(
@@ -181,12 +214,12 @@ export default class Scene1 {
     ani3.setKeys([
       {
         frame: 0,
-        value: camera.radius
+        value: camera.radius,
       },
       {
         frame: stf(8.5),
-        value: 33
-      }
+        value: 33,
+      },
     ]);
     ani1.setEasingFunction(ease1);
     ani2.setEasingFunction(ease1);
@@ -202,16 +235,16 @@ export default class Scene1 {
     ani4.setKeys([
       {
         frame: 0,
-        value: km.radians(74)
+        value: km.radians(74),
       },
       {
         frame: stf(1.5),
-        value: km.radians(74)
+        value: km.radians(74),
       },
       {
         frame: stf(12),
-        value: km.radians(95)
-      }
+        value: km.radians(95),
+      },
     ]);
 
     var ani5 = new BABYLON.Animation(
@@ -224,16 +257,16 @@ export default class Scene1 {
     ani5.setKeys([
       {
         frame: 0,
-        value: 33
+        value: 33,
       },
       {
         frame: stf(1.5),
-        value: 33
+        value: 33,
       },
       {
         frame: stf(12),
-        value: 47
-      }
+        value: 47,
+      },
     ]);
 
     var ani6 = new BABYLON.Animation(
@@ -246,20 +279,20 @@ export default class Scene1 {
     ani6.setKeys([
       {
         frame: 0,
-        value: camera.target.y
+        value: camera.target.y,
       },
       {
         frame: stf(1.5),
-        value: camera.target.y
+        value: camera.target.y,
       },
       {
         frame: stf(5.5),
-        value: camera.target.y + 2
+        value: camera.target.y + 2,
       },
       {
         frame: stf(12),
-        value: camera.target.y + 3
-      }
+        value: camera.target.y + 3,
+      },
     ]);
     ani4.setEasingFunction(ease2);
     ani5.setEasingFunction(ease2);
@@ -305,7 +338,7 @@ export default class Scene1 {
       Q.all([
         this.ring1.toCircular(),
         this.ring2.toCircular(),
-        this.ring3.toCircular()
+        this.ring3.toCircular(),
       ]).then(() => {
         g.story = 2;
       });
@@ -318,7 +351,7 @@ export default class Scene1 {
       Q.all([
         this.ring1.toWave(),
         this.ring2.toWave(),
-        this.ring3.toWave()
+        this.ring3.toWave(),
       ]).then(() => {
         g.story = 4;
       });

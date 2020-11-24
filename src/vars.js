@@ -1,5 +1,3 @@
-/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
-/* global BABYLON */
 import { stf, htc } from "./util.js";
 
 window.km = kelvinUtil.math;
@@ -51,7 +49,7 @@ window.ring1Config = {
     size: 0.1,
     coreSize: 1.2,
     lightSize: 1,
-    rotateDuration: 1
+    rotateDuration: 1,
   },
   dropConfig: {
     dropFirst: true,
@@ -63,18 +61,18 @@ window.ring1Config = {
     bulbDelay: 0.065,
     color: htc("9cbfff"),
     colorDuration: 2.2,
-    colorDelay: 1
+    colorDelay: 1,
   },
   circularConfig: {
     height: 4,
     speed: 0.01,
     offsetDelta: 9,
-    rotateDelta: 6
+    rotateDelta: 6,
   },
   waveConfig: {
     height: 0.7,
-    speed: 0.01
-  }
+    speed: 0.01,
+  },
 };
 
 window.ring2Config = {
@@ -85,7 +83,7 @@ window.ring2Config = {
     size: 0.1,
     coreSize: 1.2,
     lightSize: 1,
-    rotateDuration: 1
+    rotateDuration: 1,
   },
   dropConfig: {
     dropFirst: false,
@@ -95,18 +93,18 @@ window.ring2Config = {
     bulbDelay: 0.065,
     color: htc("9eaeff"),
     colorDuration: 2.2,
-    colorDelay: 1.2
+    colorDelay: 1.2,
   },
   circularConfig: {
     height: 5,
     speed: 0.015,
     offsetDelta: 0,
-    rotateDelta: 8
+    rotateDelta: 8,
   },
   waveConfig: {
     height: 1.25,
-    speed: 0.015
-  }
+    speed: 0.015,
+  },
 };
 
 window.ring3Config = {
@@ -117,7 +115,7 @@ window.ring3Config = {
     size: 0.1,
     coreSize: 1.2,
     lightSize: 1,
-    rotateDuration: 1
+    rotateDuration: 1,
   },
   dropConfig: {
     dropFirst: false,
@@ -127,18 +125,18 @@ window.ring3Config = {
     bulbDelay: 0.1,
     color: htc("99bcff"),
     colorDuration: 2.2,
-    colorDelay: 1.5
+    colorDelay: 1.5,
   },
   circularConfig: {
     height: 8.5,
     speed: 0.02,
     offsetDelta: 39,
-    rotateDelta: 17
+    rotateDelta: 17,
   },
   waveConfig: {
     height: 2.1,
-    speed: 0.02
-  }
+    speed: 0.02,
+  },
 };
 
 window.spaceConfig = {
@@ -151,7 +149,7 @@ window.spaceConfig = {
   y: -20,
   delay: 7.6,
   bulbDelay: 0.15,
-  bulbDuration: 1
+  bulbDuration: 1,
 };
 
 window.paperConfig = {
@@ -159,18 +157,18 @@ window.paperConfig = {
     alpha: -Math.PI / 2,
     beta: 0,
     radius: 7,
-    target: new BABYLON.Vector3(0, 0, 0)
+    target: new BABYLON.Vector3(0, 0, 0),
   },
   aniStart: {
     scaling: 0.4,
-    scalingDur: 1
+    scalingDur: 1,
   },
-  aniEnd: {}
+  aniEnd: {},
 };
 window.paperConfig.z = -window.paperConfig.flyRadius;
 
 window.camera2Config = {
-  startRadius: 30
+  startRadius: 30,
 };
 
 window.bulbNumTotal =

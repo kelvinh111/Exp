@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, @typescript-eslint/no-unused-vars, no-unused-vars */
 import onChange from "on-change";
 import "./styles.scss";
 import { stf, htc } from "./util.js";
