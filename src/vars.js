@@ -34,7 +34,11 @@ window.renderTarget = null;
 window.mb = null;
 window.mb2 = null;
 window.cage = null;
-window.paper = null;
+window.ori = 'yeah'
+window.paperInstance = null; // class instance
+window.paperGltf = null
+window.paperMesh = null;
+window.flowerGltf = null;
 window.flower = null;
 window.s2light = null;
 

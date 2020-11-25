@@ -4,8 +4,41 @@ import { stf, htc } from "./util.js";
 import Scene1 from "./Scene1";
 import Scene2 from "./Scene2";
 
+let totalCount = 0;
+let finishCount = 0;
+
+ee.addListener("asset-start", (args) => {
+  console.log(args);
+  totalCount += args.totalCount;
+  console.log("totalCount", totalCount);
+});
+
+ee.addListener("asset-progress", (args) => {
+  finishCount++;
+  console.log("progress", args, finishCount);
+});
+
+ee.addListener("asset-finish", (args) => {
+  console.log("finish", args, finishCount, totalCount);
+  if (finishCount === totalCount) {
+    s1.init();
+    s2.init();
+    engine.runRenderLoop(function () {
+      divFps.innerHTML = engine.getFps().toFixed() + " FPS";
+      s1.render();
+      if (g.scene === 2) {
+        s2.render();
+      }
+    });
+    paperInstance.updateRatio();
+    engine.resize();
+    sceneChange();
+  }
+});
+
 let s1 = new Scene1();
 let s2 = new Scene2();
+
 
 function sceneChange() {
   if (g.scene === 1) {
@@ -40,28 +73,19 @@ window.g = onChange(
   {
     scene: 2,
     story: 0,
-    story2: 0
+    story2: 0,
   },
   (path, value, previousValue, name) => {
     console.log(path, value, g);
     sceneChange();
   }
 );
-sceneChange();
 
 // FPS
 let divFps = document.getElementById("fps");
 
-engine.runRenderLoop(function () {
-  divFps.innerHTML = engine.getFps().toFixed() + " FPS";
-  s1.render();
-  if (g.scene === 2) {
-    s2.render();
-  }
-});
-
 document.querySelector("#switch").addEventListener("click", function () {
-  paper.updateRatio();
+  paperInstance.updateRatio();
   engine.resize();
 
   g.scene === 1 ? (g.scene = 2) : (g.scene = 1);
@@ -72,12 +96,10 @@ document.querySelector("#paper").addEventListener("click", function () {
 });
 
 document.querySelector("#screen").addEventListener("click", function () {
-  if (g.scene === 2 && g.story2 === 3) paper.toScreen();
+  if (g.scene === 2 && g.story2 === 3) paperInstance.toScreen();
 });
 
 window.addEventListener("resize", function () {
-  paper.updateRatio();
+  paperInstance.updateRatio();
   engine.resize();
 });
-paper.updateRatio();
-engine.resize();

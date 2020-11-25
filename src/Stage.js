@@ -6,8 +6,6 @@ export default class Stage {
 
     this.macbookNodes = [];
     this.initMacbook();
-    this.mbAni = null;
-    // this.initStage();
   }
 
   initMacbook() {
@@ -22,13 +20,13 @@ export default class Stage {
       }
     };
 
-    BABYLON.SceneLoader.ImportMesh(
-      "",
-      "https://public.kelvinh.studio/cdn/3d/macbook6/",
-      "scene.gltf",
-      scene,
-      (s) => {
-        mb = s[0];
+    // BABYLON.SceneLoader.ImportMesh(
+    //   "",
+    //   "https://public.kelvinh.studio/cdn/3d/macbook6/",
+    //   "scene.gltf",
+    //   scene,
+    //   (s) => {
+    //     mb = s[0];
         mb.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
         mb.position.z = 0.5;
         mb.position.y = -5;
@@ -40,8 +38,8 @@ export default class Stage {
         this.mbAni.pause();
         this.mbAni.goToFrame(3.75); // collapse the macbook
         this.initStage();
-      }
-    );
+    //   }
+    // );
   }
 
   openMacbook() {

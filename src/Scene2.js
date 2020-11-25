@@ -5,13 +5,12 @@ export default class Scene2 {
   constructor(options) {
     Object.assign(this, options);
 
-    this.init();
-    paper = new Paper();
+    this.preinit();
     // this.makeJson();
     this.a = 0;
   }
 
-  init() {
+  preinit() {
     scene2 = new BABYLON.Scene(engine);
     scene2.clearColor = htc("5F779E");
     scene2.ambientColor = new BABYLON.Color3(0.4, 0.4, 0.4);
@@ -20,6 +19,69 @@ export default class Scene2 {
     // scene2.fogDensity = 0.01;
     scene2.fogStart = 80;
     scene2.fogEnd = 300.0;
+
+    // load all assets
+    var assetsManager = new BABYLON.AssetsManager(scene2);
+
+    var flowerTask = assetsManager.addMeshTask(
+      "flower",
+      "",
+      "https://public.kelvinh.studio/cdn/3d/fah/",
+      "fah.gltf"
+    );
+
+    flowerTask.onSuccess = function (task) {
+      flowerGltf = task.loadedMeshes;
+      flower = flowerGltf[0];
+    };
+
+    var paperTask = assetsManager.addMeshTask(
+      "paper",
+      "",
+      `https://public.kelvinh.studio/cdn/3d/${ori}/`,
+      `${ori} _ 0PercentFolded.obj`,
+    );
+
+    paperTask.onSuccess = function (task) {
+      paperGltf = task.loadedMeshes;
+      paperMesh = paperGltf[0];
+    };
+
+    assetsManager.onProgress = function (
+      remainingCount,
+      totalCount,
+      lastFinishedTask
+    ) {
+      ee.emitEvent("asset-progress", [
+        {
+          scene: 2,
+          remainingCount,
+          totalCount,
+        },
+      ]);
+    };
+
+    assetsManager.onFinish = function (tasks) {
+      // console.log(4, tasks);
+      ee.emitEvent("asset-finish", [
+        {
+          scene: 2,
+          tasks,
+        },
+      ]);
+    };
+
+    ee.emitEvent("asset-start", [
+      {
+        scene: 2,
+        totalCount: 2,
+      },
+    ]);
+
+    assetsManager.load();
+  }
+
+  init() {
 
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera2",
@@ -32,6 +94,8 @@ export default class Scene2 {
     // camera2.attachControl(canvas, true);
     // camera2.wheelPrecision = 200;
     camera2.minZ = 0.1;
+
+    paperInstance = new Paper();
 
     s2light = new BABYLON.DirectionalLight(
       "light",
@@ -87,7 +151,7 @@ export default class Scene2 {
           diameterBottom: db,
           cap: BABYLON.Mesh.NO_CAP,
           enclose: false,
-          sideOrientation: BABYLON.Mesh.DOUBLESIDE
+          sideOrientation: BABYLON.Mesh.DOUBLESIDE,
         },
         scene2
       );
@@ -152,7 +216,7 @@ export default class Scene2 {
         height: 6,
         diameterTop: 7,
         diameterBottom: 5,
-        sideOrientation: BABYLON.Mesh.DOUBLESIDE
+        sideOrientation: BABYLON.Mesh.DOUBLESIDE,
       },
       scene2
     );
@@ -171,25 +235,25 @@ export default class Scene2 {
     potBottom.material.diffuseColor = htc("121C2D");
     potBottom.material.emissiveColor = htc("000000");
 
-    BABYLON.SceneLoader.ImportMesh(
-      "",
-      "https://public.kelvinh.studio/cdn/3d/fah/",
-      "fah.gltf",
-      scene2,
-      function (sc) {
-        flower = sc[0];
-        flower.scaling = new BABYLON.Vector3(1, 1, 1);
-        flower.position.y = -14;
-        sc.forEach((v) => {
-          shadowGenerator.getShadowMap().renderList.push(v);
-          v.material = mat;
-        });
-      }
-    );
+    // BABYLON.SceneLoader.ImportMesh(
+    //   "",
+    //   "https://public.kelvinh.studio/cdn/3d/fah/",
+    //   "fah.gltf",
+    //   scene2,
+    //   function (sc) {
+    // flower = sc[0];
+    flower.scaling = new BABYLON.Vector3(1, 1, 1);
+    flower.position.y = -14;
+    flowerGltf.forEach((v) => {
+      shadowGenerator.getShadowMap().renderList.push(v);
+      v.material = mat;
+    });
+    //   }
+    // );
   }
 
   animate() {
-    paper.toPaper();
+    paperInstance.toPaper();
   }
 
   makeJson() {

@@ -16,28 +16,28 @@ export default class Paper {
     this.rttMaterial.backFaceCulling = false;
 
     this.paperJson = [];
-    BABYLON.SceneLoader.ImportMesh(
-      "",
-      `https://public.kelvinh.studio/cdn/3d/${this.ori}/`,
-      `${this.ori} _ 0PercentFolded.obj`,
-      scene2,
-      (s) => {
-        this.paper = s[0];
-        this.paperSize = this.paper.getBoundingInfo().boundingBox.extendSize;
+    // BABYLON.SceneLoader.ImportMesh(
+    //   "",
+    //   `https://public.kelvinh.studio/cdn/3d/${this.ori}/`,
+    //   `${this.ori} _ 0PercentFolded.obj`,
+    //   scene2,
+    //   (s) => {
+    //     this.paperMesh = s[0];
+        this.paperSize = paperMesh.getBoundingInfo().boundingBox.extendSize;
         this.updateRatio();
-        this.paper.material = this.rttMaterial;
-        this.paper.enableEdgesRendering();
-        this.paper.edgesWidth = 2.0;
-        this.paper.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
+        paperMesh.material = this.rttMaterial;
+        paperMesh.enableEdgesRendering();
+        paperMesh.edgesWidth = 2.0;
+        paperMesh.edgesColor = new BABYLON.Color4(0.2, 0.2, 0.2, 1);
 
-        var pos = this.paper.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-        this.paper.setVerticesData(
+        var pos = paperMesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+        paperMesh.setVerticesData(
           BABYLON.VertexBuffer.PositionKind,
           pos,
           true
         );
-      }
-    );
+      // }
+    // );
 
     fetch(`https://public.kelvinh.studio/cdn/3d/${this.ori}/${this.ori}.json`)
       .then((response) => {
@@ -74,11 +74,11 @@ export default class Paper {
         BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
         BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
       );
-      let sx = this.paper.scaling.x * paperConfig.aniStart.scaling;
+      let sx = paperMesh.scaling.x * paperConfig.aniStart.scaling;
       ani.setKeys([
         {
           frame: 0,
-          value: this.paper.scaling
+          value: paperMesh.scaling
         },
         {
           frame: stf(paperConfig.aniStart.scalingDur),
@@ -87,7 +87,7 @@ export default class Paper {
       ]);
 
       scene2.beginDirectAnimation(
-        this.paper,
+        paperMesh,
         [ani],
         0,
         stf(paperConfig.aniStart.scalingDur),
@@ -104,14 +104,14 @@ export default class Paper {
 
       for (let i = 0; i < this.paperJson.length; i++) {
         setTimeout(() => {
-          this.paper.disableEdgesRendering();
-          this.paper.setVerticesData(
+          paperMesh.disableEdgesRendering();
+          paperMesh.setVerticesData(
             BABYLON.VertexBuffer.PositionKind,
             this.paperJson[i],
             true
           );
-          this.paper.createNormals();
-          this.paper.enableEdgesRendering();
+          paperMesh.createNormals();
+          paperMesh.enableEdgesRendering();
           if (i === this.paperJson.length - 1) {
             deferred.resolve();
           }
@@ -135,7 +135,7 @@ export default class Paper {
       ani.setKeys([
         {
           frame: 0,
-          value: this.paper.position
+          value: paperMesh.position
         },
         {
           frame: stf(0.2),
@@ -169,11 +169,11 @@ export default class Paper {
       ani2.setKeys([
         {
           frame: 0,
-          value: this.paper.rotation
+          value: paperMesh.rotation
         },
         {
           frame: stf(0.2),
-          value: this.paper.rotation
+          value: paperMesh.rotation
         },
         {
           frame: stf(0.3),
@@ -186,7 +186,7 @@ export default class Paper {
       ]);
 
       scene2.beginDirectAnimation(
-        this.paper,
+        paperMesh,
         [ani, ani2],
         0,
         stf(0.6),
@@ -398,14 +398,14 @@ export default class Paper {
         i++, j -= 2
       ) {
         setTimeout(() => {
-          this.paper.disableEdgesRendering();
-          this.paper.setVerticesData(
+          paperMesh.disableEdgesRendering();
+          paperMesh.setVerticesData(
             BABYLON.VertexBuffer.PositionKind,
             this.paperJson[j],
             true
           );
-          this.paper.createNormals();
-          this.paper.enableEdgesRendering();
+          paperMesh.createNormals();
+          paperMesh.enableEdgesRendering();
           if (j === 0) {
             deferred.resolve();
           }
@@ -428,7 +428,7 @@ export default class Paper {
       this.paperSize.z;
     let x = z * engine.getAspectRatio(camera2);
     // console.log(x,z);
-    this.paper.scaling.x = x;
-    this.paper.scaling.z = z;
+    paperMesh.scaling.x = x;
+    paperMesh.scaling.z = z;
   }
 }

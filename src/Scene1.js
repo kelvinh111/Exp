@@ -16,32 +16,26 @@ export default class Scene1 {
     this.space = null;
     this.stage = null;
 
-    this.init();
+    this.preinit();
+    // this.init();
   }
 
-  init() {
+  preinit() {
     scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
+    // load all assets
     var assetsManager = new BABYLON.AssetsManager(scene);
 
-    var meshTask = assetsManager.addMeshTask(
+    var macbookTask = assetsManager.addMeshTask(
       "macbook",
       "",
       "https://public.kelvinh.studio/cdn/3d/macbook6/",
       "scene.gltf"
     );
 
-    meshTask.onSuccess = function (task) {
-      console.log(1, task);
-    };
-
-    var textureTask = assetsManager.addTextureTask(
-      "image task",
-      "https://public.kelvinh.studio/cdn/images/white.png"
-    );
-    textureTask.onSuccess = function (task) {
-      console.log(2, task);
+    macbookTask.onSuccess = function (task) {
+      mb = task.loadedMeshes[0];
     };
 
     assetsManager.onProgress = function (
@@ -49,14 +43,32 @@ export default class Scene1 {
       totalCount,
       lastFinishedTask
     ) {
-      console.log(3, remainingCount, totalCount, lastFinishedTask);
+      ee.emitEvent("asset-progress", [{
+        scene: 1,
+        remainingCount,
+        totalCount,
+      }]);
     };
 
     assetsManager.onFinish = function (tasks) {
-      console.log(4, tasks)
+      // console.log(4, tasks);
+      ee.emitEvent("asset-finish", [{
+        scene: 1,
+        tasks,
+      }]);
     };
 
+    ee.emitEvent("asset-start", [
+      {
+        scene: 1,
+        totalCount: 1,
+      },
+    ]);
+
     assetsManager.load();
+  }
+
+  init() {
 
     // rtt
     renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
