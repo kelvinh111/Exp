@@ -8,18 +8,20 @@ let totalCount = 0;
 let finishCount = 0;
 
 ee.addListener("asset-start", (args) => {
-  console.log(args);
+  // console.log(args);
   totalCount += args.totalCount;
-  console.log("totalCount", totalCount);
+  // console.log("totalCount", totalCount);
 });
 
 ee.addListener("asset-progress", (args) => {
   finishCount++;
-  console.log("progress", args, finishCount);
+  // console.log("progress", args, finishCount);
+  console.log("progress", (finishCount / totalCount * 100).toFixed(2) + '%');
 });
 
 ee.addListener("asset-finish", (args) => {
-  console.log("finish", args, finishCount, totalCount);
+  // console.log("finish", args, finishCount, totalCount);
+  console.log("loading finished");
   if (finishCount === totalCount) {
     s1.init();
     s2.init();
@@ -38,7 +40,6 @@ ee.addListener("asset-finish", (args) => {
 
 let s1 = new Scene1();
 let s2 = new Scene2();
-
 
 function sceneChange() {
   if (g.scene === 1) {
@@ -66,8 +67,9 @@ story
 
 story2
 0: in screen ready
-1: turning to paper
-2: 
+1: paper animation
+2: paper animation done
+3: turning back to scene1
 */
 window.g = onChange(
   {
@@ -96,7 +98,7 @@ document.querySelector("#paper").addEventListener("click", function () {
 });
 
 document.querySelector("#screen").addEventListener("click", function () {
-  if (g.scene === 2 && g.story2 === 3) paperInstance.toScreen();
+  if (g.scene === 2 && g.story2 === 2) paperInstance.toScreen();
 });
 
 window.addEventListener("resize", function () {
