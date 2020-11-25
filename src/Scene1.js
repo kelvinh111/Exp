@@ -43,19 +43,23 @@ export default class Scene1 {
       totalCount,
       lastFinishedTask
     ) {
-      ee.emitEvent("asset-progress", [{
-        scene: 1,
-        remainingCount,
-        totalCount,
-      }]);
+      ee.emitEvent("asset-progress", [
+        {
+          scene: 1,
+          remainingCount,
+          totalCount,
+        },
+      ]);
     };
 
     assetsManager.onFinish = function (tasks) {
       // console.log(4, tasks);
-      ee.emitEvent("asset-finish", [{
-        scene: 1,
-        tasks,
-      }]);
+      ee.emitEvent("asset-finish", [
+        {
+          scene: 1,
+          tasks,
+        },
+      ]);
     };
 
     ee.emitEvent("asset-start", [
@@ -69,7 +73,6 @@ export default class Scene1 {
   }
 
   init() {
-
     // rtt
     renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
     scene.customRenderTargets.push(renderTarget);
@@ -333,16 +336,39 @@ export default class Scene1 {
     }, 6700);
   }
 
-  EventHandler() {
-    scene.registerAfterRender(() => {
-      if (this.ring1 && this.ring2 && this.ring3) {
-        this.ring1.update();
-        this.ring2.update();
-        this.ring3.update();
-      }
-      spsRing.setParticles();
-    });
+  fromScene2() {
+    var ani = new BABYLON.Animation(
+      "aniYeah",
+      "target.y",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani.setKeys([
+      {
+        frame: 0,
+        value: 50,
+      },
+      {
+        frame: stf(2),
+        value: 4,
+      },
+    ]);
 
+    scene2.beginDirectAnimation(
+      camera,
+      [ani],
+      0,
+      stf(2),
+      false,
+      1,
+      () => {
+
+      }
+    );
+  }
+
+  EventHandler() {
     document.querySelector("#circular").addEventListener("click", () => {
       if (g.story === 0 || g.story === 1 || g.story === 2 || g.story === 3)
         return false;
@@ -369,15 +395,13 @@ export default class Scene1 {
       });
     });
 
-    // Inspector
-    let showingInspecter = false;
-    document.querySelector("#inspector").addEventListener("click", () => {
-      showingInspecter = !showingInspecter;
-      if (showingInspecter) {
-        scene2.debugLayer.show();
-      } else {
-        scene2.debugLayer.hide();
+    scene.registerAfterRender(() => {
+      if (this.ring1 && this.ring2 && this.ring3) {
+        this.ring1.update();
+        this.ring2.update();
+        this.ring3.update();
       }
+      spsRing.setParticles();
     });
   }
 

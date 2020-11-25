@@ -16,7 +16,7 @@ ee.addListener("asset-start", (args) => {
 ee.addListener("asset-progress", (args) => {
   finishCount++;
   // console.log("progress", args, finishCount);
-  console.log("progress", (finishCount / totalCount * 100).toFixed(2) + '%');
+  console.log("progress", ((finishCount / totalCount) * 100).toFixed(2) + "%");
 });
 
 ee.addListener("asset-finish", (args) => {
@@ -41,19 +41,17 @@ ee.addListener("asset-finish", (args) => {
 let s1 = new Scene1();
 let s2 = new Scene2();
 
-function sceneChange() {
+function sceneChange(path, value, previousValue) {
+  console.log(path, value, previousValue)
   if (g.scene === 1) {
     camera2.detachControl(canvas);
+    s1.fromScene2();
     if (g.story === 2 || g.story === 4) {
       camera.attachControl(canvas, true);
     }
   } else if (g.scene === 2) {
-    // camera.detachControl(canvas);
+    camera.detachControl(canvas);
     camera2.attachControl(canvas, true);
-
-    if (g.story2 === 3) {
-      camera2.attachControl(canvas, true);
-    }
   }
 }
 
@@ -73,18 +71,32 @@ story2
 */
 window.g = onChange(
   {
-    scene: 2,
+    scene: 1,
     story: 0,
     story2: 0,
   },
   (path, value, previousValue, name) => {
-    console.log(path, value, g);
-    sceneChange();
+    // console.log(path, value, previousValue);
+    sceneChange(path, value, previousValue);
   }
 );
 
 // FPS
 let divFps = document.getElementById("fps");
+
+
+let showingInspecter = false;
+document.querySelector("#inspector").addEventListener("click", () => {
+  showingInspecter = !showingInspecter;
+  console.log(g.scene)
+  if (showingInspecter) {
+    if (g.scene === 1) scene.debugLayer.show();
+    else if (g.scene ===2) scene2.debugLayer.show();
+  } else {
+    if (g.scene === 1) scene.debugLayer.hide();
+    else if (g.scene ===2) scene2.debugLayer.hide();
+  }
+});
 
 document.querySelector("#switch").addEventListener("click", function () {
   paperInstance.updateRatio();
