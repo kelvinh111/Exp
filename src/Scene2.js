@@ -16,7 +16,6 @@ export default class Scene2 {
     scene2.ambientColor = new BABYLON.Color3(0.4, 0.4, 0.4);
     scene2.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
     scene2.fogColor = htc("5F779E");
-    // scene2.fogDensity = 0.01;
     scene2.fogStart = 80;
     scene2.fogEnd = 300.0;
 
@@ -39,7 +38,7 @@ export default class Scene2 {
       "paper",
       "",
       `https://public.kelvinh.studio/cdn/3d/${ori}/`,
-      `${ori} _ 0PercentFolded.obj`,
+      `${ori} _ 0PercentFolded.obj`
     );
 
     paperTask.onSuccess = function (task) {
@@ -62,7 +61,6 @@ export default class Scene2 {
     };
 
     assetsManager.onFinish = function (tasks) {
-      // console.log(4, tasks);
       ee.emitEvent("asset-finish", [
         {
           scene: 2,
@@ -82,7 +80,6 @@ export default class Scene2 {
   }
 
   init() {
-
     camera2 = new BABYLON.ArcRotateCamera(
       "Camera2",
       paperConfig.cam.alpha,
@@ -91,8 +88,6 @@ export default class Scene2 {
       paperConfig.cam.target,
       scene2
     );
-    // camera2.attachControl(canvas, true);
-    // camera2.wheelPrecision = 200;
     camera2.minZ = 0.1;
 
     paperInstance = new Paper();
@@ -160,21 +155,17 @@ export default class Scene2 {
       db++;
 
       //Create dynamic texture
-      // var textureResolution = 256;
       var texture = new BABYLON.DynamicTexture(
         "dynamic texture",
         { width: 1024, height: 70 },
         scene2
       );
-      // var textureContext = texture.getContext();
 
       var material = new BABYLON.StandardMaterial("Mat", scene2);
       material.alpha = 1;
       material.diffuseTexture = texture;
       material.diffuseTexture.hasAlpha = true;
-      // material.diffuseTexture.vAng = Math.PI;
       material.backFaceCulling = false;
-      // material.emissiveColor = new BABYLON.Color3(1, 1, 1)
 
       //Add text to dynamic texture
       var font = "normal 92px 'Crimson Text', sans-serif";
@@ -235,25 +226,34 @@ export default class Scene2 {
     potBottom.material.diffuseColor = htc("121C2D");
     potBottom.material.emissiveColor = htc("000000");
 
-    // BABYLON.SceneLoader.ImportMesh(
-    //   "",
-    //   "https://public.kelvinh.studio/cdn/3d/fah/",
-    //   "fah.gltf",
-    //   scene2,
-    //   function (sc) {
-    // flower = sc[0];
     flower.scaling = new BABYLON.Vector3(1, 1, 1);
     flower.position.y = -14;
     flowerGltf.forEach((v) => {
       shadowGenerator.getShadowMap().renderList.push(v);
       v.material = mat;
     });
-    //   }
-    // );
   }
 
-  animate() {
-    paperInstance.toPaper();
+  fromScene1() {
+    console.log("s2 from s1");
+    camera2.attachControl(canvas, true);
+    g.story2 = 1;
+    paperInstance.toPaper().then(() => {
+      g.story2 = 2;
+    });
+  }
+
+  toScene1() {
+    var deferred = Q.defer();
+    console.log("s2 to s1");
+    g.story2 = 3;
+    paperInstance.toScreen().then(() => {
+      g.scene = 1;
+      g.story2 = 0;
+      camera2.detachControl(canvas);
+      deferred.resolve();
+    });
+    return deferred.promise;
   }
 
   makeJson() {

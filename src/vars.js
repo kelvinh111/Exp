@@ -6,26 +6,7 @@ window.engine = new BABYLON.Engine(canvas, true);
 window.fr = 10;
 window.ee = new EventEmitter();
 
-/*
-0: intro
-1: turning to circular
-2: in circular animation
-3: turning to wave
-4: in wave animation
-*/
-// window.story = 0;
-
-/*
-0: in screen ready
-1: turning to paper
-2: paper flapping animation
-3: paper fly animation
-4: turning to back to screen
-*/
-// window.story2 = 0;
-
-// window.isScene2 = true;
-window.scene = null;
+window.scene1 = null;
 window.camera = null;
 window.scene2 = null;
 window.camera2 = null;
@@ -34,9 +15,9 @@ window.renderTarget = null;
 window.mb = null;
 window.mb2 = null;
 window.cage = null;
-window.ori = 'yeah'
+window.ori = "yeah";
 window.paperInstance = null; // class instance
-window.paperGltf = null
+window.paperGltf = null;
 window.paperMesh = null;
 window.flowerGltf = null;
 window.flower = null;

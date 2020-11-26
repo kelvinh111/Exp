@@ -1,7 +1,6 @@
 // millisecond to frame
 function stf(s) {
   return s * fr;
-  // return (ms / 1000) * 600000;
 }
 
 // color hex (000000) to babylon color3

@@ -20,26 +20,17 @@ export default class Stage {
       }
     };
 
-    // BABYLON.SceneLoader.ImportMesh(
-    //   "",
-    //   "https://public.kelvinh.studio/cdn/3d/macbook6/",
-    //   "scene.gltf",
-    //   scene,
-    //   (s) => {
-    //     mb = s[0];
-        mb.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
-        mb.position.z = 0.5;
-        mb.position.y = -5;
-        re(mb);
+    mb.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
+    mb.position.z = 0.5;
+    mb.position.y = -5;
+    re(mb);
 
-        // disable loop & manually play it once
-        this.mbAni = scene.animationGroups[0];
-        this.mbAni.loopAnimation = false;
-        this.mbAni.pause();
-        this.mbAni.goToFrame(3.75); // collapse the macbook
-        this.initStage();
-    //   }
-    // );
+    // disable loop & manually play it once
+    this.mbAni = scene1.animationGroups[0];
+    this.mbAni.loopAnimation = false;
+    this.mbAni.pause();
+    this.mbAni.goToFrame(3.75); // collapse the macbook
+    this.initStage();
   }
 
   openMacbook() {
@@ -50,7 +41,7 @@ export default class Stage {
     var glass = BABYLON.MeshBuilder.CreateDisc(
       "glass",
       { radius: 7, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
-      scene
+      scene1
     );
 
     glass.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
@@ -79,13 +70,12 @@ export default class Stage {
     );
 
     //Create the mirror material
-    var mirrorMaterial = new BABYLON.StandardMaterial("mirror", scene);
-    //mirrorMaterial.specularColor = BABYLON.Color3.Yellow()
+    var mirrorMaterial = new BABYLON.StandardMaterial("mirror", scene1);
     mirrorMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
     mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture(
       "mirror",
       1024,
-      scene,
+      scene1,
       true
     );
     mirrorMaterial.reflectionTexture.mirrorPlane = reflector;
@@ -100,10 +90,9 @@ export default class Stage {
     var cone = BABYLON.MeshBuilder.CreateCylinder(
       "cone",
       { diameterTop: 14, diameterBottom: 0, height: 4, tessellation: 128 },
-      scene
+      scene1
     );
-    cone.material = new BABYLON.StandardMaterial("cone", scene);
-    //mirrorMaterial.specularColor = BABYLON.Color3.Yellow()
+    cone.material = new BABYLON.StandardMaterial("cone", scene1);
     cone.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
     cone.position.y = -7.05;
 

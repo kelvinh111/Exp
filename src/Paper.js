@@ -16,13 +16,6 @@ export default class Paper {
     this.rttMaterial.backFaceCulling = false;
 
     this.paperJson = [];
-    // BABYLON.SceneLoader.ImportMesh(
-    //   "",
-    //   `https://public.kelvinh.studio/cdn/3d/${this.ori}/`,
-    //   `${this.ori} _ 0PercentFolded.obj`,
-    //   scene2,
-    //   (s) => {
-    //     this.paperMesh = s[0];
     this.paperSize = paperMesh.getBoundingInfo().boundingBox.extendSize;
     this.updateRatio();
     paperMesh.material = this.rttMaterial;
@@ -32,8 +25,6 @@ export default class Paper {
 
     var pos = paperMesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
     paperMesh.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
-    // }
-    // );
 
     fetch(`https://public.kelvinh.studio/cdn/3d/${this.ori}/${this.ori}.json`)
       .then((response) => {
@@ -61,6 +52,8 @@ export default class Paper {
   }
 
   toPaper() {
+    var outerDeferred = Q.defer();
+
     let aniStartPaperScale = () => {
       var deferred = Q.defer();
       var ani = new BABYLON.Animation(
@@ -112,7 +105,6 @@ export default class Paper {
             deferred.resolve();
           }
         }, i * 16.67);
-        // }, i * 12);
       }
 
       return deferred.promise;
@@ -291,6 +283,7 @@ export default class Paper {
     };
 
     let aniStartLight = () => {
+      var deferred = Q.defer();
       var ani = new BABYLON.Animation(
         "aniLight",
         "direction",
@@ -343,26 +336,21 @@ export default class Paper {
           () => {}
         );
 
-        scene2.beginDirectAnimation(
-          flower,
-          [ani2],
-          0,
-          stf(3),
-          false,
-          1,
-          () => {}
-        );
+        scene2.beginDirectAnimation(flower, [ani2], 0, stf(3), false, 1, () => {
+          deferred.resolve();
+        });
       }, 9000);
+
+      return deferred.promise;
     };
 
-    g.story2 = 1;
 
-    // Q.all([aniStartCam(), aniStartCam2()]).then(() => {
-    // ee.emitEvent("ani-cam-end");
-    // });
     aniStartCam();
     aniStartCam2();
-    aniStartLight();
+    aniStartLight().done(() => {
+      g.story2 = 2;
+      outerDeferred.resolve();
+    });
 
     aniStartPaperScale()
       .then(() => {
@@ -370,16 +358,14 @@ export default class Paper {
       })
       .then(() => {
         return aniStartPaperDrop();
-      })
-      // .then(() => {
-      //   ee.emitEvent("ani-paper-end");
-      // })
-      .done(() => {
-        g.story2 = 2;
       });
+
+      return outerDeferred.promise
   }
 
   toScreen() {
+    var outerDeferred = Q.defer();
+
     let aniEndCam = () => {
       var deferred = Q.defer();
 
@@ -396,12 +382,12 @@ export default class Paper {
           value: camera2.target.y,
         },
         {
-          frame: stf(2),
+          frame: stf(3),
           value: 60,
         },
       ]);
 
-      scene2.beginDirectAnimation(camera2, [ani], 0, stf(2), false, 1, () => {
+      scene2.beginDirectAnimation(camera2, [ani], 0, stf(3), false, 1, () => {
         deferred.resolve();
       });
 
@@ -424,12 +410,12 @@ export default class Paper {
           value: camera2.beta,
         },
         {
-          frame: stf(2),
+          frame: stf(3),
           value: 2.3,
         },
       ]);
 
-      scene2.beginDirectAnimation(camera2, [ani], 0, stf(2), false, 1, () => {
+      scene2.beginDirectAnimation(camera2, [ani], 0, stf(3), false, 1, () => {
         deferred.resolve();
       });
 
@@ -452,12 +438,12 @@ export default class Paper {
           value: scene2.fogColor,
         },
         {
-          frame: stf(2),
+          frame: stf(3),
           value: htc("000000"),
         },
       ]);
 
-      scene2.beginDirectAnimation(scene2, [ani], 0, stf(2), false, 1, () => {
+      scene2.beginDirectAnimation(scene2, [ani], 0, stf(3), false, 1, () => {
         deferred.resolve();
       });
 
@@ -467,7 +453,10 @@ export default class Paper {
     g.story2 = 3;
     Q.all([aniEndCam(), aniEndCam2(), aniEndFog()]).done(() => {
       g.story2 = 0;
+      outerDeferred.resolve();
     });
+
+    return outerDeferred.promise;
   }
 
   updateRatio() {
@@ -477,7 +466,6 @@ export default class Paper {
       (camera2.position.length() * Math.tan(camera2.fov / 2)) /
       this.paperSize.z;
     let x = z * engine.getAspectRatio(camera2);
-    // console.log(x,z);
     paperMesh.scaling.x = x;
     paperMesh.scaling.z = z;
   }

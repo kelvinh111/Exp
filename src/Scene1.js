@@ -17,15 +17,14 @@ export default class Scene1 {
     this.stage = null;
 
     this.preinit();
-    // this.init();
   }
 
   preinit() {
-    scene = new BABYLON.Scene(engine);
-    scene.clearColor = new BABYLON.Color3(0, 0, 0);
+    scene1 = new BABYLON.Scene(engine);
+    scene1.clearColor = new BABYLON.Color3(0, 0, 0);
 
     // load all assets
-    var assetsManager = new BABYLON.AssetsManager(scene);
+    var assetsManager = new BABYLON.AssetsManager(scene1);
 
     var macbookTask = assetsManager.addMeshTask(
       "macbook",
@@ -53,7 +52,6 @@ export default class Scene1 {
     };
 
     assetsManager.onFinish = function (tasks) {
-      // console.log(4, tasks);
       ee.emitEvent("asset-finish", [
         {
           scene: 1,
@@ -74,8 +72,8 @@ export default class Scene1 {
 
   init() {
     // rtt
-    renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene, true);
-    scene.customRenderTargets.push(renderTarget);
+    renderTarget = new BABYLON.RenderTargetTexture("depth", 1024, scene1, true);
+    scene1.customRenderTargets.push(renderTarget);
 
     camera = new BABYLON.ArcRotateCamera(
       "Camera",
@@ -83,17 +81,17 @@ export default class Scene1 {
       km.radians(70),
       65,
       new BABYLON.Vector3(0, 4, 0),
-      scene
+      scene1
     );
     camera.minZ = 0.1;
 
     var light = new BABYLON.HemisphericLight(
       "hemi",
       new BABYLON.Vector3(0, 1, -0.5),
-      scene
+      scene1
     );
 
-    s1gl = new BABYLON.GlowLayer("glow", scene, {
+    s1gl = new BABYLON.GlowLayer("glow", scene1, {
       //mainTextureFixedSize: 512,
       blurKernelSize: 30,
     });
@@ -105,8 +103,7 @@ export default class Scene1 {
   }
 
   initRings() {
-    // Rings
-    spsRing = new BABYLON.SolidParticleSystem("spsRing", scene, {
+    spsRing = new BABYLON.SolidParticleSystem("spsRing", scene1, {
       enableMultiMaterial: true,
       updatable: true,
     });
@@ -124,11 +121,11 @@ export default class Scene1 {
         segments: 3,
         diameter: 0.1,
       },
-      scene
+      scene1
     );
 
     for (let i = 0; i < bulbNumTotal; i++) {
-      let mat = new BABYLON.StandardMaterial("mat" + i, scene);
+      let mat = new BABYLON.StandardMaterial("mat" + i, scene1);
       mat.disableLighting = true;
       mat.backFaceCulling = false;
       mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
@@ -313,7 +310,7 @@ export default class Scene1 {
     ani5.setEasingFunction(ease2);
     ani6.setEasingFunction(ease2);
 
-    scene.beginDirectAnimation(
+    scene1.beginDirectAnimation(
       camera,
       [ani1, ani2, ani3],
       0,
@@ -321,7 +318,7 @@ export default class Scene1 {
       false,
       1,
       () => {
-        scene.beginDirectAnimation(
+        scene1.beginDirectAnimation(
           camera,
           [ani4, ani5, ani6],
           0,
@@ -336,7 +333,17 @@ export default class Scene1 {
     }, 6700);
   }
 
+  toScene2() {
+    console.log("s1 to s2");
+    camera.detachControl(canvas);
+    g.scene = 2;
+  }
+
   fromScene2() {
+    console.log("s1 from s2");
+
+    let originalY = camera.target.y;
+
     var ani = new BABYLON.Animation(
       "aniYeah",
       "target.y",
@@ -350,22 +357,14 @@ export default class Scene1 {
         value: 50,
       },
       {
-        frame: stf(2),
-        value: 4,
+        frame: stf(4),
+        value: originalY,
       },
     ]);
 
-    scene2.beginDirectAnimation(
-      camera,
-      [ani],
-      0,
-      stf(2),
-      false,
-      1,
-      () => {
-
-      }
-    );
+    scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {
+      camera.attachControl(canvas, true);
+    });
   }
 
   EventHandler() {
@@ -395,7 +394,7 @@ export default class Scene1 {
       });
     });
 
-    scene.registerAfterRender(() => {
+    scene1.registerAfterRender(() => {
       if (this.ring1 && this.ring2 && this.ring3) {
         this.ring1.update();
         this.ring2.update();
@@ -406,6 +405,6 @@ export default class Scene1 {
   }
 
   render() {
-    scene.render();
+    scene1.render();
   }
 }

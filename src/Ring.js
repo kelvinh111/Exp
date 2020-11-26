@@ -98,7 +98,7 @@ export default class Ring {
 
       bulb.core.animations = [aniDrop];
 
-      scene.beginAnimation(
+      scene1.beginAnimation(
         bulb.core,
         0,
         stf(
@@ -134,14 +134,6 @@ export default class Ring {
       let keysOn = [];
       if (this.dropConfig.dropFirst && key === 0) {
         keysOn = [
-          // {
-          //   frame: 0,
-          //   value: ringsMats[bulb.core.materialIndex].emissiveColor
-          // },
-          // {
-          //   frame: stf(this.dropConfig.dropFirstDelay),
-          //   value: ringsMats[bulb.core.materialIndex].emissiveColor
-          // },
           {
             frame: 0,
             value: this.dropConfig.color
@@ -183,7 +175,7 @@ export default class Ring {
 
       ringsMats[bulb.core.materialIndex].animations = [aniOn];
 
-      scene.beginAnimation(
+      scene1.beginAnimation(
         ringsMats[bulb.core.materialIndex],
         0,
         stf(
@@ -245,7 +237,7 @@ export default class Ring {
 
       bulb.core.animations = [aniCircular];
 
-      scene.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
+      scene1.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
         if (key + 1 === this.bulbNum) {
           deferred.resolve();
         }
@@ -313,7 +305,7 @@ export default class Ring {
 
       bulb.core.animations = [aniWave];
 
-      scene.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
+      scene1.beginAnimation(bulb.core, 0, stf(3), false, 1, () => {
         if (key + 1 === this.bulbNum) {
           deferred.resolve();
         }

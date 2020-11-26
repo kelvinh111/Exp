@@ -10,9 +10,9 @@ export default class Space {
   }
 
   init() {
-    this.sps = new BABYLON.SolidParticleSystem("this.sps", scene, {
+    this.sps = new BABYLON.SolidParticleSystem("this.sps", scene1, {
       enableMultiMaterial: true,
-      updatable: false
+      updatable: false,
     });
 
     this.sps.billboard = true;
@@ -25,14 +25,14 @@ export default class Space {
       "s",
       {
         segments: 2,
-        diameter: this.bulbSize
+        diameter: this.bulbSize,
       },
-      scene
+      scene1
     );
 
     // multi materials - from brightest to dark
     for (let i = 1; i <= this.matStep; i++) {
-      let mat = new BABYLON.StandardMaterial("mat" + i, scene);
+      let mat = new BABYLON.StandardMaterial("mat" + i, scene1);
       mat.disableLighting = true;
       mat.backFaceCulling = false;
 
@@ -57,10 +57,6 @@ export default class Space {
         let r = this.gap * Math.sqrt(i);
         let x = r * Math.cos(a);
         let z = r * Math.sin(a);
-        // let y =
-        //   i / this.num * i / this.num * i / this.num * this.height +
-        //   this.y;
-
         let y = (((i / this.num) * i) / this.num) * this.height + this.y;
 
         particle.position.x = x;
@@ -69,7 +65,7 @@ export default class Space {
         particle.materialIndex = Math.floor(
           km.map(i, 0, this.num, 0, this.matStep)
         );
-      }
+      },
     });
 
     sphere.dispose();
@@ -94,23 +90,23 @@ export default class Space {
       let keys = [
         {
           frame: 0,
-          value: v.emissiveColor
+          value: v.emissiveColor,
         },
         {
           frame: stf(k * this.bulbDelay + this.delay),
-          value: v.emissiveColor
+          value: v.emissiveColor,
         },
         {
           frame: stf(k * this.bulbDelay + this.bulbDuration + this.delay),
-          value: v.emissiveColorTarget
-        }
+          value: v.emissiveColorTarget,
+        },
       ];
 
       ani.setKeys(keys);
 
       v.animations = [ani];
 
-      scene.beginAnimation(
+      scene1.beginAnimation(
         v,
         0,
         stf(k * this.bulbDelay + this.bulbDuration + this.delay),
