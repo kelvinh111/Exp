@@ -339,17 +339,46 @@ export default class Scene1 {
     camera.detachControl(canvas);
 
     setTimeout(() => {
-    g.scene = 2;
-    deferred.resolve();
+      g.scene = 2;
+      deferred.resolve();
     }, 0);
+
+    return deferred.promise;
+  }
+
+  toScene2b() {
+    console.log("s1 to s2b");
+    let deferred = Q.defer();
+    camera.detachControl(canvas);
+
+    var ani = new BABYLON.Animation(
+      "aniYeah",
+      "target.y",
+      fr,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+    );
+    ani.setKeys([
+      {
+        frame: 0,
+        value: camera.target.y,
+      },
+      {
+        frame: stf(4),
+        value: 50,
+      },
+    ]);
+
+    scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {
+      g.scene = 2;
+      deferred.resolve();
+    });
 
     return deferred.promise;
   }
 
   fromScene2() {
     console.log("s1 from s2");
-
-    let originalY = camera.target.y;
 
     var ani = new BABYLON.Animation(
       "aniYeah",
@@ -365,7 +394,7 @@ export default class Scene1 {
       },
       {
         frame: stf(4),
-        value: originalY,
+        value: 7,
       },
     ]);
 

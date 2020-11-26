@@ -64,12 +64,6 @@ window.g = onChange(
   },
   (path, value, previousValue, name) => {
     console.log(path, value, previousValue);
-
-    // if (path === "scene") {
-    //   if (value === 1 && previousValue === 2) {
-    //   } else if (value === 2 && previousValue === 1) {
-    //   }
-    // }
   }
 );
 
@@ -81,17 +75,17 @@ document.querySelector("#inspector").addEventListener("click", () => {
   showingInspecter = !showingInspecter;
   // console.log(g.scene);
   if (showingInspecter) {
-    if (g.scene === 1) scene.debugLayer.show();
+    if (g.scene === 1) scene1.debugLayer.show();
     else if (g.scene === 2) scene2.debugLayer.show();
   } else {
-    if (g.scene === 1) scene.debugLayer.hide();
+    if (g.scene === 1) scene1.debugLayer.hide();
     else if (g.scene === 2) scene2.debugLayer.hide();
   }
 });
 
 document.querySelector("#scene1").addEventListener("click", function () {
   if (g.scene === 1) return;
-  // g.scene = 1;
+
   s2.toScene1().then(() => {
     s1.fromScene2();
   });
@@ -99,16 +93,18 @@ document.querySelector("#scene1").addEventListener("click", function () {
 
 document.querySelector("#scene2").addEventListener("click", function () {
   if (g.scene === 2) return;
-  // paperInstance.updateRatio();
-  // engine.resize();
-  s1.toScene2().then(() => {
-    s2.fromScene1();
-  });
-});
 
-// document.querySelector("#screen").addEventListener("click", function () {
-//   if (g.scene === 2 && g.story2 === 2) paperInstance.toScreen();
-// });
+  if (!scenesAniDone) {
+    scenesAniDone = true;
+    s1.toScene2().then(() => {
+      s2.fromScene1();
+    });
+  } else {
+    s1.toScene2b().then(() => {
+      s2.fromScene1b();
+    });
+  }
+});
 
 window.addEventListener("resize", function () {
   paperInstance.updateRatio();

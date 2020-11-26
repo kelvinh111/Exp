@@ -256,6 +256,15 @@ export default class Scene2 {
     });
   }
 
+  fromScene1b() {
+    console.log("s2 from s1 b");
+    camera2.attachControl(canvas, true);
+    g.story2 = 1;
+    paperInstance.toPaperb().then(() => {
+      g.story2 = 2;
+    });
+  }
+
   makeJson() {
     let name = "yeah";
     let yeah = [];

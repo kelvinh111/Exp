@@ -344,11 +344,10 @@ export default class Paper {
       return deferred.promise;
     };
 
-
     aniStartCam();
     aniStartCam2();
     aniStartLight().done(() => {
-      g.story2 = 2;
+      // g.story2 = 2;
       outerDeferred.resolve();
     });
 
@@ -360,7 +359,7 @@ export default class Paper {
         return aniStartPaperDrop();
       });
 
-      return outerDeferred.promise
+    return outerDeferred.promise;
   }
 
   toScreen() {
@@ -450,9 +449,103 @@ export default class Paper {
       return deferred.promise;
     };
 
-    g.story2 = 3;
     Q.all([aniEndCam(), aniEndCam2(), aniEndFog()]).done(() => {
-      g.story2 = 0;
+      outerDeferred.resolve();
+    });
+
+    return outerDeferred.promise;
+  }
+
+  toPaperb() {
+    console.log('yeah')
+    
+    var outerDeferred = Q.defer();
+
+    let aniEndCam = () => {
+      var deferred = Q.defer();
+
+      var ani = new BABYLON.Animation(
+        "aniEnd",
+        "target.y",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani.setKeys([
+        {
+          frame: 0,
+          value: 60,
+        },
+        {
+          frame: stf(3),
+          value: -25.5,
+        },
+      ]);
+
+      scene2.beginDirectAnimation(camera2, [ani], 0, stf(3), false, 1, () => {
+        deferred.resolve();
+      });
+
+      return deferred.promise;
+    };
+
+    let aniEndCam2 = () => {
+      var deferred = Q.defer();
+
+      var ani = new BABYLON.Animation(
+        "aniEnd",
+        "beta",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani.setKeys([
+        {
+          frame: 0,
+          value: camera2.beta,
+        },
+        {
+          frame: stf(3),
+          value: 1.2,
+        },
+      ]);
+
+      scene2.beginDirectAnimation(camera2, [ani], 0, stf(3), false, 1, () => {
+        deferred.resolve();
+      });
+
+      return deferred.promise;
+    };
+
+    let aniEndFog = () => {
+      var deferred = Q.defer();
+
+      var ani = new BABYLON.Animation(
+        "aniEnd",
+        "fogColor",
+        fr,
+        BABYLON.Animation.ANIMATIONTYPE_COLOR3,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      );
+      ani.setKeys([
+        {
+          frame: 0,
+          value: scene2.fogColor,
+        },
+        {
+          frame: stf(3),
+          value: htc("5F779E"),
+        },
+      ]);
+
+      scene2.beginDirectAnimation(scene2, [ani], 0, stf(3), false, 1, () => {
+        deferred.resolve();
+      });
+
+      return deferred.promise;
+    };
+
+    Q.all([aniEndCam(), aniEndCam2(), aniEndFog()]).done(() => {
       outerDeferred.resolve();
     });
 

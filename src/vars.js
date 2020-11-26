@@ -10,8 +10,11 @@ window.scene1 = null;
 window.camera = null;
 window.scene2 = null;
 window.camera2 = null;
-window.renderTarget = null;
 
+window.scenesAniDone = false;
+
+
+window.renderTarget = null;
 window.mb = null;
 window.mb2 = null;
 window.cage = null;
