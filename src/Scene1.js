@@ -335,8 +335,15 @@ export default class Scene1 {
 
   toScene2() {
     console.log("s1 to s2");
+    let deferred = Q.defer();
     camera.detachControl(canvas);
+
+    setTimeout(() => {
     g.scene = 2;
+    deferred.resolve();
+    }, 0);
+
+    return deferred.promise;
   }
 
   fromScene2() {

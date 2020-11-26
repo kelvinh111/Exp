@@ -24,6 +24,10 @@ ee.addListener("asset-finish", (args) => {
     s1.init();
     s2.init();
 
+    // render once to prepare the scene
+    s1.render();
+    s2.render();
+
     engine.runRenderLoop(function () {
       divFps.innerHTML = engine.getFps().toFixed() + " FPS";
       s1.render();
@@ -95,10 +99,11 @@ document.querySelector("#scene1").addEventListener("click", function () {
 
 document.querySelector("#scene2").addEventListener("click", function () {
   if (g.scene === 2) return;
-  paperInstance.updateRatio();
-  engine.resize();
-  s1.toScene2();
-  s2.fromScene1();
+  // paperInstance.updateRatio();
+  // engine.resize();
+  s1.toScene2().then(() => {
+    s2.fromScene1();
+  });
 });
 
 // document.querySelector("#screen").addEventListener("click", function () {

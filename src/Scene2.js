@@ -234,15 +234,6 @@ export default class Scene2 {
     });
   }
 
-  fromScene1() {
-    console.log("s2 from s1");
-    camera2.attachControl(canvas, true);
-    g.story2 = 1;
-    paperInstance.toPaper().then(() => {
-      g.story2 = 2;
-    });
-  }
-
   toScene1() {
     var deferred = Q.defer();
     console.log("s2 to s1");
@@ -254,6 +245,15 @@ export default class Scene2 {
       deferred.resolve();
     });
     return deferred.promise;
+  }
+
+  fromScene1() {
+    console.log("s2 from s1");
+    camera2.attachControl(canvas, true);
+    g.story2 = 1;
+    paperInstance.toPaper().then(() => {
+      g.story2 = 2;
+    });
   }
 
   makeJson() {
