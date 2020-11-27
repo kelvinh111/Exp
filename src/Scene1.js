@@ -155,7 +155,6 @@ export default class Scene1 {
     ])
       .delay(1200)
       .then(() => {
-        g.story = 2;
         let alpha = -137;
         let beta = 95;
         let radius = 47;
@@ -170,7 +169,7 @@ export default class Scene1 {
         camera.angularSensibilityY = 12000;
         camera.lowerRadiusLimit = camera.radius;
         camera.upperRadiusLimit = camera.radius;
-        camera.attachControl(canvas, true);
+        g.story = 2;
       });
 
     this.EventHandler();
@@ -336,7 +335,7 @@ export default class Scene1 {
   toScene2() {
     console.log("s1 to s2");
     let deferred = Q.defer();
-    camera.detachControl(canvas);
+    g.story = 5;
 
     setTimeout(() => {
       g.scene = 2;
@@ -349,7 +348,6 @@ export default class Scene1 {
   toScene2b() {
     console.log("s1 to s2b");
     let deferred = Q.defer();
-    camera.detachControl(canvas);
 
     var ani = new BABYLON.Animation(
       "aniYeah",
@@ -380,6 +378,8 @@ export default class Scene1 {
   fromScene2() {
     console.log("s1 from s2");
 
+    g.story = 6;
+
     var ani = new BABYLON.Animation(
       "aniYeah",
       "target.y",
@@ -399,7 +399,6 @@ export default class Scene1 {
     ]);
 
     scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {
-      camera.attachControl(canvas, true);
     });
   }
 

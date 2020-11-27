@@ -64,6 +64,25 @@ window.g = onChange(
   },
   (path, value, previousValue, name) => {
     console.log(path, value, previousValue);
+
+    if (g.scene === 1) {
+      switch (g.story) {
+        case 0:
+          camera.detachControl(canvas);
+          break;
+        default:
+          camera.attachControl(canvas, true);
+          break;
+      }
+    } else {
+      camera.detachControl(canvas);
+    }
+
+    if (g.scene === 2 && g.story2 === 2) {
+      s2.handleMouse(true);
+    } else {
+      s2.handleMouse(false);
+    }
   }
 );
 

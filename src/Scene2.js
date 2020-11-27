@@ -241,7 +241,6 @@ export default class Scene2 {
     paperInstance.toScreen().then(() => {
       g.scene = 1;
       g.story2 = 0;
-      camera2.detachControl(canvas);
       deferred.resolve();
     });
     return deferred.promise;
@@ -249,7 +248,6 @@ export default class Scene2 {
 
   fromScene1() {
     console.log("s2 from s1");
-    camera2.attachControl(canvas, true);
     g.story2 = 1;
     paperInstance.toPaper().then(() => {
       g.story2 = 2;
@@ -258,11 +256,22 @@ export default class Scene2 {
 
   fromScene1b() {
     console.log("s2 from s1 b");
-    camera2.attachControl(canvas, true);
     g.story2 = 1;
     paperInstance.toPaperb().then(() => {
       g.story2 = 2;
     });
+  }
+
+  mousemove(e) {
+    console.log(e);
+  }
+
+  handleMouse(active) {
+    if (active) {
+      window.addEventListener("mousemove", this.mousemove);
+    } else {
+      window.removeEventListener("mousemove", this.mousemove);
+    }
   }
 
   makeJson() {
