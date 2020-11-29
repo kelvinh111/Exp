@@ -9,6 +9,18 @@ import Scene2 from "./Scene2";
 let totalCount = 0;
 let finishCount = 0;
 
+function updateCameraFov() {
+  let ratio = window.innerWidth / window.innerHeight;
+  let s1fov = km.map(ratio, 0.4, 1.3, 1.2, 0.8, true);
+  let s2fov = km.map(ratio, 0.4, 1.3, 1.5, 0.8, true);
+  if (s1 && camera) {
+    gsap.to(camera, 1, { fov: s1fov });
+  }
+  if (s2 && camera2) {
+    gsap.to(camera2, 1, { fov: s2fov });
+  }
+}
+
 ee.addListener("asset-start", (args) => {
   totalCount += args.totalCount;
 });
@@ -23,6 +35,8 @@ ee.addListener("asset-finish", (args) => {
   if (finishCount === totalCount) {
     s1.init();
     s2.init();
+
+    updateCameraFov();
 
     // render once to prepare the scene
     s1.render();
@@ -125,7 +139,7 @@ document.querySelector("#scene2").addEventListener("click", function () {
   }
 });
 
-window.addEventListener("resize", function () {
-  paperInstance.updateRatio();
+window.addEventListener("resize", function (e) {
+  updateCameraFov();
   engine.resize();
 });

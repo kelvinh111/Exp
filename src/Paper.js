@@ -17,7 +17,6 @@ export default class Paper {
 
     this.paperJson = [];
     this.paperSize = paperMesh.getBoundingInfo().boundingBox.extendSize;
-    this.updateRatio();
     paperMesh.material = this.rttMaterial;
     paperMesh.enableEdgesRendering();
     paperMesh.edgesWidth = 2.0;
@@ -457,8 +456,6 @@ export default class Paper {
   }
 
   toPaperb() {
-    console.log('yeah')
-    
     var outerDeferred = Q.defer();
 
     let aniEndCam = () => {
@@ -554,7 +551,7 @@ export default class Paper {
 
   updateRatio() {
     if (!this.paperSize) return false;
-    if (g.story2 !== 0) return false;
+    if (g.scene !== 2 || g.story2 !== 0) return false;
     let z =
       (camera2.position.length() * Math.tan(camera2.fov / 2)) /
       this.paperSize.z;

@@ -5,9 +5,11 @@ export default class Scene2 {
   constructor(options) {
     Object.assign(this, options);
 
-    this.preinit();
-    // this.makeJson();
     this.a = 0;
+
+    this.preinit();
+
+    // this.makeJson();
   }
 
   preinit() {
@@ -248,6 +250,7 @@ export default class Scene2 {
 
   fromScene1() {
     console.log("s2 from s1");
+    paperInstance.updateRatio();
     g.story2 = 1;
     paperInstance.toPaper().then(() => {
       g.story2 = 2;
@@ -263,14 +266,32 @@ export default class Scene2 {
   }
 
   mousemove(e) {
-    console.log(e);
+    // console.log(e);
+    // console.log(e.clientX / window.innerWidth);
+    // s2light.direction.x = km.map(e.clientX / window.innerWidth, 0, 1, -1, -0.6);
+    // s2light.direction.y = km.map(
+    //   e.clientY / window.innerHeight,
+    //   0,
+    //   1,
+    //   -0.6,
+    //   -0.38
+    // );
+
+    gsap.to(s2light.direction, 1, {
+      x: km.map(e.clientX / window.innerWidth, 0, 1, -1, -0.6),
+      y: km.map(e.clientY / window.innerHeight, 0, 1, -0.6, -0.38),
+    });
   }
 
   handleMouse(active) {
     if (active) {
-      window.addEventListener("mousemove", this.mousemove);
+      document
+        .querySelector("#renderCanvas")
+        .addEventListener("mousemove", this.mousemove);
     } else {
-      window.removeEventListener("mousemove", this.mousemove);
+      document
+        .querySelector("#renderCanvas")
+        .removeEventListener("mousemove", this.mousemove);
     }
   }
 
