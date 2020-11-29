@@ -188,7 +188,6 @@ export default class Ring {
         1,
         () => {
           if (key + 1 === this.bulbNum) {
-            //this.dropConfig.done = true;
             deferred.resolve();
           }
         }

@@ -137,6 +137,14 @@ export default class Scene2 {
 
     let dt = 6;
     let db = 5;
+    // max 24 chars 
+    let texts = [
+      "123456789012345678901234567890",
+      "123456789012345678901234567890",
+      "123456789012345678901234567890",
+      "123456789012345678901234567890",
+      "123456789012345678901234567890",
+    ];
     this.rings = [];
 
     for (let i = 0; i < 5; i++) {
@@ -170,9 +178,9 @@ export default class Scene2 {
       material.backFaceCulling = false;
 
       //Add text to dynamic texture
-      var font = "normal 92px 'Crimson Text', sans-serif";
+      var font = "normal 91px 'Crimson Text', sans-serif";
       texture.drawText(
-        "ASDF ASDFJKDASF FASDF FK",
+        texts[i], // 20 chars
         0,
         68,
         font,
@@ -183,7 +191,7 @@ export default class Scene2 {
       );
 
       ring.material = material;
-      ring.speed = Math.random() * 0.01;
+      ring.speed = Math.random() * 0.008 + 0.002;
 
       this.rings.push(ring);
     }
@@ -266,17 +274,6 @@ export default class Scene2 {
   }
 
   mousemove(e) {
-    // console.log(e);
-    // console.log(e.clientX / window.innerWidth);
-    // s2light.direction.x = km.map(e.clientX / window.innerWidth, 0, 1, -1, -0.6);
-    // s2light.direction.y = km.map(
-    //   e.clientY / window.innerHeight,
-    //   0,
-    //   1,
-    //   -0.6,
-    //   -0.38
-    // );
-
     gsap.to(s2light.direction, 1, {
       x: km.map(e.clientX / window.innerWidth, 0, 1, -1, -0.6),
       y: km.map(e.clientY / window.innerHeight, 0, 1, -0.6, -0.38),
@@ -318,7 +315,7 @@ export default class Scene2 {
 
   render() {
     this.rings.forEach((v) => {
-      v.rotation.y += v.speed;
+      v.rotation.y -= v.speed;
     });
     scene2.render();
   }

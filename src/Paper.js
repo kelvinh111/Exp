@@ -87,6 +87,7 @@ export default class Paper {
       );
       return deferred.promise;
     };
+
     let aniStartPaperOri = () => {
       var deferred = Q.defer();
 
@@ -346,7 +347,6 @@ export default class Paper {
     aniStartCam();
     aniStartCam2();
     aniStartLight().done(() => {
-      // g.story2 = 2;
       outerDeferred.resolve();
     });
 
