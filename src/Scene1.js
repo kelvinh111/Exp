@@ -335,7 +335,7 @@ export default class Scene1 {
   toScene2() {
     console.log("s1 to s2");
     let deferred = Q.defer();
-    g.story = 5;
+    paperInstance.updateRatio();
 
     setTimeout(() => {
       g.scene = 2;
@@ -377,8 +377,6 @@ export default class Scene1 {
 
   fromScene2() {
     console.log("s1 from s2");
-
-    g.story = 6;
 
     var ani = new BABYLON.Animation(
       "aniYeah",

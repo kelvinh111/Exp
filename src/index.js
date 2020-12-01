@@ -41,6 +41,7 @@ ee.addListener("asset-finish", (args) => {
     // render once to prepare the scene
     s1.render();
     s2.render();
+    paperInstance.updateRatio();
 
     engine.runRenderLoop(function () {
       divFps.innerHTML = engine.getFps().toFixed() + " FPS";
@@ -107,6 +108,8 @@ let showingInspecter = false;
 document.querySelector("#inspector").addEventListener("click", () => {
   showingInspecter = !showingInspecter;
   // console.log(g.scene);
+scene2.debugLayer.show();
+return
   if (showingInspecter) {
     if (g.scene === 1) scene1.debugLayer.show();
     else if (g.scene === 2) scene2.debugLayer.show();
@@ -129,6 +132,7 @@ document.querySelector("#scene2").addEventListener("click", function () {
 
   if (!scenesAniDone) {
     scenesAniDone = true;
+    s2.render();
     s1.toScene2().then(() => {
       s2.fromScene1();
     });

@@ -550,8 +550,9 @@ export default class Paper {
   }
 
   updateRatio() {
-    if (!this.paperSize) return false;
-    if (g.scene !== 2 || g.story2 !== 0) return false;
+    console.log('updateRatio')
+    // if (!this.paperSize) return false;
+    // if (g.scene !== 2 || g.story2 !== 0) return false;
     let z =
       (camera2.position.length() * Math.tan(camera2.fov / 2)) /
       this.paperSize.z;

@@ -258,7 +258,6 @@ export default class Scene2 {
 
   fromScene1() {
     console.log("s2 from s1");
-    paperInstance.updateRatio();
     g.story2 = 1;
     paperInstance.toPaper().then(() => {
       g.story2 = 2;
