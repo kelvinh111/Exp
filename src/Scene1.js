@@ -388,7 +388,7 @@ export default class Scene1 {
     ani.setKeys([
       {
         frame: 0,
-        value: 50,
+        value: 70,
       },
       {
         frame: stf(4),
@@ -396,8 +396,10 @@ export default class Scene1 {
       },
     ]);
 
-    scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {
-    });
+    let ease = new BABYLON.SineEase();
+    ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEOUT);
+    ani.setEasingFunction(ease);
+    scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {});
   }
 
   EventHandler() {

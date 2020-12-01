@@ -27,8 +27,8 @@ export default class Scene2 {
     var flowerTask = assetsManager.addMeshTask(
       "flower",
       "",
-      "https://public.kelvinh.studio/cdn/3d/fah/",
-      "fah.gltf"
+      "https://public.kelvinh.studio/cdn/3d/flower/",
+      "flower.gltf"
     );
 
     flowerTask.onSuccess = function (task) {
@@ -137,14 +137,15 @@ export default class Scene2 {
 
     let dt = 6;
     let db = 5;
-    // max 24 chars 
+    // max 26 chars 
     let texts = [
-      "123456789012345678901234567890",
-      "123456789012345678901234567890",
-      "123456789012345678901234567890",
-      "123456789012345678901234567890",
-      "123456789012345678901234567890",
+      "123456789 123456789 123456789 ",
+      "123456789 123456789 123456789 ",
+      "123456789 123456789 123456789 ",
+      "123456789 123456789 123456789 ",
+      "123456789 123456789 123456789 ",
     ];
+    texts = texts.reverse()
     this.rings = [];
 
     for (let i = 0; i < 5; i++) {
@@ -178,7 +179,7 @@ export default class Scene2 {
       material.backFaceCulling = false;
 
       //Add text to dynamic texture
-      var font = "normal 91px 'Crimson Text', sans-serif";
+      var font = "normal 86px 'Crimson Text', sans-serif";
       texture.drawText(
         texts[i], // 20 chars
         0,
@@ -292,8 +293,8 @@ export default class Scene2 {
   }
 
   makeJson() {
-    let name = "yeah";
-    let yeah = [];
+    let name = "crumbled";
+    let crumbled = [];
     for (let i = 0; i <= 100; i++) {
       BABYLON.SceneLoader.ImportMesh(
         "",
@@ -303,9 +304,9 @@ export default class Scene2 {
         (s) => {
           let b = s[0];
           var pos = b.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-          yeah[i] = pos;
+          crumbled[i] = pos;
           if (i === 100) {
-            console.log(i, JSON.stringify(yeah));
+            console.log(i, JSON.stringify(crumbled));
           }
         }
       );

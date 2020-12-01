@@ -4,8 +4,6 @@ export default class Paper {
   constructor(options) {
     Object.assign(this, options);
 
-    this.ori = "yeah";
-
     this.init();
   }
 
@@ -25,7 +23,7 @@ export default class Paper {
     var pos = paperMesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
     paperMesh.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
 
-    fetch(`https://public.kelvinh.studio/cdn/3d/${this.ori}/${this.ori}.json`)
+    fetch(`https://public.kelvinh.studio/cdn/3d/${ori}/${ori}.json`)
       .then((response) => {
         return response.json();
       })

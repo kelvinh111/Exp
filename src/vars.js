@@ -8,6 +8,7 @@ window.ee = new EventEmitter();
 
 window.scene1 = null;
 window.camera = null;
+
 window.scene2 = null;
 window.camera2 = null;
 
@@ -16,14 +17,13 @@ window.scenesAniDone = false;
 
 window.renderTarget = null;
 window.mb = null;
-window.mb2 = null;
-window.cage = null;
-window.ori = "yeah";
+window.ori = "crumbled";
 window.paperInstance = null; // class instance
 window.paperGltf = null;
 window.paperMesh = null;
 window.flowerGltf = null;
 window.flower = null;
+
 window.s2light = null;
 
 window.s1gl = null; // scene1 glow layer
@@ -140,6 +140,13 @@ window.spaceConfig = {
   bulbDuration: 1,
 };
 
+window.bulbNumTotal =
+  ring1Config.bulbNum + ring2Config.bulbNum + ring3Config.bulbNum;
+window.nbParticles = bulbNumTotal * 7;
+window.bulbCount = 0;
+window.particleCount = 0;
+
+
 window.paperConfig = {
   cam: {
     alpha: -Math.PI / 2,
@@ -153,15 +160,3 @@ window.paperConfig = {
   },
   aniEnd: {},
 };
-window.paperConfig.z = -window.paperConfig.flyRadius;
-
-window.camera2Config = {
-  startRadius: 30,
-};
-
-window.bulbNumTotal =
-  ring1Config.bulbNum + ring2Config.bulbNum + ring3Config.bulbNum;
-// window.nbParticles = bulbNumTotal * 13;
-window.nbParticles = bulbNumTotal * 7;
-window.bulbCount = 0;
-window.particleCount = 0;
