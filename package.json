@@ -8,6 +8,7 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
+    "fitty": "^2.3.3",
     "on-change": "2.1.4"
   },
   "devDependencies": {

@@ -14,17 +14,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/Olical/EventEmitter/EventEmitter.min.js"></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/minireset.css/0.0.2/minireset.min.css"
+      integrity="sha512-uBLaY+6crwV4JAHILx0HWvYncrX7TXL770hqxly0ZsQ199v4lr2yNB2jiPMoxNajFPHSQnU80B1O8dJLujWZMg=="
+      crossorigin="anonymous"
+    />
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap"
+      href="//db.onlinewebfonts.com/c/86f978ab698c7989f726963f6c7e4e0d?family=Sabon+LT+Std"
       rel="stylesheet"
     />
   </head>
 
   <body>
-    <div id="fps"></div>
-    <div id="ctrl">
+    <div id="scene1">
+      <h1 id="title">Kelvin Hung</h1>
+      <h2 id="post">Web Developer</h2>
+    </div>
+    <div id="fps" class="ui"></div>
+    <div id="ctrl" class="ui">
       <button id="inspector">Inspector</button>
       <button id="circular">circular</button>
       <button id="wave">wave</button>

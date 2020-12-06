@@ -1,3 +1,4 @@
+// import fitty from "fitty";
 import { stf, htc } from "./util.js";
 import Ring from "./Ring";
 import Bulb from "./Bulb";
@@ -7,6 +8,12 @@ import Stage from "./Stage";
 export default class Scene1 {
   constructor(options) {
     Object.assign(this, options);
+
+    // fitty('.fit', {
+    //   minSize: 12,
+    //   multiLine: false
+
+    // })
 
     this.ring1 = null;
     this.ring2 = null;

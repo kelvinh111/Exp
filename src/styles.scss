@@ -1,3 +1,26 @@
+@import url("https://db.onlinewebfonts.com/c/86f978ab698c7989f726963f6c7e4e0d?family=Sabon+LT+Std");
+
+@font-face {
+  font-family: "Sabon LT Std";
+  src: url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.eot");
+  src: url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.svg#Sabon LT Std")
+      format("svg");
+}
+
+$browser-context: 16; // Default
+
+@function em($pixels, $context: $browser-context) {
+  @return #{$pixels/$context}em;
+}
+
 html,
 body {
   overflow: hidden;
@@ -6,6 +29,11 @@ body {
   margin: 0;
   padding: 0;
   background: black;
+  font-family: "Sabon LT Std", serif;
+}
+
+html {
+  font-size: 1vw;
 }
 
 #renderCanvas {
@@ -29,4 +57,22 @@ body {
   right: 0;
   bottom: 30px;
   z-index: 100;
+}
+
+#scene1 {
+  position: absolute;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  letter-spacing: 0.8em;
+  width: 25%;
+  height: 10%;
+  font-weight: normal;
+  font-size: 2rem;
+  h1 {
+    // font
+  }
 }
