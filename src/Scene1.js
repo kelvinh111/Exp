@@ -23,6 +23,9 @@ export default class Scene1 {
     this.space = null;
     this.stage = null;
 
+    this.mbNode = document.querySelector("#mb");
+    this.needsUpdateMb = false;
+
     this.preinit();
   }
 
@@ -107,6 +110,17 @@ export default class Scene1 {
     this.space = new Space(spaceConfig);
     this.stage = new Stage();
     this.initIntro();
+    this.initClickable();
+  }
+
+  initClickable() {
+    camera.onProjectionMatrixChangedObservable.add(() => {
+      this.needsUpdateMb = true;
+    });
+
+    camera.onViewMatrixChangedObservable.add(() => {
+      this.needsUpdateMb = true;
+    });
   }
 
   initRings() {
@@ -339,6 +353,11 @@ export default class Scene1 {
     }, 6700);
   }
 
+  showText() {
+    $s2.classList.remove("active");
+    $s1.classList.add("active");
+  }
+
   toScene2() {
     console.log("s1 to s2");
     let deferred = Q.defer();
@@ -385,6 +404,7 @@ export default class Scene1 {
   fromScene2() {
     console.log("s1 from s2");
 
+    this.showText();
     var ani = new BABYLON.Animation(
       "aniYeah",
       "target.y",
@@ -443,6 +463,22 @@ export default class Scene1 {
         this.ring3.update();
       }
       spsRing.setParticles();
+
+      if (this.needsUpdateMb) {
+        const pos = BABYLON.Vector3.Project(
+          mb.getAbsolutePosition(),
+          BABYLON.Matrix.IdentityReadOnly,
+          scene1.getTransformMatrix(),
+          camera.viewport.toGlobal(
+            engine.getRenderWidth(),
+            engine.getRenderHeight()
+          )
+        );
+        this.mbNode.style.left = pos.x + "px";
+        this.mbNode.style.top = pos.y + "px";
+
+        this.needsUpdateMb = false;
+      }
     });
   }
 

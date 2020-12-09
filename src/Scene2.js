@@ -245,6 +245,11 @@ export default class Scene2 {
     });
   }
 
+  showText() {
+    $s1.classList.remove("active");
+    $s2.classList.add("active");
+  }
+
   toScene1() {
     var deferred = Q.defer();
     console.log("s2 to s1");
@@ -260,6 +265,7 @@ export default class Scene2 {
   fromScene1() {
     console.log("s2 from s1");
     g.story2 = 1;
+    this.showText();
     paperInstance.toPaper().then(() => {
       g.story2 = 2;
     });
@@ -268,6 +274,7 @@ export default class Scene2 {
   fromScene1b() {
     console.log("s2 from s1 b");
     g.story2 = 1;
+    this.showText();
     paperInstance.toPaperb().then(() => {
       g.story2 = 2;
     });

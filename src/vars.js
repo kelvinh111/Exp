@@ -6,6 +6,10 @@ window.engine = new BABYLON.Engine(canvas, true);
 window.fr = 10;
 window.ee = new EventEmitter();
 
+// cache DOM
+window.$s1 = document.querySelector("#s1");
+window.$s2 = document.querySelector("#s2");
+
 window.scene1 = null;
 window.camera = null;
 
@@ -13,7 +17,6 @@ window.scene2 = null;
 window.camera2 = null;
 
 window.scenesAniDone = false;
-
 
 window.renderTarget = null;
 window.mb = null;
@@ -145,7 +148,6 @@ window.bulbNumTotal =
 window.nbParticles = bulbNumTotal * 7;
 window.bulbCount = 0;
 window.particleCount = 0;
-
 
 window.paperConfig = {
   cam: {

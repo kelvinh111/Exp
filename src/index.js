@@ -4,6 +4,7 @@ import { stf, htc } from "./util.js";
 import Scene1 from "./Scene1";
 import Scene2 from "./Scene2";
 
+
 // loading screen
 // of preloading all assets
 let totalCount = 0;

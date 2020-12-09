@@ -61,66 +61,92 @@ html {
 
 #s1 {
   display: none;
+  &.active {
+    display: block;
+  }
   position: absolute;
-  text-align: center;
-  color: white;
-  text-transform: uppercase;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 100%;
-  height: 14%;
-  font-weight: normal;
-  text-shadow: 0 0 0.5rem rgba(255, 255, 255, 1);
-  white-space: nowrap;
+  height: 100%;
+  z-index: 200;
   pointer-events: none;
-  span {
+
+  #s1-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 14%;
+    h1,
+    h2 {
+      text-align: center;
+      color: white;
+      text-transform: uppercase;
+      font-weight: normal;
+      text-shadow: 0 0 0.5rem rgba(255, 255, 255, 1);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    // span {
+    //   pointer-events: all;
+    //   cursor: pointer;
+    // }
+    h1 {
+      transition: all 0.5s;
+      letter-spacing: 0.4em;
+      @media (orientation: landscape) {
+        font-size: 2.5rem;
+        padding-top: 1.5rem;
+        padding-bottom: 4rem;
+        @media (min-width: 1330px) {
+          font-size: 33.26px;
+          padding-top: 19.956px;
+          padding-bottom: 53.216px;
+        }
+      }
+      @media (orientation: portrait) {
+        font-size: 3.2rem;
+        padding-top: 1.92rem;
+        padding-bottom: 5.12rem;
+        @media (max-width: 800px) {
+          font-size: 20.8128px;
+          padding-top: 12.4877px;
+          padding-bottom: 33.3005px;
+        }
+      }
+    }
+    h2 {
+      transition: all 0.5s;
+      letter-spacing: 0.4em;
+      @media (orientation: landscape) {
+        font-size: 1.2rem;
+        @media (min-width: 1330px) {
+          font-size: 15.9648px;
+        }
+      }
+      @media (orientation: portrait) {
+        font-size: 1.536rem;
+        @media (max-width: 800px) {
+          font-size: 9.6px;
+        }
+      }
+    }
+  }
+
+  #mb {
+    position: fixed;
+    background: yellow;
+    opacity: 0.5;
+    padding: 10px;
     pointer-events: all;
-    cursor: pointer;
-  }
-  h1 {
-    transition: all 0.5s;
-    letter-spacing: 0.4em;
-    @media (orientation: landscape) {
-      font-size: 2.5rem;
-      padding-top: 1.5rem;
-      padding-bottom: 4rem;
-      @media (min-width: 1330px) {
-        font-size: 33.26px;
-        padding-top: 19.956px;
-        padding-bottom: 53.216px;
-      }
-    }
-    @media (orientation: portrait) {
-      font-size: 3.2rem;
-      padding-top: 1.92rem;
-      padding-bottom: 5.12rem;
-      @media (max-width: 800px) {
-        font-size: 20.8128px;
-        padding-top: 12.4877px;
-        padding-bottom: 33.3005px;
-      }
-    }
-  }
-  h2 {
-    transition: all 0.5s;
-    letter-spacing: 0.4em;
-    @media (orientation: landscape) {
-      font-size: 1.2rem;
-      @media (min-width: 1330px) {
-        font-size: 15.9648px;
-      }
-    }
-    @media (orientation: portrait) {
-      font-size: 1.536rem;
-      @media (max-width: 800px) {
-        font-size: 9.6px;
-      }
-    }
   }
 }
 
 #s2 {
+  display: none;
+  &.active {
+    display: block;
+  }
   position: absolute;
   left: 50%;
   top: 50%;
