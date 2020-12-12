@@ -4,7 +4,6 @@ import { stf, htc } from "./util.js";
 import Scene1 from "./Scene1";
 import Scene2 from "./Scene2";
 
-
 // loading screen
 // of preloading all assets
 let totalCount = 0;
@@ -93,12 +92,6 @@ window.g = onChange(
     } else {
       camera.detachControl(canvas);
     }
-
-    if (g.scene === 2 && g.story2 === 2) {
-      s2.handleMouse(true);
-    } else {
-      s2.handleMouse(false);
-    }
   }
 );
 
@@ -109,8 +102,8 @@ let showingInspecter = false;
 document.querySelector("#inspector").addEventListener("click", () => {
   showingInspecter = !showingInspecter;
   // console.log(g.scene);
-scene2.debugLayer.show();
-return
+  scene2.debugLayer.show();
+  return;
   if (showingInspecter) {
     if (g.scene === 1) scene1.debugLayer.show();
     else if (g.scene === 2) scene2.debugLayer.show();

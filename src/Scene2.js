@@ -137,7 +137,7 @@ export default class Scene2 {
 
     let dt = 6;
     let db = 5;
-    // max 26 chars 
+    // max 26 chars
     let texts = [
       "123456789 123456789 123456789 ",
       "123456789 123456789 123456789 ",
@@ -145,7 +145,7 @@ export default class Scene2 {
       "123456789 123456789 123456789 ",
       "123456789 123456789 123456789 ",
     ];
-    texts = texts.reverse()
+    texts = texts.reverse();
     this.rings = [];
 
     for (let i = 0; i < 5; i++) {
@@ -252,8 +252,8 @@ export default class Scene2 {
 
   toScene1() {
     var deferred = Q.defer();
-    console.log("s2 to s1");
     g.story2 = 3;
+    this.eventUnhandler();
     paperInstance.toScreen().then(() => {
       g.scene = 1;
       g.story2 = 0;
@@ -268,6 +268,7 @@ export default class Scene2 {
     this.showText();
     paperInstance.toPaper().then(() => {
       g.story2 = 2;
+      this.eventHandler();
     });
   }
 
@@ -277,26 +278,15 @@ export default class Scene2 {
     this.showText();
     paperInstance.toPaperb().then(() => {
       g.story2 = 2;
+      this.eventHandler();
     });
   }
 
-  mousemove(e) {
+  onMousemove(x, y) {
     gsap.to(s2light.direction, 1, {
-      x: km.map(e.clientX / window.innerWidth, 0, 1, -1, -0.6),
-      y: km.map(e.clientY / window.innerHeight, 0, 1, -0.6, -0.38),
+      x: km.map(x / window.innerWidth, 0, 1, -1, -0.6),
+      y: km.map(y / window.innerHeight, 0, 1, -0.6, -0.38),
     });
-  }
-
-  handleMouse(active) {
-    if (active) {
-      document
-        .querySelector("#renderCanvas")
-        .addEventListener("mousemove", this.mousemove);
-    } else {
-      document
-        .querySelector("#renderCanvas")
-        .removeEventListener("mousemove", this.mousemove);
-    }
   }
 
   makeJson() {
@@ -318,6 +308,24 @@ export default class Scene2 {
         }
       );
     }
+  }
+
+  eventHandler() {
+    // mousemove
+    this.observer = scene2.onPointerObservable.add((pointerInfo) => {
+      switch (pointerInfo.type) {
+        case BABYLON.PointerEventTypes.POINTERMOVE:
+          this.onMousemove(
+            pointerInfo.event.clientX,
+            pointerInfo.event.clientY
+          );
+          break;
+      }
+    });
+  }
+
+  eventUnhandler() {
+    this.observer && scene2.onPointerObservable.clear(this.observer);
   }
 
   render() {

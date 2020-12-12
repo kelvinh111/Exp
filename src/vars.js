@@ -9,6 +9,9 @@ window.ee = new EventEmitter();
 // cache DOM
 window.$s1 = document.querySelector("#s1");
 window.$s2 = document.querySelector("#s2");
+window.$cur = document.querySelector("#cursor");
+window.$curRing = document.querySelector("#cursor-ring");
+window.$curDot = document.querySelector("#cursor-dotted");
 
 window.scene1 = null;
 window.camera = null;

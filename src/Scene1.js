@@ -1,4 +1,3 @@
-// import fitty from "fitty";
 import { stf, htc } from "./util.js";
 import Ring from "./Ring";
 import Bulb from "./Bulb";
@@ -9,12 +8,6 @@ export default class Scene1 {
   constructor(options) {
     Object.assign(this, options);
 
-    // fitty('.fit', {
-    //   minSize: 12,
-    //   multiLine: false
-
-    // })
-
     this.ring1 = null;
     this.ring2 = null;
     this.ring3 = null;
@@ -23,7 +16,7 @@ export default class Scene1 {
     this.space = null;
     this.stage = null;
 
-    this.mbNode = document.querySelector("#mb");
+    this.mbPos = {};
     this.needsUpdateMb = false;
 
     this.preinit();
@@ -193,7 +186,7 @@ export default class Scene1 {
         g.story = 2;
       });
 
-    this.EventHandler();
+    this.eventHandler();
   }
 
   initIntro() {
@@ -362,6 +355,7 @@ export default class Scene1 {
     console.log("s1 to s2");
     let deferred = Q.defer();
     paperInstance.updateRatio();
+    this.eventUnhandler();
 
     setTimeout(() => {
       g.scene = 2;
@@ -374,6 +368,7 @@ export default class Scene1 {
   toScene2b() {
     console.log("s1 to s2b");
     let deferred = Q.defer();
+    this.eventUnhandler();
 
     var ani = new BABYLON.Animation(
       "aniYeah",
@@ -426,10 +421,12 @@ export default class Scene1 {
     let ease = new BABYLON.SineEase();
     ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEOUT);
     ani.setEasingFunction(ease);
-    scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {});
+    scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {
+      this.eventHandler();
+    });
   }
 
-  EventHandler() {
+  eventHandler() {
     document.querySelector("#circular").addEventListener("click", () => {
       if (g.story === 0 || g.story === 1 || g.story === 2 || g.story === 3)
         return false;
@@ -456,6 +453,18 @@ export default class Scene1 {
       });
     });
 
+    // mousemove
+    this.observer = scene1.onPointerObservable.add((pointerInfo) => {
+      switch (pointerInfo.type) {
+        case BABYLON.PointerEventTypes.POINTERMOVE:
+          this.onMousemove(
+            pointerInfo.event.clientX,
+            pointerInfo.event.clientY
+          );
+          break;
+      }
+    });
+
     scene1.registerAfterRender(() => {
       if (this.ring1 && this.ring2 && this.ring3) {
         this.ring1.update();
@@ -474,12 +483,35 @@ export default class Scene1 {
             engine.getRenderHeight()
           )
         );
-        this.mbNode.style.left = pos.x + "px";
-        this.mbNode.style.top = pos.y + "px";
+        this.mbPos.x = pos.x;
+        this.mbPos.y = pos.y;
 
         this.needsUpdateMb = false;
       }
     });
+  }
+
+  eventUnhandler() {
+    this.observer && scene1.onPointerObservable.clear(this.observer);
+  }
+
+  onMousemove(x, y) {
+    gsap.to($curRing, 0.2, { left: x + "px", top: y + "px" });
+
+    if (km.dist(x, y, this.mbPos.x, this.mbPos.y) < 150) {
+      if (!$curDot.classList.contains("focus")) {
+        $curDot.classList.add("focus");
+        gsap.to($curDot, 0.6, {
+          left: this.mbPos.x + "px",
+          top: this.mbPos.y + "px",
+        });
+      }
+    } else {
+      if ($curDot.classList.contains("focus")) {
+        $curDot.classList.remove("focus");
+      }
+      gsap.to($curDot, 0.3, { left: x + "px", top: y + "px" });
+    }
   }
 
   render() {

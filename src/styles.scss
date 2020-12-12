@@ -59,86 +59,114 @@ html {
   z-index: 100;
 }
 
-#s1 {
-  display: none;
-  &.active {
-    display: block;
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 200;
+}
+#cursor {
   pointer-events: none;
+  user-select: none;
+  #cursor-ring,
+  #cursor-dotted {
+    position: fixed;
+    z-index: 1000;
+  }
+  #cursor-ring {
+    // background: url("./img/cursor_ring.svg") no-repeat center center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid #bac1ff;
+    box-shadow: 0 0 10px #bac1ff;
+    margin-top: -22px;
+    margin-left: -22px;
+  }
+  #cursor-dotted {
+    width: 66px;
+    height: 66px;
+    margin-top: -33px;
+    margin-left: -33px;
+    background: url("./img/cursor_dotted.svg") no-repeat center center;
+    background-size: contain;
+    animation: spin 20s linear infinite;
+    transition: width 1s, height 1s, margin-top 1s, margin-left 1s;
+    &.focus {
+      width: 90px;
+      height: 90px;
+      margin-top: -45px;
+      margin-left: -45px;
+    }
+  }
+}
 
-  #s1-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 14%;
-    h1,
-    h2 {
-      text-align: center;
-      color: white;
-      text-transform: uppercase;
-      font-weight: normal;
-      text-shadow: 0 0 0.5rem rgba(255, 255, 255, 1);
-      white-space: nowrap;
-      pointer-events: none;
-    }
-    // span {
-    //   pointer-events: all;
-    //   cursor: pointer;
-    // }
-    h1 {
-      transition: all 0.5s;
-      letter-spacing: 0.4em;
-      @media (orientation: landscape) {
-        font-size: 2.5rem;
-        padding-top: 1.5rem;
-        padding-bottom: 4rem;
-        @media (min-width: 1330px) {
-          font-size: 33.26px;
-          padding-top: 19.956px;
-          padding-bottom: 53.216px;
-        }
-      }
-      @media (orientation: portrait) {
-        font-size: 3.2rem;
-        padding-top: 1.92rem;
-        padding-bottom: 5.12rem;
-        @media (max-width: 800px) {
-          font-size: 20.8128px;
-          padding-top: 12.4877px;
-          padding-bottom: 33.3005px;
-        }
+#s1 {
+  // display: none;
+  // &.active {
+  //   display: block;
+  // }
+  // position: absolute;
+  // width: 100%;
+  // height: 100%;
+  // #s1-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 200;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 14%;
+  pointer-events: none;
+  user-select: none;
+  h1,
+  h2 {
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    font-weight: normal;
+    text-shadow: 0 0 0.5rem rgba(255, 255, 255, 1);
+    white-space: nowrap;
+  }
+  h1 {
+    transition: all 0.5s;
+    letter-spacing: 0.4em;
+    @media (orientation: landscape) {
+      font-size: 2.5rem;
+      padding-top: 1.5rem;
+      padding-bottom: 4rem;
+      @media (min-width: 1330px) {
+        font-size: 33.26px;
+        padding-top: 19.956px;
+        padding-bottom: 53.216px;
       }
     }
-    h2 {
-      transition: all 0.5s;
-      letter-spacing: 0.4em;
-      @media (orientation: landscape) {
-        font-size: 1.2rem;
-        @media (min-width: 1330px) {
-          font-size: 15.9648px;
-        }
-      }
-      @media (orientation: portrait) {
-        font-size: 1.536rem;
-        @media (max-width: 800px) {
-          font-size: 9.6px;
-        }
+    @media (orientation: portrait) {
+      font-size: 3.2rem;
+      padding-top: 1.92rem;
+      padding-bottom: 5.12rem;
+      @media (max-width: 800px) {
+        font-size: 20.8128px;
+        padding-top: 12.4877px;
+        padding-bottom: 33.3005px;
       }
     }
   }
-
-  #mb {
-    position: fixed;
-    background: yellow;
-    opacity: 0.5;
-    padding: 10px;
-    pointer-events: all;
+  h2 {
+    transition: all 0.5s;
+    letter-spacing: 0.4em;
+    @media (orientation: landscape) {
+      font-size: 1.2rem;
+      @media (min-width: 1330px) {
+        font-size: 15.9648px;
+      }
+    }
+    @media (orientation: portrait) {
+      font-size: 1.536rem;
+      @media (max-width: 800px) {
+        font-size: 9.6px;
+      }
+    }
   }
 }
 
