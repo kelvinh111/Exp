@@ -99,6 +99,10 @@ export default class Scene1 {
       blurKernelSize: 30,
     });
 
+    // mouse cursor
+    gsap.to($curRing, { duration: 2, delay: 0.5, opacity: 1 });
+    gsap.to($curDot, { duration: 2, delay: 1, opacity: 1 });
+
     this.initRings();
     this.space = new Space(spaceConfig);
     this.stage = new Stage();
@@ -176,13 +180,14 @@ export default class Scene1 {
         camera.lowerAlphaLimit = km.radians(-150);
         camera.upperAlphaLimit = km.radians(-25);
         camera.lowerBetaLimit = km.radians(beta - 20);
-        camera.upperBetaLimit = km.radians(beta + 10);
+        camera.upperBetaLimit = km.radians(beta + 9.6);
         // camera.lowerRadiusLimit = km.radians(radius - 5);
         // camera.upperRadiusLimit = km.radians(radius + 5);
         camera.angularSensibilityX = 12000;
         camera.angularSensibilityY = 12000;
         camera.lowerRadiusLimit = camera.radius;
         camera.upperRadiusLimit = camera.radius;
+
         g.story = 2;
       });
 
@@ -344,11 +349,24 @@ export default class Scene1 {
     setTimeout(() => {
       this.stage.openMacbook();
     }, 6700);
+
+    setTimeout(() => {
+      this.showText(true);
+    }, 9000);
   }
 
-  showText() {
-    $s2.classList.remove("active");
-    $s1.classList.add("active");
+  showText(active) {
+    if (active) {
+      gsap.to($s1, {
+        duration: 3,
+        opacity: 1,
+      });
+    } else {
+      gsap.to($s1, {
+        duration: 3,
+        opacity: 0,
+      });
+    }
   }
 
   toScene2() {
@@ -358,6 +376,7 @@ export default class Scene1 {
     this.eventUnhandler();
 
     setTimeout(() => {
+      this.showText(false);
       g.scene = 2;
       deferred.resolve();
     }, 0);
@@ -388,6 +407,7 @@ export default class Scene1 {
       },
     ]);
 
+    this.showText(false);
     scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {
       g.scene = 2;
       deferred.resolve();
@@ -399,7 +419,7 @@ export default class Scene1 {
   fromScene2() {
     console.log("s1 from s2");
 
-    this.showText();
+    this.showText(true);
     var ani = new BABYLON.Animation(
       "aniYeah",
       "target.y",
@@ -453,18 +473,6 @@ export default class Scene1 {
       });
     });
 
-    // mousemove
-    this.observer = scene1.onPointerObservable.add((pointerInfo) => {
-      switch (pointerInfo.type) {
-        case BABYLON.PointerEventTypes.POINTERMOVE:
-          this.onMousemove(
-            pointerInfo.event.clientX,
-            pointerInfo.event.clientY
-          );
-          break;
-      }
-    });
-
     scene1.registerAfterRender(() => {
       if (this.ring1 && this.ring2 && this.ring3) {
         this.ring1.update();
@@ -491,26 +499,23 @@ export default class Scene1 {
     });
   }
 
-  eventUnhandler() {
-    this.observer && scene1.onPointerObservable.clear(this.observer);
-  }
+  eventUnhandler() {}
 
   onMousemove(x, y) {
-    gsap.to($curRing, 0.2, { left: x + "px", top: y + "px" });
-
-    if (km.dist(x, y, this.mbPos.x, this.mbPos.y) < 150) {
-      if (!$curDot.classList.contains("focus")) {
-        $curDot.classList.add("focus");
-        gsap.to($curDot, 0.6, {
+    if (g.story !== 0 && km.dist(x, y, this.mbPos.x, this.mbPos.y) < 150) {
+      if (!$cur.classList.contains("focus")) {
+        $cur.classList.add("focus");
+        gsap.to($curDot, {
+          duration: 0.6,
           left: this.mbPos.x + "px",
-          top: this.mbPos.y + "px",
+          top: this.mbPos.y - 20 + "px",
         });
       }
     } else {
-      if ($curDot.classList.contains("focus")) {
-        $curDot.classList.remove("focus");
+      if ($cur.classList.contains("focus")) {
+        $cur.classList.remove("focus");
       }
-      gsap.to($curDot, 0.3, { left: x + "px", top: y + "px" });
+      gsap.to($curDot, { duration: 0.3, left: x + "px", top: y + "px" });
     }
   }
 

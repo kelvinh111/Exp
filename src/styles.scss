@@ -30,6 +30,11 @@ body {
   padding: 0;
   background: black;
   font-family: "Sabon LT Std", serif;
+  // cursor: none;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -40,6 +45,11 @@ html {
   width: 100%;
   height: 100%;
   touch-action: none;
+}
+
+@mixin notouch {
+  pointer-events: none;
+  user-select: none;
 }
 
 #fps {
@@ -66,23 +76,30 @@ html {
   }
 }
 #cursor {
-  pointer-events: none;
-  user-select: none;
+  @include notouch;
   #cursor-ring,
   #cursor-dotted {
     position: fixed;
     z-index: 1000;
+    opacity: 0;
   }
   #cursor-ring {
-    // background: url("./img/cursor_ring.svg") no-repeat center center;
     width: 44px;
     height: 44px;
     border-radius: 50%;
     border: 1px solid #bac1ff;
-    box-shadow: 0 0 10px #bac1ff;
+    box-shadow: 0 0 10px 0 #bac1ff, 0 0 10px 0 #bac1ff inset;
     margin-top: -22px;
     margin-left: -22px;
+    transition: border 1s, box-shadow 1s;
   }
+  &.s2 {
+    #cursor-ring {
+      border-color: black;
+      box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+  }
+
   #cursor-dotted {
     width: 66px;
     height: 66px;
@@ -92,24 +109,24 @@ html {
     background-size: contain;
     animation: spin 20s linear infinite;
     transition: width 1s, height 1s, margin-top 1s, margin-left 1s;
-    &.focus {
-      width: 90px;
-      height: 90px;
-      margin-top: -45px;
-      margin-left: -45px;
+  }
+  &.focus {
+    #cursor-ring {
+      border-color: #e5a5ff;
+      box-shadow: 0 0 10px 5px white, 0 0 10 5px white inset;
+    }
+    #cursor-dotted {
+      width: 100px;
+      height: 100px;
+      margin-top: -50px;
+      margin-left: -50px;
     }
   }
 }
 
 #s1 {
-  // display: none;
-  // &.active {
-  //   display: block;
-  // }
-  // position: absolute;
-  // width: 100%;
-  // height: 100%;
-  // #s1-text {
+  @include notouch;
+  opacity: 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -117,8 +134,6 @@ html {
   transform: translate(-50%, -50%);
   width: 100%;
   height: 14%;
-  pointer-events: none;
-  user-select: none;
   h1,
   h2 {
     text-align: center;
@@ -171,10 +186,8 @@ html {
 }
 
 #s2 {
-  display: none;
-  &.active {
-    display: block;
-  }
+  @include notouch;
+  opacity: 0;
   position: absolute;
   left: 50%;
   top: 50%;

@@ -245,15 +245,24 @@ export default class Scene2 {
     });
   }
 
-  showText() {
-    $s1.classList.remove("active");
-    $s2.classList.add("active");
+  showText(active) {
+    if (active) {
+      gsap.to($s2, {
+        duration: 2,
+        opacity: 1,
+      });
+    } else {
+      gsap.to($s2, {
+        duration: 2,
+        opacity: 0,
+      });
+    }
   }
 
   toScene1() {
     var deferred = Q.defer();
     g.story2 = 3;
-    this.eventUnhandler();
+    this.showText(false);
     paperInstance.toScreen().then(() => {
       g.scene = 1;
       g.story2 = 0;
@@ -265,28 +274,30 @@ export default class Scene2 {
   fromScene1() {
     console.log("s2 from s1");
     g.story2 = 1;
-    this.showText();
     paperInstance.toPaper().then(() => {
+      this.showText(true);
       g.story2 = 2;
-      this.eventHandler();
     });
   }
 
   fromScene1b() {
     console.log("s2 from s1 b");
     g.story2 = 1;
-    this.showText();
     paperInstance.toPaperb().then(() => {
+      this.showText(true);
       g.story2 = 2;
-      this.eventHandler();
     });
   }
 
   onMousemove(x, y) {
-    gsap.to(s2light.direction, 1, {
-      x: km.map(x / window.innerWidth, 0, 1, -1, -0.6),
-      y: km.map(y / window.innerHeight, 0, 1, -0.6, -0.38),
-    });
+    if (g.story2 === 2) {
+      // pot & flower shadow
+      gsap.to(s2light.direction, {
+        duration: 1,
+        x: km.map(x / window.innerWidth, 0, 1, -1, -0.6),
+        y: km.map(y / window.innerHeight, 0, 1, -0.6, -0.38),
+      });
+    }
   }
 
   makeJson() {
@@ -310,23 +321,9 @@ export default class Scene2 {
     }
   }
 
-  eventHandler() {
-    // mousemove
-    this.observer = scene2.onPointerObservable.add((pointerInfo) => {
-      switch (pointerInfo.type) {
-        case BABYLON.PointerEventTypes.POINTERMOVE:
-          this.onMousemove(
-            pointerInfo.event.clientX,
-            pointerInfo.event.clientY
-          );
-          break;
-      }
-    });
-  }
+  eventHandler() {}
 
-  eventUnhandler() {
-    this.observer && scene2.onPointerObservable.clear(this.observer);
-  }
+  eventUnhandler() {}
 
   render() {
     this.rings.forEach((v) => {
