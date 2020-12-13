@@ -86,17 +86,56 @@ function init() {
     engine.resize();
   });
 
-  window.addEventListener("mousemove", (e) => {
-    gsap.to($curRing, {
-      duration: 0.1,
-      left: e.clientX + "px",
-      top: e.clientY + "px",
-    });
+  // window.addEventListener("mousemove", (e) => {
+  //   console.log("move");
+  //   gsap.to($curRing, {
+  //     duration: 0.1,
+  //     left: e.clientX + "px",
+  //     top: e.clientY + "px",
+  //   });
 
-    if (g.scene === 1) {
-      s1.onMousemove(e.clientX, e.clientY);
-    } else {
-      s2.onMousemove(e.clientX, e.clientY);
+  //   if (g.scene === 1) {
+  //     s1.onMousemove(e.clientX, e.clientY);
+  //   } else {
+  //     s2.onMousemove(e.clientX, e.clientY);
+  //   }
+  // });
+
+  // this even works when changed to scene2
+  scene1.onPointerObservable.add((pointerInfo) => {
+    switch (pointerInfo.type) {
+      // case BABYLON.PointerEventTypes.POINTERDOWN:
+      //   console.log("POINTER DOWN");
+      //   break;
+      // case BABYLON.PointerEventTypes.POINTERUP:
+      //   console.log("POINTER UP");
+      //   break;
+      case BABYLON.PointerEventTypes.POINTERMOVE:
+        // console.log(pointerInfo);
+        gsap.to($curRing, {
+          duration: 0.1,
+          left: pointerInfo.event.clientX + "px",
+          top: pointerInfo.event.clientY + "px",
+        });
+
+        if (g.scene === 1) {
+          s1.onMousemove(pointerInfo.event.clientX, pointerInfo.event.clientY);
+        } else {
+          s2.onMousemove(pointerInfo.event.clientX, pointerInfo.event.clientY);
+        }
+        break;
+      // case BABYLON.PointerEventTypes.POINTERWHEEL:
+      //   console.log("POINTER WHEEL");
+      //   break;
+      // case BABYLON.PointerEventTypes.POINTERPICK:
+      //   console.log("POINTER PICK");
+      //   break;
+      // case BABYLON.PointerEventTypes.POINTERTAP:
+      //   console.log("POINTER TAP");
+      //   break;
+      // case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
+      //   console.log("POINTER DOUBLE-TAP");
+      //   break;
     }
   });
 }
@@ -160,15 +199,15 @@ window.g = onChange(
     // cursor style
     if (path === "scene") {
       if (g.scene === 1) {
-        $cur.classList.remove('s2')
-        $cur.classList.add('s1')
+        $cur.classList.remove("s2");
+        $cur.classList.add("s1");
         gsap.to($curDot, {
           duration: 2,
           opacity: 1,
         });
       } else {
-        $cur.classList.remove('s1')
-        $cur.classList.add('s2')
+        $cur.classList.remove("s1");
+        $cur.classList.add("s2");
         gsap.to($curDot, {
           duration: 2,
           opacity: 0,

@@ -112,8 +112,8 @@ html {
   }
   &.focus {
     #cursor-ring {
-      border-color: #e5a5ff;
-      box-shadow: 0 0 10px 5px white, 0 0 10 5px white inset;
+      border-color: white;
+      box-shadow: 0 0 10px 3px white, 0 0 10px 3px white inset;
     }
     #cursor-dotted {
       width: 100px;

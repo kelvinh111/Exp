@@ -171,24 +171,26 @@ export default class Scene1 {
       this.ring3.aniDrop(),
       this.ring3.aniOn(),
     ])
-      .delay(1200)
+      // .delay(1200)
       .then(() => {
-        let alpha = -137;
-        let beta = 95;
-        let radius = 47;
-        camera.wheelPrecision = 20;
-        camera.lowerAlphaLimit = km.radians(-150);
-        camera.upperAlphaLimit = km.radians(-25);
-        camera.lowerBetaLimit = km.radians(beta - 20);
-        camera.upperBetaLimit = km.radians(beta + 9.6);
-        // camera.lowerRadiusLimit = km.radians(radius - 5);
-        // camera.upperRadiusLimit = km.radians(radius + 5);
-        camera.angularSensibilityX = 12000;
-        camera.angularSensibilityY = 12000;
-        camera.lowerRadiusLimit = camera.radius;
-        camera.upperRadiusLimit = camera.radius;
+        setTimeout(() => {
+          let alpha = -137;
+          let beta = 95;
+          let radius = 47;
+          camera.wheelPrecision = 20;
+          camera.lowerAlphaLimit = km.radians(-150);
+          camera.upperAlphaLimit = km.radians(-25);
+          camera.lowerBetaLimit = km.radians(beta - 20);
+          camera.upperBetaLimit = km.radians(beta + 9.6);
+          // camera.lowerRadiusLimit = km.radians(radius - 5);
+          // camera.upperRadiusLimit = km.radians(radius + 5);
+          camera.angularSensibilityX = 12000;
+          camera.angularSensibilityY = 12000;
+          camera.lowerRadiusLimit = camera.radius;
+          camera.upperRadiusLimit = camera.radius;
 
-        g.story = 2;
+          g.story = 2;
+        }, 1200);
       });
 
     this.eventHandler();
