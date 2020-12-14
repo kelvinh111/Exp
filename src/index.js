@@ -112,6 +112,26 @@ function init() {
   });
 }
 
+// loading screen
+let progress = {
+  val: 0,
+};
+var loadingScreenDiv = window.document.getElementById("loadingScreen");
+function customLoadingScreen() {
+  console.log("customLoadingScreen creation");
+}
+customLoadingScreen.prototype.displayLoadingUI = function () {
+  console.log("customLoadingScreen loading");
+  // loadingScreenDiv.innerHTML = "loading";
+};
+customLoadingScreen.prototype.hideLoadingUI = function () {
+  console.log("customLoadingScreen loaded");
+  // loadingScreenDiv.style.display = "none";
+};
+var loadingScreen = new customLoadingScreen();
+engine.loadingScreen = loadingScreen;
+engine.displayLoadingUI();
+
 ee.addListener("asset-start", (args) => {
   totalCount += args.totalCount;
 });
@@ -119,11 +139,26 @@ ee.addListener("asset-start", (args) => {
 ee.addListener("asset-progress", (args) => {
   finishCount++;
   console.log("progress", ((finishCount / totalCount) * 100).toFixed(2) + "%");
+  gsap.to(progress, {
+    duration: 0.3,
+    val: (finishCount / totalCount) * 100,
+    onUpdate: () => {
+      loadingScreenDiv.innerHTML =
+        // ((finishCount / totalCount) * 100).toFixed(2) + "%";
+        Math.round(progress.val) + "%";
+    },
+  });
 });
 
 ee.addListener("asset-finish", (args) => {
   console.log("loading finished");
   if (finishCount === totalCount) {
+    // engine.hideLoadingUI();
+    gsap.to(loadingScreenDiv, {
+      duration: 2,
+      autoAlpha: 0,
+      display: "none",
+    });
     init();
   }
 });

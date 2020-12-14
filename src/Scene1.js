@@ -516,7 +516,6 @@ export default class Scene1 {
   }
 
   onMousemove(x, y) {
-    console.log(this.mbPos, this.namePos);
     if (g.story !== 0 && km.dist(x, y, this.mbPos.x, this.mbPos.y) < 150) {
       if (!$cur.classList.contains("focus")) {
         $cur.classList.add("focus");
