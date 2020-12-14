@@ -108,7 +108,7 @@ html {
     background: url("./img/cursor_dotted.svg") no-repeat center center;
     background-size: contain;
     animation: spin 20s linear infinite;
-    transition: width 1s, height 1s, margin-top 1s, margin-left 1s;
+    transition: width 1s, height 1s, margin-top 1s, margin-left 1s, filter 1s;
   }
   &.focus {
     #cursor-ring {
@@ -116,10 +116,11 @@ html {
       box-shadow: 0 0 10px 3px white, 0 0 10px 3px white inset;
     }
     #cursor-dotted {
-      width: 100px;
-      height: 100px;
-      margin-top: -50px;
-      margin-left: -50px;
+      width: 120px;
+      height: 120px;
+      margin-top: -60px;
+      margin-left: -60px;
+      filter: contrast(200%);
     }
   }
 }

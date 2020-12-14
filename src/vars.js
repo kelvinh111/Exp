@@ -12,6 +12,8 @@ window.$s2 = document.querySelector("#s2");
 window.$cur = document.querySelector("#cursor");
 window.$curRing = document.querySelector("#cursor-ring");
 window.$curDot = document.querySelector("#cursor-dotted");
+window.$name = document.querySelector('#name span')
+window.$title = document.querySelector('#title')
 
 window.scene1 = null;
 window.camera = null;
@@ -134,12 +136,12 @@ window.ring3Config = {
 };
 
 window.spaceConfig = {
-  num: 4000,
+  num: 5000,
   angle: 137.5,
-  gap: 4,
-  matStep: 30,
+  gap: 5,
+  matStep: 20,
   bulbSize: 0.2,
-  height: 30,
+  height: 50,
   y: -20,
   delay: 7.6,
   bulbDelay: 0.15,

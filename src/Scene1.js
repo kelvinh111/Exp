@@ -1,3 +1,4 @@
+import * as workerTimers from "worker-timers";
 import { stf, htc } from "./util.js";
 import Ring from "./Ring";
 import Bulb from "./Bulb";
@@ -16,6 +17,7 @@ export default class Scene1 {
     this.space = null;
     this.stage = null;
 
+    this.namePos = {};
     this.mbPos = {};
     this.needsUpdateMb = false;
 
@@ -173,7 +175,7 @@ export default class Scene1 {
     ])
       // .delay(1200)
       .then(() => {
-        setTimeout(() => {
+        workerTimers.setTimeout(() => {
           let alpha = -137;
           let beta = 95;
           let radius = 47;
@@ -348,11 +350,11 @@ export default class Scene1 {
       }
     );
 
-    setTimeout(() => {
+    workerTimers.setTimeout(() => {
       this.stage.openMacbook();
     }, 6700);
 
-    setTimeout(() => {
+    workerTimers.setTimeout(() => {
       this.showText(true);
     }, 9000);
   }
@@ -377,7 +379,7 @@ export default class Scene1 {
     paperInstance.updateRatio();
     this.eventUnhandler();
 
-    setTimeout(() => {
+    workerTimers.setTimeout(() => {
       this.showText(false);
       g.scene = 2;
       deferred.resolve();
@@ -503,7 +505,18 @@ export default class Scene1 {
 
   eventUnhandler() {}
 
+  onResize() {
+    let rect = $name.getBoundingClientRect();
+    this.namePos = {
+      top: rect.top,
+      bottom: rect.bottom,
+      left: rect.left,
+      right: rect.right,
+    };
+  }
+
   onMousemove(x, y) {
+    console.log(this.mbPos, this.namePos);
     if (g.story !== 0 && km.dist(x, y, this.mbPos.x, this.mbPos.y) < 150) {
       if (!$cur.classList.contains("focus")) {
         $cur.classList.add("focus");
@@ -511,6 +524,21 @@ export default class Scene1 {
           duration: 0.6,
           left: this.mbPos.x + "px",
           top: this.mbPos.y - 20 + "px",
+        });
+      }
+    } else if (
+      g.story !== 0 &&
+      x > this.namePos.left &&
+      x < this.namePos.right &&
+      y > this.namePos.top &&
+      y < this.namePos.bottom
+    ) {
+      if (!$cur.classList.contains("focus")) {
+        $cur.classList.add("focus");
+        gsap.to($curDot, {
+          duration: 0.6,
+          left: (this.namePos.left + this.namePos.right) / 2 + "px",
+          top: (this.namePos.top + this.namePos.bottom) / 2 + "px",
         });
       }
     } else {

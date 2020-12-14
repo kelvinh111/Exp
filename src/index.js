@@ -1,4 +1,5 @@
 import onChange from "on-change";
+import * as workerTimers from "worker-timers";
 import "./styles.scss";
 import { stf, htc } from "./util.js";
 import Scene1 from "./Scene1";
@@ -26,11 +27,14 @@ function init() {
   s2.init();
 
   updateCameraFov();
+  engine.resize();
 
   // render once to prepare the scene
   s1.render();
   s2.render();
   paperInstance.updateRatio();
+
+  s1.onResize();
 
   engine.runRenderLoop(function () {
     divFps.innerHTML = engine.getFps().toFixed() + " FPS";
@@ -83,35 +87,15 @@ function init() {
 
   window.addEventListener("resize", function (e) {
     updateCameraFov();
+    s1.onResize();
     engine.resize();
   });
 
-  // window.addEventListener("mousemove", (e) => {
-  //   console.log("move");
-  //   gsap.to($curRing, {
-  //     duration: 0.1,
-  //     left: e.clientX + "px",
-  //     top: e.clientY + "px",
-  //   });
-
-  //   if (g.scene === 1) {
-  //     s1.onMousemove(e.clientX, e.clientY);
-  //   } else {
-  //     s2.onMousemove(e.clientX, e.clientY);
-  //   }
-  // });
-
   // this even works when changed to scene2
+  // as scene1 is always running and in fullscreen
   scene1.onPointerObservable.add((pointerInfo) => {
     switch (pointerInfo.type) {
-      // case BABYLON.PointerEventTypes.POINTERDOWN:
-      //   console.log("POINTER DOWN");
-      //   break;
-      // case BABYLON.PointerEventTypes.POINTERUP:
-      //   console.log("POINTER UP");
-      //   break;
       case BABYLON.PointerEventTypes.POINTERMOVE:
-        // console.log(pointerInfo);
         gsap.to($curRing, {
           duration: 0.1,
           left: pointerInfo.event.clientX + "px",
@@ -124,18 +108,6 @@ function init() {
           s2.onMousemove(pointerInfo.event.clientX, pointerInfo.event.clientY);
         }
         break;
-      // case BABYLON.PointerEventTypes.POINTERWHEEL:
-      //   console.log("POINTER WHEEL");
-      //   break;
-      // case BABYLON.PointerEventTypes.POINTERPICK:
-      //   console.log("POINTER PICK");
-      //   break;
-      // case BABYLON.PointerEventTypes.POINTERTAP:
-      //   console.log("POINTER TAP");
-      //   break;
-      // case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
-      //   console.log("POINTER DOUBLE-TAP");
-      //   break;
     }
   });
 }

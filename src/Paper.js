@@ -1,3 +1,4 @@
+import * as workerTimers from "worker-timers";
 import { stf, htc } from "./util.js";
 
 export default class Paper {
@@ -90,7 +91,7 @@ export default class Paper {
       var deferred = Q.defer();
 
       for (let i = 0; i < this.paperJson.length; i++) {
-        setTimeout(() => {
+        workerTimers.setTimeout(() => {
           paperMesh.disableEdgesRendering();
           paperMesh.setVerticesData(
             BABYLON.VertexBuffer.PositionKind,
@@ -264,7 +265,7 @@ export default class Paper {
         ani.setEasingFunction(ease);
         anisCam.push(ani);
       });
-      setTimeout(() => {
+      workerTimers.setTimeout(() => {
         scene2.beginDirectAnimation(
           camera2,
           anisCam,
@@ -323,7 +324,7 @@ export default class Paper {
       ani.setEasingFunction(ease);
       ani2.setEasingFunction(ease);
 
-      setTimeout(() => {
+      workerTimers.setTimeout(() => {
         scene2.beginDirectAnimation(
           s2light,
           [ani],
