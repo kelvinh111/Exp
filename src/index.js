@@ -5,11 +5,6 @@ import { stf, htc } from "./util.js";
 import Scene1 from "./Scene1";
 import Scene2 from "./Scene2";
 
-// loading screen
-// of preloading all assets
-let totalCount = 0;
-let finishCount = 0;
-
 function updateCameraFov() {
   let ratio = window.innerWidth / window.innerHeight;
   let s1fov = km.map(ratio, 0.4, 1.3, 1.2, 0.8, true);
@@ -113,9 +108,14 @@ function init() {
 }
 
 // loading screen
-let progress = {
-  val: 0,
-};
+
+// loading screen
+// of preloading all assets
+let totalCount = 0;
+let finishCount = 0;
+let loaded = 0;
+let dotCount = 20;
+let dotDone = 0;
 var loadingScreenDiv = window.document.getElementById("loadingScreen");
 function customLoadingScreen() {
   console.log("customLoadingScreen creation");
@@ -138,22 +138,39 @@ ee.addListener("asset-start", (args) => {
 
 ee.addListener("asset-progress", (args) => {
   finishCount++;
-  console.log("progress", ((finishCount / totalCount) * 100).toFixed(2) + "%");
-  gsap.to(progress, {
-    duration: 0.3,
-    val: (finishCount / totalCount) * 100,
-    onUpdate: () => {
-      loadingScreenDiv.innerHTML =
-        // ((finishCount / totalCount) * 100).toFixed(2) + "%";
-        Math.round(progress.val) + "%";
-    },
-  });
+  let index = Math.floor(((finishCount / totalCount) * 100) / (100 / dotCount));
+  console.log(finishCount, index, loaded);
+
+  for (let i = loaded; i < index; i++) {
+    gsap.to(document.querySelector(`.dot:nth-child(${i + 1})`), {
+      duration: 1,
+      scale: 1,
+      autoAlpha: 1,
+      delay: 0.2 * i,
+      onComplete: () => {
+        dotDone++;
+        if (finishCount === totalCount && dotCount === dotDone) {
+          // engine.hideLoadingUI();
+          // return;
+          gsap.to(loadingScreenDiv, {
+            duration: 1.5,
+            autoAlpha: 0,
+            scale: 3,
+            display: "none",
+          });
+          init();
+        }
+      },
+    });
+  }
+  loaded = index;
 });
 
 ee.addListener("asset-finish", (args) => {
   console.log("loading finished");
-  if (finishCount === totalCount) {
+  if (finishCount === totalCount && dotCount === dotDone) {
     // engine.hideLoadingUI();
+    // return;
     gsap.to(loadingScreenDiv, {
       duration: 2,
       autoAlpha: 0,
@@ -162,10 +179,6 @@ ee.addListener("asset-finish", (args) => {
     init();
   }
 });
-
-// Scenes management
-let s1 = new Scene1();
-let s2 = new Scene2();
 
 /*
 story
@@ -223,3 +236,7 @@ window.g = onChange(
     }
   }
 );
+
+// Scenes management
+let s1 = new Scene1();
+let s2 = new Scene2();

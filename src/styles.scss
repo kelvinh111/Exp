@@ -45,11 +45,32 @@ html {
   position: fixed;
   width: 100%;
   height: 100%;
-  color: white;
-  font-size: 50px;
-  text-align: center;
-  background-color: black;
   z-index: 20000;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .dot {
+    position: absolute;
+    z-index: 10;
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    &:after {
+      content: "";
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 5px 2px white;
+    }
+  }
+  @for $i from 1 through 20 {
+    .dot:nth-child(#{$i}) {
+      transform: rotate($i * 18deg) scale(0.1);
+    }
+  }
 }
 
 #renderCanvas {
