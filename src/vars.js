@@ -15,9 +15,11 @@ window.$curDot = document.querySelector("#cursor-dotted");
 window.$name = document.querySelector('#name span')
 window.$title = document.querySelector('#title')
 
+window.s1 = null
 window.scene1 = null;
 window.camera = null;
 
+window.s2 = null
 window.scene2 = null;
 window.camera2 = null;
 

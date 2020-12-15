@@ -59,16 +59,16 @@ html {
     &:after {
       content: "";
       display: block;
-      width: 5px;
-      height: 5px;
+      width: 3px;
+      height: 3px;
       border-radius: 50%;
-      background: white;
-      box-shadow: 0 0 5px 2px white;
+      background: #bac1ff;
+      box-shadow: 0 0 5px 1px #bac1ff;
     }
   }
   @for $i from 1 through 20 {
     .dot:nth-child(#{$i}) {
-      transform: rotate($i * 18deg) scale(0.1);
+      transform: rotate($i * 18deg) scale(.1);
     }
   }
 }
@@ -125,13 +125,6 @@ html {
     margin-left: -22px;
     transition: border 1s, box-shadow 1s;
   }
-  &.s2 {
-    #cursor-ring {
-      border-color: black;
-      box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-    }
-  }
-
   #cursor-dotted {
     width: 66px;
     height: 66px;
@@ -155,6 +148,13 @@ html {
       filter: contrast(200%);
     }
   }
+  &.s2 {
+    #cursor-ring {
+      border-color: black;
+      box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+  }
+
 }
 
 #s1 {

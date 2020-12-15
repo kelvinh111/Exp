@@ -108,8 +108,6 @@ function init() {
 }
 
 // loading screen
-
-// loading screen
 // of preloading all assets
 let totalCount = 0;
 let finishCount = 0;
@@ -118,15 +116,13 @@ let dotCount = 20;
 let dotDone = 0;
 var loadingScreenDiv = window.document.getElementById("loadingScreen");
 function customLoadingScreen() {
-  console.log("customLoadingScreen creation");
+  // console.log("customLoadingScreen creation");
 }
 customLoadingScreen.prototype.displayLoadingUI = function () {
-  console.log("customLoadingScreen loading");
-  // loadingScreenDiv.innerHTML = "loading";
+  // console.log("customLoadingScreen loading");
 };
 customLoadingScreen.prototype.hideLoadingUI = function () {
-  console.log("customLoadingScreen loaded");
-  // loadingScreenDiv.style.display = "none";
+  // console.log("customLoadingScreen loaded");
 };
 var loadingScreen = new customLoadingScreen();
 engine.loadingScreen = loadingScreen;
@@ -155,8 +151,9 @@ ee.addListener("asset-progress", (args) => {
           gsap.to(loadingScreenDiv, {
             duration: 1.5,
             autoAlpha: 0,
-            scale: 3,
+            scale: 1.5,
             display: "none",
+            delay: 0.5,
           });
           init();
         }
@@ -238,5 +235,5 @@ window.g = onChange(
 );
 
 // Scenes management
-let s1 = new Scene1();
-let s2 = new Scene2();
+s1 = new Scene1();
+s2 = new Scene2();

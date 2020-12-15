@@ -21,6 +21,11 @@ export default class Scene1 {
     this.mbPos = {};
     this.needsUpdateMb = false;
 
+    // 0: nothing
+    // 1: name
+    // 2: mb
+    this.hover = 0;
+
     this.preinit();
   }
 
@@ -477,6 +482,51 @@ export default class Scene1 {
       });
     });
 
+    scene1.onPointerObservable.add((pointerInfo) => {
+      switch (pointerInfo.type) {
+        case BABYLON.PointerEventTypes.POINTERDOWN:
+          if (this.hover === 1) {
+            // go scene2
+            if (g.scene === 2) return;
+
+            if (!scenesAniDone) {
+              scenesAniDone = true;
+              s2.render();
+              s1.toScene2().then(() => {
+                s2.fromScene1();
+              });
+            } else {
+              s1.toScene2b().then(() => {
+                s2.fromScene1b();
+              });
+            }
+          } else if (this.hover === 2) {
+            // circular / wave
+            if (g.story === 2) {
+              g.story = 3;
+              Q.all([
+                this.ring1.toWave(),
+                this.ring2.toWave(),
+                this.ring3.toWave(),
+              ]).then(() => {
+                g.story = 4;
+              });
+            }
+            if (g.story === 4) {
+              g.story = 1;
+              Q.all([
+                this.ring1.toCircular(),
+                this.ring2.toCircular(),
+                this.ring3.toCircular(),
+              ]).then(() => {
+                g.story = 2;
+              });
+            }
+          }
+          break;
+      }
+    });
+
     scene1.registerAfterRender(() => {
       if (this.ring1 && this.ring2 && this.ring3) {
         this.ring1.update();
@@ -524,6 +574,8 @@ export default class Scene1 {
           left: this.mbPos.x + "px",
           top: this.mbPos.y - 20 + "px",
         });
+
+        this.hover = 2;
       }
     } else if (
       g.story !== 0 &&
@@ -539,8 +591,10 @@ export default class Scene1 {
           left: (this.namePos.left + this.namePos.right) / 2 + "px",
           top: (this.namePos.top + this.namePos.bottom) / 2 + "px",
         });
+        this.hover = 1;
       }
     } else {
+      this.hover = 0;
       if ($cur.classList.contains("focus")) {
         $cur.classList.remove("focus");
       }
