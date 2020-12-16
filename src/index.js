@@ -6,23 +6,37 @@ import Scene1 from "./Scene1";
 import Scene2 from "./Scene2";
 
 function updateCameraFov() {
+  let deferred = Q.defer();
   let ratio = window.innerWidth / window.innerHeight;
   let s1fov = km.map(ratio, 0.4, 1.3, 1.2, 0.8, true);
   let s2fov = km.map(ratio, 0.4, 1.3, 1.5, 0.8, true);
   if (s1 && camera) {
-    gsap.to(camera, { duration: 1, fov: s1fov });
+    gsap.to(camera, {
+      duration: 1,
+      fov: s1fov,
+      onComplete: () => {
+        deferred.resolve();
+      },
+    });
   }
   if (s2 && camera2) {
-    gsap.to(camera2, { duration: 1, fov: s2fov });
+    gsap.to(camera2, {
+      duration: 1,
+      fov: s2fov,
+      onComplete: () => {
+        deferred.resolve();
+      },
+    });
   }
+  return deferred.promise;
 }
 
 function init() {
   s1.init();
   s2.init();
 
-  updateCameraFov();
   engine.resize();
+  updateCameraFov();
 
   // render once to prepare the scene
   s1.render();
@@ -81,9 +95,10 @@ function init() {
   });
 
   window.addEventListener("resize", function (e) {
-    updateCameraFov();
-    s1.onResize();
     engine.resize();
+    updateCameraFov().then(() => {
+      s1.onResize();
+    });
   });
 
   // this even works when changed to scene2
@@ -91,6 +106,7 @@ function init() {
   scene1.onPointerObservable.add((pointerInfo) => {
     switch (pointerInfo.type) {
       case BABYLON.PointerEventTypes.POINTERMOVE:
+        console.log("POINTER MOVE");
         gsap.to($curRing, {
           duration: 0.1,
           left: pointerInfo.event.clientX + "px",
@@ -102,6 +118,12 @@ function init() {
         } else {
           s2.onMousemove(pointerInfo.event.clientX, pointerInfo.event.clientY);
         }
+        break;
+      case BABYLON.PointerEventTypes.POINTERTAP:
+        console.log("POINTER TAP");
+        break;
+      case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
+        console.log("POINTER DOUBLE-TAP");
         break;
     }
   });
