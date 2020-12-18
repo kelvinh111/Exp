@@ -20,6 +20,8 @@ export default class Scene2 {
     scene2.fogColor = htc("5F779E");
     scene2.fogStart = 80;
     scene2.fogEnd = 300.0;
+    // scene2.autoClear = false; // Color buffer
+    // scene2.autoClearDepthAndStencil = false; // Depth and stencil, obviously
 
     // load all assets
     var assetsManager = new BABYLON.AssetsManager(scene2);
@@ -91,6 +93,7 @@ export default class Scene2 {
       scene2
     );
     camera2.minZ = 0.1;
+    camera2.panningSensibility = 0;
 
     paperInstance = new Paper();
 
@@ -112,6 +115,8 @@ export default class Scene2 {
     ground.rotation.x = Math.PI / 2;
     ground.material = new BABYLON.ShadowOnlyMaterial("mat", scene2);
     ground.material.shadowColor = htc("4472a7");
+    // ground.material.freeze();
+
     ground.receiveShadows = true;
     ground.position.y = -20;
 
@@ -124,6 +129,7 @@ export default class Scene2 {
     ground2.material = new BABYLON.StandardMaterial("ground2", scene2);
     ground2.material.diffuseColor = htc("B7A9AD");
     ground2.material.specularColor = htc("261C19");
+    // ground2.material.freeze();
 
     let sky = BABYLON.MeshBuilder.CreateSphere(
       "sphere",
@@ -134,6 +140,7 @@ export default class Scene2 {
     sky.material.emissiveColor = htc("ff0000");
     sky.material.backFaceCulling = false;
     sky.material.disableLighting = true;
+    // sky.material.freeze();
 
     let dt = 6;
     let db = 5;
@@ -177,9 +184,10 @@ export default class Scene2 {
       material.diffuseTexture = texture;
       material.diffuseTexture.hasAlpha = true;
       material.backFaceCulling = false;
+      // material.freeze();
 
       //Add text to dynamic texture
-      var font = "normal 86px 'Crimson Text', sans-serif";
+      var font = "normal 86px 'Sabon LT Std', serif";
       texture.drawText(
         texts[i], // 20 chars
         0,
@@ -211,6 +219,7 @@ export default class Scene2 {
     mat.transparencyMode = BABYLON.Material.MATERIAL_ALPHATEST;
     mat.useAlphaFromDiffuseTexture = true;
     mat.alpha = 0;
+    // mat.freeze();
 
     var pot = BABYLON.CylinderBuilder.CreateCylinder(
       "pot",
@@ -236,6 +245,7 @@ export default class Scene2 {
     potBottom.material = new BABYLON.StandardMaterial("pb", scene2);
     potBottom.material.diffuseColor = htc("121C2D");
     potBottom.material.emissiveColor = htc("000000");
+    // potBottom.material.freeze();
 
     flower.scaling = new BABYLON.Vector3(1, 1, 1);
     flower.position.y = -14;

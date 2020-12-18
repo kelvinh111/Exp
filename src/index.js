@@ -4,6 +4,46 @@ import "./styles.scss";
 import { stf, htc } from "./util.js";
 import Scene1 from "./Scene1";
 import Scene2 from "./Scene2";
+import MobileDetect from "mobile-detect";
+
+// detect device is desktop/mobile
+var md = new MobileDetect(window.navigator.userAgent);
+// console.log(md.mobile());
+if (md.mobile()) {
+  document.body.classList.add("mobile");
+} else {
+  document.body.classList.add("desktop");
+}
+
+// let vh = window.innerHeight * 0.01;
+// Then we set the value in the --vh custom property to the root of the document
+// document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+function onResize(e) {
+  // let vh = window.innerHeight * 0.01;
+  // document.documentElement.style.setProperty("--vh", `${vh}px`);
+  // engine.resize();
+
+  // alert(
+  //   window.innerWidth +
+  //     " " +
+  //     document.body.clientWidth +
+  //     " " +
+  //     canvas.clientWidth +
+  //     ""
+  // );
+
+  engine.resize();
+
+  if (s1 && s2) {
+    updateCameraFov().then(() => {
+      s1.onResize();
+      if (g.scene === 1) {
+        paperInstance.updateRatio();
+      }
+    });
+  }
+}
 
 function updateCameraFov() {
   let deferred = Q.defer();
@@ -28,6 +68,11 @@ function updateCameraFov() {
       },
     });
   }
+
+  if (!s1 && !s2) {
+    deferred.resolve();
+  }
+
   return deferred.promise;
 }
 
@@ -35,15 +80,11 @@ function init() {
   s1.init();
   s2.init();
 
-  engine.resize();
-  updateCameraFov();
-
   // render once to prepare the scene
   s1.render();
   s2.render();
-  paperInstance.updateRatio();
 
-  s1.onResize();
+  onResize();
 
   engine.runRenderLoop(function () {
     divFps.innerHTML = engine.getFps().toFixed() + " FPS";
@@ -94,19 +135,12 @@ function init() {
     }
   });
 
-  window.addEventListener("resize", function (e) {
-    engine.resize();
-    updateCameraFov().then(() => {
-      s1.onResize();
-    });
-  });
-
   // this even works when changed to scene2
   // as scene1 is always running and in fullscreen
   scene1.onPointerObservable.add((pointerInfo) => {
     switch (pointerInfo.type) {
       case BABYLON.PointerEventTypes.POINTERMOVE:
-        console.log("POINTER MOVE");
+        // console.log("POINTER MOVE");
         gsap.to($curRing, {
           duration: 0.1,
           left: pointerInfo.event.clientX + "px",
@@ -120,10 +154,10 @@ function init() {
         }
         break;
       case BABYLON.PointerEventTypes.POINTERTAP:
-        console.log("POINTER TAP");
+        // console.log("POINTER TAP");
         break;
       case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
-        console.log("POINTER DOUBLE-TAP");
+        // console.log("POINTER DOUBLE-TAP");
         break;
     }
   });
@@ -157,7 +191,7 @@ ee.addListener("asset-start", (args) => {
 ee.addListener("asset-progress", (args) => {
   finishCount++;
   let index = Math.floor(((finishCount / totalCount) * 100) / (100 / dotCount));
-  console.log(finishCount, index, loaded);
+  // console.log(finishCount, index, loaded);
 
   for (let i = loaded; i < index; i++) {
     gsap.to(document.querySelector(`.dot:nth-child(${i + 1})`), {
@@ -185,11 +219,12 @@ ee.addListener("asset-progress", (args) => {
   loaded = index;
 });
 
+/*
 ee.addListener("asset-finish", (args) => {
   console.log("loading finished");
   if (finishCount === totalCount && dotCount === dotDone) {
     // engine.hideLoadingUI();
-    // return;
+    return;
     gsap.to(loadingScreenDiv, {
       duration: 2,
       autoAlpha: 0,
@@ -198,6 +233,12 @@ ee.addListener("asset-finish", (args) => {
     init();
   }
 });
+*/
+
+// resize
+onResize();
+window.addEventListener("resize", onResize, false);
+window.addEventListener("orientationchange", onResize, false);
 
 /*
 story

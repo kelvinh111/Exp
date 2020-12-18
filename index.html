@@ -3,13 +3,16 @@
   <head>
     <title>Pofo</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
     <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
     <script src="https://preview.babylonjs.com/babylon.js"></script>
     <script src="https://unpkg.com/babylonjs-inspector@4.2.0/babylon.inspector.bundle.js"></script>
     <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="https://kelvinh111.github.io/cdn/babylon.shadowOnlyMaterial.js"></script>
+    <script src="https://kelvinh111.github.io/cdn/babylon.shadowOnlyMaterial.min.js"></script>
     <script src="https://kelvinh111.github.io/cdn/kelvin_util.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/q.js/1.5.1/q.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
@@ -29,13 +32,13 @@
   </head>
 
   <body>
-    <div id="fps" class="ui"></div>
     <div id="ctrl" class="ui">
       <button id="inspector">Inspector</button>
       <button id="circular">circular</button>
       <button id="wave">wave</button>
       <button id="scene1">scene 1</button>
       <button id="scene2">scene 2</button>
+      <span id="fps" class="ui"></span>
     </div>
     <div id="loadingScreen">
       <div class="dot"></div>
@@ -76,9 +79,7 @@
         quis nostrud exerci tation<br />
         ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
         consequat.<br /><br />
-        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
-        molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-        eros.
+        Duis autem vel eum iriure dolor.
       </p>
     </div>
     <canvas id="renderCanvas"></canvas>

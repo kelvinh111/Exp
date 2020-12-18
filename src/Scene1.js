@@ -32,6 +32,11 @@ export default class Scene1 {
   preinit() {
     scene1 = new BABYLON.Scene(engine);
     scene1.clearColor = new BABYLON.Color3(0, 0, 0);
+    // scene1.autoClear = false; // Color buffer
+    // scene1.autoClearDepthAndStencil = false; // Depth and stencil, obviously
+    // scene1.useGeometryIdsMap = true;
+    // scene1.useMaterialMeshMap = true;
+    // scene1.useClonedMeshMap = true;
 
     // load all assets
     var assetsManager = new BABYLON.AssetsManager(scene1);
@@ -94,6 +99,7 @@ export default class Scene1 {
       scene1
     );
     camera.minZ = 0.1;
+    camera.panningSensibility = 0;
 
     var light = new BABYLON.HemisphericLight(
       "hemi",
@@ -484,8 +490,10 @@ export default class Scene1 {
 
     scene1.onPointerObservable.add((pointerInfo) => {
       switch (pointerInfo.type) {
-        case BABYLON.PointerEventTypes.POINTERDOWN:
-          if (this.hover === 1) {
+        case BABYLON.PointerEventTypes.POINTERTAP:
+          if (
+            this.isHoverMb(pointerInfo.event.clientX, pointerInfo.event.clientY)
+          ) {
             // go scene2
             if (g.scene === 2) return;
 
@@ -500,7 +508,12 @@ export default class Scene1 {
                 s2.fromScene1b();
               });
             }
-          } else if (this.hover === 2) {
+          } else if (
+            this.isHoverName(
+              pointerInfo.event.clientX,
+              pointerInfo.event.clientY
+            )
+          ) {
             // circular / wave
             if (g.story === 2) {
               g.story = 3;
@@ -565,8 +578,27 @@ export default class Scene1 {
     };
   }
 
+  isHoverName(x, y) {
+    return (
+      g.scene === 1 &&
+      g.story !== 0 &&
+      km.dist(x, y, this.mbPos.x, this.mbPos.y) < 150
+    );
+  }
+
+  isHoverMb(x, y) {
+    return (
+      g.scene === 1 &&
+      g.story !== 0 &&
+      x > this.namePos.left &&
+      x < this.namePos.right &&
+      y > this.namePos.top &&
+      y < this.namePos.bottom
+    );
+  }
+
   onMousemove(x, y) {
-    if (g.story !== 0 && km.dist(x, y, this.mbPos.x, this.mbPos.y) < 150) {
+    if (this.isHoverName(x, y)) {
       if (!$cur.classList.contains("focus")) {
         $cur.classList.add("focus");
         gsap.to($curDot, {
@@ -574,16 +606,8 @@ export default class Scene1 {
           left: this.mbPos.x + "px",
           top: this.mbPos.y - 20 + "px",
         });
-
-        this.hover = 2;
       }
-    } else if (
-      g.story !== 0 &&
-      x > this.namePos.left &&
-      x < this.namePos.right &&
-      y > this.namePos.top &&
-      y < this.namePos.bottom
-    ) {
+    } else if (this.isHoverMb(x, y)) {
       if (!$cur.classList.contains("focus")) {
         $cur.classList.add("focus");
         gsap.to($curDot, {
@@ -591,10 +615,8 @@ export default class Scene1 {
           left: (this.namePos.left + this.namePos.right) / 2 + "px",
           top: (this.namePos.top + this.namePos.bottom) / 2 + "px",
         });
-        this.hover = 1;
       }
     } else {
-      this.hover = 0;
       if ($cur.classList.contains("focus")) {
         $cur.classList.remove("focus");
       }
