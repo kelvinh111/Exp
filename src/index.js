@@ -1,4 +1,5 @@
 import onChange from "on-change";
+import * as dpe from "default-passive-events";
 import * as workerTimers from "worker-timers";
 import "./styles.scss";
 import { stf, htc } from "./util.js";
@@ -8,22 +9,17 @@ import MobileDetect from "mobile-detect";
 
 // detect device is desktop/mobile
 var md = new MobileDetect(window.navigator.userAgent);
-// console.log(md.mobile());
-if (md.mobile()) {
+if (
+  md.mobile() ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 0) ||
+  navigator.platform === "iPad"
+) {
   document.body.classList.add("mobile");
 } else {
   document.body.classList.add("desktop");
 }
 
-// let vh = window.innerHeight * 0.01;
-// Then we set the value in the --vh custom property to the root of the document
-// document.documentElement.style.setProperty("--vh", `${vh}px`);
-
 function onResize(e) {
-  // let vh = window.innerHeight * 0.01;
-  // document.documentElement.style.setProperty("--vh", `${vh}px`);
-  // engine.resize();
-
   // alert(
   //   window.innerWidth +
   //     " " +

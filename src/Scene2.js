@@ -182,6 +182,7 @@ export default class Scene2 {
       var material = new BABYLON.StandardMaterial("Mat", scene2);
       material.alpha = 1;
       material.diffuseTexture = texture;
+      material.opacityTexture = texture;
       material.diffuseTexture.hasAlpha = true;
       material.backFaceCulling = false;
       // material.freeze();

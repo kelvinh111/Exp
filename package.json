@@ -8,6 +8,7 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
+    "default-passive-events": "^2.0.0",
     "mobile-detect": "^1.4.4",
     "on-change": "2.1.4",
     "worker-timers": "^7.0.7"
