@@ -58,30 +58,30 @@ export default class Ring {
         keysDrop = [
           {
             frame: 0,
-            value: bulb.core.position.y
+            value: bulb.core.position.y,
           },
           {
             frame: stf(this.dropConfig.dropFirstDelay),
-            value: bulb.core.position.y
+            value: bulb.core.position.y,
           },
           {
             frame: stf(
               this.dropConfig.dropFirstDelay + this.dropConfig.dropFirstDuration
             ),
-            value: destY
-          }
+            value: destY,
+          },
         ];
       } else {
         keysDrop = [
           {
             frame: 0,
-            value: bulb.core.position.y
+            value: bulb.core.position.y,
           },
           {
             frame: stf(
               this.dropConfig.ringDelay + this.dropConfig.bulbDelay * key
             ),
-            value: bulb.core.position.y
+            value: bulb.core.position.y,
           },
           {
             frame: stf(
@@ -89,8 +89,8 @@ export default class Ring {
                 this.dropConfig.bulbDelay * key +
                 this.dropConfig.bulbDuration
             ),
-            value: destY
-          }
+            value: destY,
+          },
         ];
       }
 
@@ -110,8 +110,7 @@ export default class Ring {
         1,
         () => {
           if (key + 1 === this.bulbNum) {
-            //this.dropConfig.done = true;
-            console.log('aniDrop done')
+            console.log("aniDrop done");
             deferred.resolve();
           }
         }
@@ -137,20 +136,20 @@ export default class Ring {
         keysOn = [
           {
             frame: 0,
-            value: this.dropConfig.color
+            value: this.dropConfig.color,
           },
           {
             frame: stf(
               this.dropConfig.dropFirstDelay + this.dropConfig.dropFirstDuration
             ),
-            value: this.dropConfig.color
-          }
+            value: this.dropConfig.color,
+          },
         ];
       } else {
         keysOn = [
           {
             frame: 0,
-            value: ringsMats[bulb.core.materialIndex].emissiveColor
+            value: ringsMats[bulb.core.materialIndex].emissiveColor,
           },
           {
             frame: stf(
@@ -158,7 +157,7 @@ export default class Ring {
                 this.dropConfig.bulbDelay * key +
                 this.dropConfig.colorDelay
             ),
-            value: ringsMats[bulb.core.materialIndex].emissiveColor
+            value: ringsMats[bulb.core.materialIndex].emissiveColor,
           },
           {
             frame: stf(
@@ -167,8 +166,8 @@ export default class Ring {
                 this.dropConfig.colorDelay +
                 this.dropConfig.colorDuration
             ),
-            value: this.dropConfig.color
-          }
+            value: this.dropConfig.color,
+          },
         ];
       }
 
@@ -189,7 +188,7 @@ export default class Ring {
         1,
         () => {
           if (key + 1 === this.bulbNum) {
-            console.log('aniOn done')
+            console.log("aniOn done");
             deferred.resolve();
           }
         }
@@ -226,12 +225,12 @@ export default class Ring {
       let keysDrop = [
         {
           frame: 0,
-          value: bulb.core.position.y
+          value: bulb.core.position.y,
         },
         {
           frame: stf(3),
-          value: destY
-        }
+          value: destY,
+        },
       ];
 
       aniCircular.setKeys(keysDrop);
@@ -294,12 +293,12 @@ export default class Ring {
       let keysDrop = [
         {
           frame: 0,
-          value: bulb.core.position.y
+          value: bulb.core.position.y,
         },
         {
           frame: stf(3),
-          value: destY
-        }
+          value: destY,
+        },
       ];
 
       aniWave.setKeys(keysDrop);

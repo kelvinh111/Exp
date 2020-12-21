@@ -87,7 +87,6 @@ function init() {
   let showingInspecter = false;
   document.querySelector("#inspector").addEventListener("click", () => {
     showingInspecter = !showingInspecter;
-    // console.log(g.scene);
     if (showingInspecter) {
       if (g.scene === 1) scene1.debugLayer.show();
       else if (g.scene === 2) scene2.debugLayer.show();
@@ -156,11 +155,6 @@ function init() {
           left: pointerInfo.event.clientX + "px",
           top: pointerInfo.event.clientY + "px",
         });
-        // gsap.to($curDot, {
-        //   duration: 0.3,
-        //   left: pointerInfo.event.clientX + "px",
-        //   top: pointerInfo.event.clientY + "px",
-        // });
 
         if (g.scene === 1) {
           s1.onMousemove(pointerInfo.event.clientX, pointerInfo.event.clientY);
@@ -181,7 +175,6 @@ function init() {
   $s2.addEventListener("mousemove", (e) => {
     if (g.scene === 2) {
       // console.log("mousemove");
-      // console.log(e);
       gsap.to($curRing, {
         duration: 0.05,
         left: e.clientX + "px",
@@ -322,17 +315,9 @@ window.g = onChange(
       if (g.scene === 1) {
         $cur.classList.remove("s2");
         $cur.classList.add("s1");
-        // gsap.to($curDot, {
-        //   duration: 2,
-        //   opacity: 1,
-        // });
       } else {
         $cur.classList.remove("s1");
         $cur.classList.add("s2");
-        // gsap.to($curDot, {
-        //   duration: 2,
-        //   opacity: 0,
-        // });
       }
     }
   }

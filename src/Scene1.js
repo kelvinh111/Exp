@@ -32,11 +32,6 @@ export default class Scene1 {
   preinit() {
     scene1 = new BABYLON.Scene(engine);
     scene1.clearColor = new BABYLON.Color3(0, 0, 0);
-    // scene1.autoClear = false; // Color buffer
-    // scene1.autoClearDepthAndStencil = false; // Depth and stencil, obviously
-    // scene1.useGeometryIdsMap = true;
-    // scene1.useMaterialMeshMap = true;
-    // scene1.useClonedMeshMap = true;
 
     // load all assets
     var assetsManager = new BABYLON.AssetsManager(scene1);

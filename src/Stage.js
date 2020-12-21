@@ -71,7 +71,6 @@ export default class Stage {
 
     //Create the mirror material
     var mirrorMaterial = new BABYLON.StandardMaterial("mirror", scene1);
-    // mirrorMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
     mirrorMaterial.diffuseColor = htc("202020");
     mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture(
       "mirror",
@@ -95,7 +94,6 @@ export default class Stage {
     );
     cone.material = new BABYLON.StandardMaterial("cone", scene1);
     cone.material.diffuseColor = htc("474b66");
-    // cone.material.freeze();
     cone.position.y = -7.05;
 
     // rtt
