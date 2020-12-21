@@ -37,6 +37,10 @@ $browser-context: 16; // Default
   max-width: stretch;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   overflow: hidden;
@@ -46,11 +50,7 @@ body {
   padding: 0;
   font-family: "Sabon LT Std", serif;
   touch-action: pan-x pan-y;
-  // cursor: none;
-}
-
-* {
-  box-sizing: border-box;
+  cursor: none;
 }
 
 html {
@@ -58,10 +58,31 @@ html {
 }
 
 body {
-  background: #222;
+  background: black;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+a,
+.link {
+  cursor: none;
+  color: black;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.5s, text-shadow 0.5s;
+
+  text-shadow: none;
+  &:hover {
+    color: #721a43;
+    text-shadow: 0 0 5px white;
+  }
+}
+
+#scene-explorer-host,
+#inspector-host {
+  position: absolute !important;
+  z-index: 99999;
 }
 
 #loadingScreen {
@@ -141,7 +162,8 @@ body.desktop {
       box-shadow: 0 0 10px 0 #bac1ff, 0 0 10px 0 #bac1ff inset;
       margin-top: -22px;
       margin-left: -22px;
-      transition: border 1s, box-shadow 1s;
+      transition: width 1s, height 1s, margin-top 1s, margin-left 1s, border 1s,
+        box-shadow 1s;
     }
     #cursor-dotted {
       width: 66px;
@@ -153,7 +175,7 @@ body.desktop {
       animation: spin 20s linear infinite;
       transition: width 1s, height 1s, margin-top 1s, margin-left 1s, filter 1s;
     }
-    &.focus {
+    &.s1.focus {
       #cursor-ring {
         border-color: white;
         box-shadow: 0 0 10px 3px white, 0 0 10px 3px white inset;
@@ -171,6 +193,23 @@ body.desktop {
         border-color: black;
         box-shadow: 0 0 0 rgba(255, 255, 255, 0);
       }
+      #cursor-dotted {
+        filter: invert(100%) contrast(200%);
+      }
+      &.focus {
+        #cursor-ring {
+          width: 80px;
+          height: 80px;
+          margin-top: -40px;
+          margin-left: -40px;
+        }
+        #cursor-dotted {
+          width: 120px;
+          height: 120px;
+          margin-top: -60px;
+          margin-left: -60px;
+        }
+      }
     }
   }
 }
@@ -182,6 +221,7 @@ body.mobile {
 
 #s1 {
   @include notouch;
+  // display: none;
   opacity: 0;
   position: absolute;
   top: 50%;
@@ -242,22 +282,23 @@ body.mobile {
 }
 
 #s2 {
-  @include notouch;
+  user-select: none;
+  display: none;
   opacity: 0;
   position: absolute;
   z-index: 200;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  // height: 60%;
+  padding: 20px;
 
   @media (orientation: landscape) {
-    width: 42%;
+    width: 44%;
     max-width: 570px;
     min-width: 480px;
   }
   @media (orientation: portrait) {
-    width: 70%;
+    width: 80%;
   }
 
   p {
@@ -276,5 +317,9 @@ body.mobile {
         font-size: 16px;
       }
     }
+  }
+  #back {
+    text-decoration: underline;
+    font-weight: bold;
   }
 }

@@ -260,12 +260,14 @@ export default class Scene2 {
     if (active) {
       gsap.to($s2, {
         duration: 2,
-        opacity: 1,
+        autoAlpha: 1,
+        display: "block",
       });
     } else {
       gsap.to($s2, {
         duration: 2,
-        opacity: 0,
+        autoAlpha: 0,
+        display: "none",
       });
     }
   }
@@ -275,6 +277,7 @@ export default class Scene2 {
     g.story2 = 3;
     this.showText(false);
     paperInstance.toScreen().then(() => {
+      $cur.classList.remove("focus");
       g.scene = 1;
       g.story2 = 0;
       deferred.resolve();
@@ -285,6 +288,7 @@ export default class Scene2 {
   fromScene1() {
     console.log("s2 from s1");
     g.story2 = 1;
+
     paperInstance.toPaper().then(() => {
       this.showText(true);
       g.story2 = 2;
@@ -301,6 +305,7 @@ export default class Scene2 {
   }
 
   onMousemove(x, y) {
+    gsap.to($curDot, { duration: 0.3, left: x + "px", top: y + "px" });
     if (g.story2 === 2) {
       // pot & flower shadow
       gsap.to(s2light.direction, {

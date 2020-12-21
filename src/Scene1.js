@@ -106,6 +106,7 @@ export default class Scene1 {
       new BABYLON.Vector3(0, 1, -0.5),
       scene1
     );
+    light.diffuse = htc("b1bbff");
 
     s1gl = new BABYLON.GlowLayer("glow", scene1, {
       //mainTextureFixedSize: 512,
@@ -287,7 +288,7 @@ export default class Scene1 {
         value: km.radians(74),
       },
       {
-        frame: stf(12),
+        frame: stf(13),
         value: km.radians(95),
       },
     ]);
@@ -309,7 +310,7 @@ export default class Scene1 {
         value: 33,
       },
       {
-        frame: stf(12),
+        frame: stf(13),
         value: 47,
       },
     ]);
@@ -335,7 +336,7 @@ export default class Scene1 {
         value: camera.target.y + 2,
       },
       {
-        frame: stf(12),
+        frame: stf(13),
         value: camera.target.y + 3,
       },
     ]);
@@ -355,7 +356,7 @@ export default class Scene1 {
           camera,
           [ani4, ani5, ani6],
           0,
-          stf(12),
+          stf(13),
           false
         );
       }
@@ -392,6 +393,7 @@ export default class Scene1 {
 
     workerTimers.setTimeout(() => {
       this.showText(false);
+      $cur.classList.remove("focus");
       g.scene = 2;
       deferred.resolve();
     }, 0);
@@ -423,6 +425,7 @@ export default class Scene1 {
     ]);
 
     this.showText(false);
+    $cur.classList.remove("focus");
     scene1.beginDirectAnimation(camera, [ani], 0, stf(4), false, 1, () => {
       g.scene = 2;
       deferred.resolve();
@@ -492,7 +495,10 @@ export default class Scene1 {
       switch (pointerInfo.type) {
         case BABYLON.PointerEventTypes.POINTERTAP:
           if (
-            this.isHoverMb(pointerInfo.event.clientX, pointerInfo.event.clientY)
+            this.isHoverName(
+              pointerInfo.event.clientX,
+              pointerInfo.event.clientY
+            )
           ) {
             // go scene2
             if (g.scene === 2) return;
@@ -509,10 +515,7 @@ export default class Scene1 {
               });
             }
           } else if (
-            this.isHoverName(
-              pointerInfo.event.clientX,
-              pointerInfo.event.clientY
-            )
+            this.isHoverMb(pointerInfo.event.clientX, pointerInfo.event.clientY)
           ) {
             // circular / wave
             if (g.story === 2) {
@@ -578,7 +581,7 @@ export default class Scene1 {
     };
   }
 
-  isHoverName(x, y) {
+  isHoverMb(x, y) {
     return (
       g.scene === 1 &&
       g.story !== 0 &&
@@ -586,19 +589,19 @@ export default class Scene1 {
     );
   }
 
-  isHoverMb(x, y) {
+  isHoverName(x, y) {
     return (
       g.scene === 1 &&
       g.story !== 0 &&
-      x > this.namePos.left &&
-      x < this.namePos.right &&
-      y > this.namePos.top &&
-      y < this.namePos.bottom
+      x > this.namePos.left - 5 &&
+      x < this.namePos.right + 5 &&
+      y > this.namePos.top - 3 &&
+      y < this.namePos.bottom + 3
     );
   }
 
   onMousemove(x, y) {
-    if (this.isHoverName(x, y)) {
+    if (this.isHoverMb(x, y)) {
       if (!$cur.classList.contains("focus")) {
         $cur.classList.add("focus");
         gsap.to($curDot, {
@@ -607,7 +610,7 @@ export default class Scene1 {
           top: this.mbPos.y - 20 + "px",
         });
       }
-    } else if (this.isHoverMb(x, y)) {
+    } else if (this.isHoverName(x, y)) {
       if (!$cur.classList.contains("focus")) {
         $cur.classList.add("focus");
         gsap.to($curDot, {

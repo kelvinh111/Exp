@@ -20,15 +20,6 @@ if (
 }
 
 function onResize(e) {
-  // alert(
-  //   window.innerWidth +
-  //     " " +
-  //     document.body.clientWidth +
-  //     " " +
-  //     canvas.clientWidth +
-  //     ""
-  // );
-
   engine.resize();
 
   if (s1 && s2) {
@@ -97,7 +88,6 @@ function init() {
   document.querySelector("#inspector").addEventListener("click", () => {
     showingInspecter = !showingInspecter;
     // console.log(g.scene);
-    scene2.debugLayer.show();
     if (showingInspecter) {
       if (g.scene === 1) scene1.debugLayer.show();
       else if (g.scene === 2) scene2.debugLayer.show();
@@ -108,6 +98,14 @@ function init() {
   });
 
   document.querySelector("#scene1").addEventListener("click", function () {
+    if (g.scene === 1) return;
+
+    s2.toScene1().then(() => {
+      s1.fromScene2();
+    });
+  });
+
+  document.querySelector("#back").addEventListener("click", function () {
     if (g.scene === 1) return;
 
     s2.toScene1().then(() => {
@@ -131,17 +129,38 @@ function init() {
     }
   });
 
-  // this even works when changed to scene2
-  // as scene1 is always running and in fullscreen
+  /* 
+  ********************
+  // mousemove handlings of scene1 & scene2 are different
+  //
+  // 1.
+  // babylon pointermove:
+  // work while dragging
+  // not work while on top of html element
+  //
+  // 2.
+  // window mousemove:
+  // opposite
+  //
+  // scene1 needs to drag so approach 1
+  // scene2 doesnt need to drag so approach 2
+  ********************
+  */
+  // scene 1 : approach 1
   scene1.onPointerObservable.add((pointerInfo) => {
     switch (pointerInfo.type) {
       case BABYLON.PointerEventTypes.POINTERMOVE:
         // console.log("POINTER MOVE");
         gsap.to($curRing, {
-          duration: 0.1,
+          duration: 0.05,
           left: pointerInfo.event.clientX + "px",
           top: pointerInfo.event.clientY + "px",
         });
+        // gsap.to($curDot, {
+        //   duration: 0.3,
+        //   left: pointerInfo.event.clientX + "px",
+        //   top: pointerInfo.event.clientY + "px",
+        // });
 
         if (g.scene === 1) {
           s1.onMousemove(pointerInfo.event.clientX, pointerInfo.event.clientY);
@@ -155,6 +174,32 @@ function init() {
       case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
         // console.log("POINTER DOUBLE-TAP");
         break;
+    }
+  });
+
+  // scene 2 : approach 2
+  $s2.addEventListener("mousemove", (e) => {
+    if (g.scene === 2) {
+      // console.log("mousemove");
+      // console.log(e);
+      gsap.to($curRing, {
+        duration: 0.05,
+        left: e.clientX + "px",
+        top: e.clientY + "px",
+      });
+      gsap.to($curDot, {
+        duration: 0.3,
+        left: e.clientX + "px",
+        top: e.clientY + "px",
+      });
+
+      if (e.target.className === "link") {
+        $cur.classList.add("focus");
+      } else {
+        $cur.classList.remove("focus");
+      }
+
+      if (!hasGyro) s2.onMousemove(e.clientX, e.clientY);
     }
   });
 }
@@ -277,17 +322,17 @@ window.g = onChange(
       if (g.scene === 1) {
         $cur.classList.remove("s2");
         $cur.classList.add("s1");
-        gsap.to($curDot, {
-          duration: 2,
-          opacity: 1,
-        });
+        // gsap.to($curDot, {
+        //   duration: 2,
+        //   opacity: 1,
+        // });
       } else {
         $cur.classList.remove("s1");
         $cur.classList.add("s2");
-        gsap.to($curDot, {
-          duration: 2,
-          opacity: 0,
-        });
+        // gsap.to($curDot, {
+        //   duration: 2,
+        //   opacity: 0,
+        // });
       }
     }
   }
