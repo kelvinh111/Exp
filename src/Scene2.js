@@ -139,13 +139,43 @@ export default class Scene2 {
 
     let dt = 6;
     let db = 5;
+    /*
+    setback
+reality
+failure
+pain
+exhaustion
+helpless
+depression
+Frustration
+numb
+struggles
+anxiety
+fear
+burnout
+inability
+doubt
+despair
+torment
+suffering
+bitterness
+hardship
+agony
+grief
+tiredness
+illusion
+compromise
+abandoned
+rejection
+
+    */
     // max 26 chars
     let texts = [
-      "123456789 123456789 123456789 ",
-      "123456789 123456789 123456789 ",
-      "123456789 123456789 123456789 ",
-      "123456789 123456789 123456789 ",
-      "123456789 123456789 123456789 ",
+      "CHRONIC ISSUE DEPRESSION",
+      "REALITY EXHAUSTION PAIN",
+      "FAILURE ANXIETY DESPAIR",
+      "WORTHLESS INSIGNIFICANT",
+      "BITTERNESS BURNOUT NUMB ",
     ];
     texts = texts.reverse();
     this.rings = [];
@@ -159,7 +189,7 @@ export default class Scene2 {
           diameterBottom: db,
           cap: BABYLON.Mesh.NO_CAP,
           enclose: false,
-          sideOrientation: BABYLON.Mesh.DOUBLESIDE,
+          sideOrientation: BABYLON.Mesh.FRONTSIDE,
         },
         scene2
       );
@@ -182,7 +212,7 @@ export default class Scene2 {
       material.backFaceCulling = false;
 
       //Add text to dynamic texture
-      var font = "normal 86px 'Sabon LT Std', serif";
+      var font = "normal 70px 'Sabon LT Std', serif";
       texture.drawText(
         texts[i], // 20 chars
         0,
@@ -195,7 +225,7 @@ export default class Scene2 {
       );
 
       ring.material = material;
-      ring.speed = Math.random() * 0.008 + 0.002;
+      ring.speed = Math.random() * 0.006 + 0.004;
 
       this.rings.push(ring);
     }
