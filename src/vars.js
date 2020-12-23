@@ -34,6 +34,8 @@ window.paperGltf = null;
 window.paperMesh = null;
 window.flowerGltf = null;
 window.flower = null;
+window.trashGltf = null;
+window.trash = null;
 
 window.s2light = null;
 

@@ -36,6 +36,18 @@ export default class Scene2 {
       flower = flowerGltf[0];
     };
 
+    var trashTask = assetsManager.addMeshTask(
+      "trash",
+      "",
+      `https://public.kelvinh.studio/cdn/3d/trashbin/`,
+      `trashbin.gltf`
+    );
+
+    trashTask.onSuccess = function (task) {
+      trashGltf = task.loadedMeshes;
+      trash = trashGltf[0];
+    };
+
     var paperTask = assetsManager.addMeshTask(
       "paper",
       "",
@@ -74,7 +86,7 @@ export default class Scene2 {
     ee.emitEvent("asset-start", [
       {
         scene: 2,
-        totalCount: 2,
+        totalCount: 3,
       },
     ]);
 
@@ -101,6 +113,7 @@ export default class Scene2 {
       scene2
     );
     s2light.position = new BABYLON.Vector3(0, 10, 0);
+    s2light.direction = new BABYLON.Vector3(-0.1, -0.6, -0.1);
     s2light.intensity = 0.8;
 
     var light2 = new BABYLON.HemisphericLight(
@@ -137,38 +150,10 @@ export default class Scene2 {
     sky.material.backFaceCulling = false;
     sky.material.disableLighting = true;
 
+    /*
     let dt = 6;
     let db = 5;
-    /*
-    setback
-reality
-failure
-pain
-exhaustion
-helpless
-depression
-Frustration
-numb
-struggles
-anxiety
-fear
-burnout
-inability
-doubt
-despair
-torment
-suffering
-bitterness
-hardship
-agony
-grief
-tiredness
-illusion
-compromise
-abandoned
-rejection
-
-    */
+    
     // max 26 chars
     let texts = [
       "CHRONIC ISSUE DEPRESSION",
@@ -229,6 +214,7 @@ rejection
 
       this.rings.push(ring);
     }
+    */
 
     var shadowGenerator = new BABYLON.ShadowGenerator(512, s2light);
     shadowGenerator.useBlurExponentialShadowMap = true;
@@ -250,7 +236,7 @@ rejection
       {
         height: 6,
         diameterTop: 7,
-        diameterBottom: 5,
+        diameterBottom: 6,
         sideOrientation: BABYLON.Mesh.DOUBLESIDE,
       },
       scene2
@@ -259,16 +245,16 @@ rejection
     pot.material = mat;
     shadowGenerator.getShadowMap().renderList.push(pot);
 
-    var potBottom = BABYLON.MeshBuilder.CreateDisc(
-      "disc",
-      { radius: 2.5 },
-      scene2
-    );
-    potBottom.rotation.x = Math.PI / 2;
-    potBottom.position.y = -19.9;
-    potBottom.material = new BABYLON.StandardMaterial("pb", scene2);
-    potBottom.material.diffuseColor = htc("121C2D");
-    potBottom.material.emissiveColor = htc("000000");
+    // var potBottom = BABYLON.MeshBuilder.CreateDisc(
+    //   "disc",
+    //   { radius: 2.5 },
+    //   scene2
+    // );
+    // potBottom.rotation.x = Math.PI / 2;
+    // potBottom.position.y = -19.9;
+    // potBottom.material = new BABYLON.StandardMaterial("pb", scene2);
+    // potBottom.material.diffuseColor = htc("121C2D");
+    // potBottom.material.emissiveColor = htc("000000");
 
     flower.scaling = new BABYLON.Vector3(1, 1, 1);
     flower.position.y = -14;
@@ -276,6 +262,11 @@ rejection
       shadowGenerator.getShadowMap().renderList.push(v);
       v.material = mat;
     });
+
+    // trash
+    trash.position = new BABYLON.Vector3(0, -20.25, 0);
+    trash.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
+    trash.scaling = new BABYLON.Vector3(9.5, 9.5, -9.5);
   }
 
   showText(active) {
@@ -364,9 +355,9 @@ rejection
   eventUnhandler() {}
 
   render() {
-    this.rings.forEach((v) => {
-      v.rotation.y -= v.speed;
-    });
+    // this.rings.forEach((v) => {
+    //   v.rotation.y -= v.speed;
+    // });
     scene2.render();
   }
 }
