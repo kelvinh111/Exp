@@ -1,20 +1,3 @@
-@import url("https://db.onlinewebfonts.com/c/86f978ab698c7989f726963f6c7e4e0d?family=Sabon+LT+Std");
-
-@font-face {
-  font-family: "Sabon LT Std";
-  src: url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.eot");
-  src: url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.eot?#iefix")
-      format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.woff2")
-      format("woff2"),
-    url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.woff")
-      format("woff"),
-    url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.ttf")
-      format("truetype"),
-    url("https://db.onlinewebfonts.com/t/86f978ab698c7989f726963f6c7e4e0d.svg#Sabon LT Std")
-      format("svg");
-}
-
 $browser-context: 16; // Default
 
 @function em($pixels, $context: $browser-context) {
@@ -48,7 +31,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: "Sabon LT Std", serif;
+  font-family: "Frank Ruhl Libre", serif;
   touch-action: pan-x pan-y;
   cursor: none;
 }
@@ -69,7 +52,6 @@ a,
   cursor: none;
   color: #222;
   text-decoration: underline;
-  // font-weight: bold;
   transition: color 0.5s, text-shadow 0.5s;
 
   text-shadow: none;
@@ -319,9 +301,5 @@ body.mobile {
         font-size: 16px;
       }
     }
-  }
-  #back {
-    text-decoration: underline;
-    font-weight: bold;
   }
 }
