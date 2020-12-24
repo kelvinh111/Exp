@@ -296,12 +296,10 @@ export default class Paper {
           value: s2light.direction,
         },
         {
-          frame: stf(3),
+          frame: stf(2.5),
           value: new BABYLON.Vector3(-0.8, -0.4, -1),
         },
       ]);
-      let ease = new BABYLON.SineEase();
-      ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEOUT);
 
       var ani2 = new BABYLON.Animation(
         "aniFlower",
@@ -316,11 +314,18 @@ export default class Paper {
           value: flower.scaling,
         },
         {
-          frame: stf(3),
+          frame: stf(1),
+          value: flower.scaling,
+        },
+        {
+          frame: stf(3.5),
           value: new BABYLON.Vector3(20, 20, 20),
         },
       ]);
 
+      // let ease = new BABYLON.SineEase();
+      // ease.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEOUT);
+      var ease = new BABYLON.BezierCurveEase(0, 0, 0.62, 0.93);
       ani.setEasingFunction(ease);
       ani2.setEasingFunction(ease);
 
@@ -329,16 +334,24 @@ export default class Paper {
           s2light,
           [ani],
           0,
-          stf(3),
+          stf(2.5),
           false,
           1,
           () => {}
         );
 
-        scene2.beginDirectAnimation(flower, [ani2], 0, stf(3), false, 1, () => {
-          deferred.resolve();
-        });
-      }, 9000);
+        scene2.beginDirectAnimation(
+          flower,
+          [ani2],
+          0,
+          stf(3.5),
+          false,
+          1,
+          () => {
+            deferred.resolve();
+          }
+        );
+      }, 8000);
 
       return deferred.promise;
     };

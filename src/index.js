@@ -308,7 +308,7 @@ window.g = onChange(
       }
     } else {
       camera.detachControl(canvas);
-      camera2.attachControl(canvas, true);
+      // camera2.attachControl(canvas, true);
     }
 
     // cursor style

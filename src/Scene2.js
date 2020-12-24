@@ -113,7 +113,7 @@ export default class Scene2 {
       scene2
     );
     s2light.position = new BABYLON.Vector3(0, 10, 0);
-    s2light.direction = new BABYLON.Vector3(-0.1, -0.6, -0.1);
+    // s2light.direction = new BABYLON.Vector3(-0.1, -10, -0.1);
     s2light.intensity = 0.8;
 
     var light2 = new BABYLON.HemisphericLight(
