@@ -110,7 +110,7 @@ export default class Ring {
         1,
         () => {
           if (key + 1 === this.bulbNum) {
-            console.log("aniDrop done");
+            // console.log("aniDrop done");
             deferred.resolve();
           }
         }
@@ -188,7 +188,7 @@ export default class Ring {
         1,
         () => {
           if (key + 1 === this.bulbNum) {
-            console.log("aniOn done");
+            // console.log("aniOn done");
             deferred.resolve();
           }
         }

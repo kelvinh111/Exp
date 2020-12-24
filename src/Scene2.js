@@ -299,7 +299,7 @@ export default class Scene2 {
   }
 
   fromScene1() {
-    console.log("s2 from s1");
+    // console.log("s2 from s1");
     g.story2 = 1;
 
     paperInstance.toPaper().then(() => {
@@ -309,7 +309,7 @@ export default class Scene2 {
   }
 
   fromScene1b() {
-    console.log("s2 from s1 b");
+    // console.log("s2 from s1 b");
     g.story2 = 1;
     paperInstance.toPaperb().then(() => {
       this.showText(true);

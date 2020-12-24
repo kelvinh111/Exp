@@ -74,34 +74,13 @@ function init() {
   onResize();
 
   engine.runRenderLoop(function () {
-    divFps.innerHTML = engine.getFps().toFixed() + " FPS";
+    if (debug) {
+      divFps.innerHTML = engine.getFps().toFixed() + " FPS";
+    }
     s1.render();
     if (g.scene === 2) {
       s2.render();
     }
-  });
-
-  // FPS
-  let divFps = document.getElementById("fps");
-
-  let showingInspecter = false;
-  document.querySelector("#inspector").addEventListener("click", () => {
-    showingInspecter = !showingInspecter;
-    if (showingInspecter) {
-      if (g.scene === 1) scene1.debugLayer.show();
-      else if (g.scene === 2) scene2.debugLayer.show();
-    } else {
-      if (g.scene === 1) scene1.debugLayer.hide();
-      else if (g.scene === 2) scene2.debugLayer.hide();
-    }
-  });
-
-  document.querySelector("#scene1").addEventListener("click", function () {
-    if (g.scene === 1) return;
-
-    s2.toScene1().then(() => {
-      s1.fromScene2();
-    });
   });
 
   document.querySelector("#back").addEventListener("click", function () {
@@ -112,21 +91,46 @@ function init() {
     });
   });
 
-  document.querySelector("#scene2").addEventListener("click", function () {
-    if (g.scene === 2) return;
+  if (debug) {
+    // FPS
+    let divFps = document.getElementById("fps");
 
-    if (!scenesAniDone) {
-      scenesAniDone = true;
-      s2.render();
-      s1.toScene2().then(() => {
-        s2.fromScene1();
+    let showingInspecter = false;
+    document.querySelector("#inspector").addEventListener("click", () => {
+      showingInspecter = !showingInspecter;
+      if (showingInspecter) {
+        if (g.scene === 1) scene1.debugLayer.show();
+        else if (g.scene === 2) scene2.debugLayer.show();
+      } else {
+        if (g.scene === 1) scene1.debugLayer.hide();
+        else if (g.scene === 2) scene2.debugLayer.hide();
+      }
+    });
+
+    document.querySelector("#scene1").addEventListener("click", function () {
+      if (g.scene === 1) return;
+
+      s2.toScene1().then(() => {
+        s1.fromScene2();
       });
-    } else {
-      s1.toScene2b().then(() => {
-        s2.fromScene1b();
-      });
-    }
-  });
+    });
+
+    document.querySelector("#scene2").addEventListener("click", function () {
+      if (g.scene === 2) return;
+
+      if (!scenesAniDone) {
+        scenesAniDone = true;
+        s2.render();
+        s1.toScene2().then(() => {
+          s2.fromScene1();
+        });
+      } else {
+        s1.toScene2b().then(() => {
+          s2.fromScene1b();
+        });
+      }
+    });
+  }
 
   /* 
   ********************
@@ -295,7 +299,7 @@ window.g = onChange(
     story2: 0,
   },
   (path, value, previousValue, name) => {
-    console.log(path, value, previousValue);
+    // console.log(path, value, previousValue);
 
     if (g.scene === 1) {
       switch (g.story) {

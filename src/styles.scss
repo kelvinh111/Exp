@@ -277,7 +277,7 @@ body.mobile {
   padding: 20px;
 
   @media (orientation: landscape) {
-    width: 44%;
+    width: 50%;
     max-width: 570px;
     min-width: 480px;
   }
@@ -290,7 +290,10 @@ body.mobile {
     letter-spacing: 0.08em;
     line-height: 2em;
     @media (orientation: landscape) {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
+      @media (min-aspect-ratio: 8/4) {
+        font-size: 1.1rem;
+      }
       @media (min-width: 1330px) {
         font-size: 17.16px;
       }

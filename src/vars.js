@@ -1,5 +1,6 @@
 import { stf, htc } from "./util.js";
 
+window.debug = false;
 window.km = kelvinUtil.math;
 window.canvas = document.getElementById("renderCanvas");
 window.engine = new BABYLON.Engine(canvas, true);

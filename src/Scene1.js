@@ -170,7 +170,7 @@ export default class Scene1 {
     this.ring3 = new Ring(ring3Config);
     spsRing.computeSubMeshes();
     renderTarget.renderList.push(spsRing.mesh);
-    console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
+    // console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
 
     Q.all([
       this.ring1.aniDrop(),
@@ -381,7 +381,7 @@ export default class Scene1 {
   }
 
   toScene2() {
-    console.log("s1 to s2");
+    // console.log("s1 to s2");
     let deferred = Q.defer();
     paperInstance.updateRatio();
     this.eventUnhandler();
@@ -397,7 +397,7 @@ export default class Scene1 {
   }
 
   toScene2b() {
-    console.log("s1 to s2b");
+    // console.log("s1 to s2b");
     let deferred = Q.defer();
     this.eventUnhandler();
 
@@ -430,7 +430,7 @@ export default class Scene1 {
   }
 
   fromScene2() {
-    console.log("s1 from s2");
+    // console.log("s1 from s2");
 
     this.showText(true);
     var ani = new BABYLON.Animation(
@@ -460,31 +460,33 @@ export default class Scene1 {
   }
 
   eventHandler() {
-    document.querySelector("#circular").addEventListener("click", () => {
-      if (g.story === 0 || g.story === 1 || g.story === 2 || g.story === 3)
-        return false;
-      g.story = 1;
-      Q.all([
-        this.ring1.toCircular(),
-        this.ring2.toCircular(),
-        this.ring3.toCircular(),
-      ]).then(() => {
-        g.story = 2;
+    if (debug) {
+      document.querySelector("#circular").addEventListener("click", () => {
+        if (g.story === 0 || g.story === 1 || g.story === 2 || g.story === 3)
+          return false;
+        g.story = 1;
+        Q.all([
+          this.ring1.toCircular(),
+          this.ring2.toCircular(),
+          this.ring3.toCircular(),
+        ]).then(() => {
+          g.story = 2;
+        });
       });
-    });
 
-    document.querySelector("#wave").addEventListener("click", () => {
-      if (g.story === 0 || g.story === 1 || g.story === 3 || g.story === 4)
-        return false;
-      g.story = 3;
-      Q.all([
-        this.ring1.toWave(),
-        this.ring2.toWave(),
-        this.ring3.toWave(),
-      ]).then(() => {
-        g.story = 4;
+      document.querySelector("#wave").addEventListener("click", () => {
+        if (g.story === 0 || g.story === 1 || g.story === 3 || g.story === 4)
+          return false;
+        g.story = 3;
+        Q.all([
+          this.ring1.toWave(),
+          this.ring2.toWave(),
+          this.ring3.toWave(),
+        ]).then(() => {
+          g.story = 4;
+        });
       });
-    });
+    }
 
     scene1.onPointerObservable.add((pointerInfo) => {
       switch (pointerInfo.type) {
