@@ -1,0 +1,92 @@
+- var debug = false
+doctype html
+html
+  head
+    title Kelvin Hung's Portfolio
+    meta(charset="UTF-8")
+    meta(name="title" content="Kelvin Hung's Portfolio")
+    meta(name="description" content="A web developer's portfolio website.")
+    meta(name="keywords" content="Web Development, FrontEnd, BackEnd, JavaScript, HTML, CSS, WebGL, Creative Coding")
+    meta(name="robots" content="index, follow")
+    meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+    meta(name="language" content="English")
+    meta(name="author" content="kelvinh111")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+    link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
+    link(rel="manifest" href="/site.webmanifest")
+    script(src="https://code.jquery.com/pep/0.4.3/pep.js")
+    script(src="https://cdn.babylonjs.com/babylon.js")
+    script(src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js")
+    script(src="https://cdn.babylonjs.com/materialsLibrary/babylon.shadowOnlyMaterial.min.js")
+    if debug
+      script(src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/q.js/1.5.1/q.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js")
+    script(src="https://cdn.jsdelivr.net/gh/Olical/EventEmitter/EventEmitter.min.js")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/minireset.css/0.0.2/minireset.min.css" integrity="sha512-uBLaY+6crwV4JAHILx0HWvYncrX7TXL770hqxly0ZsQ199v4lr2yNB2jiPMoxNajFPHSQnU80B1O8dJLujWZMg==" crossorigin="anonymous")
+    link(rel="preconnect" href="https://fonts.gstatic.com")
+    link(href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre&display=swap" rel="stylesheet")
+  body
+    if debug
+      #ctrl.ui
+        button#inspector Inspector
+        button#circular circular
+        button#wave wave
+        button#scene1 scene 1
+        button#scene2 scene 2
+        span#fps.ui
+    #loadingScreen
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+      .dot
+    #cursor.s1
+      #cursor-ring
+      #cursor-dotted
+    #s1
+      h1#name
+        span Kelvin Hung
+      h2#title Web Developer
+    #s2
+      p#s2-text
+        | I built numerous commercial sites sold to clients in the past.
+        br
+        |         I develop scientific applications serving the citizens and scientists in
+        |         the daytime.
+        br
+        |         I code impractical stuff satisfying myself at night, religiously.
+        br
+        br
+        a.link(href="mailto:kelvinhung.general@gmail.com") E-mail
+        br
+        a.link(target="_blank" href="https://www.linkedin.com/in/kelvin-hung-wai-ho/") LinkedIn
+        br
+        a.link(target="_blank" href="https://codepen.io/kelvinh111") CodePen
+        br
+        a.link(target="_blank" href="https://old.kelvinh.studio") Old Portfolio
+        br
+        br
+        span#back.link Back
+    canvas#renderCanvas
+    script(src="src/kelvin_util.js")
+    script(src="src/vars.js")
+    script(src="src/index.js")

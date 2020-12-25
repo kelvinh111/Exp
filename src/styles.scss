@@ -145,7 +145,7 @@ body.desktop {
       margin-top: -22px;
       margin-left: -22px;
       transition: width 1s, height 1s, margin-top 1s, margin-left 1s, border 1s,
-        box-shadow 1s;
+        box-shadow 1s, filter 1s;
     }
     #cursor-dotted {
       width: 66px;
@@ -161,6 +161,7 @@ body.desktop {
       #cursor-ring {
         border-color: white;
         box-shadow: 0 0 10px 3px white, 0 0 10px 3px white inset;
+        filter: blur(2px);
       }
       #cursor-dotted {
         width: 120px;
