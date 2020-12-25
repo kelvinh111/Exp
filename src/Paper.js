@@ -24,7 +24,7 @@ export default class Paper {
     var pos = paperMesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
     paperMesh.setVerticesData(BABYLON.VertexBuffer.PositionKind, pos, true);
 
-    fetch(`https://public.kelvinh.studio/cdn/3d/${ori}/${ori}.json`)
+    fetch(`/${ori}/${ori}.json`)
       .then((response) => {
         return response.json();
       })

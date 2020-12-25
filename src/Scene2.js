@@ -26,12 +26,7 @@ export default class Scene2 {
     // load all assets
     var assetsManager = new BABYLON.AssetsManager(scene2);
 
-    var flowerTask = assetsManager.addMeshTask(
-      "flower",
-      "",
-      "https://public.kelvinh.studio/cdn/3d/flower/",
-      "flower.gltf"
-    );
+    var flowerTask = assetsManager.addMeshTask("flower", "", "/", "flower.glb");
 
     flowerTask.onSuccess = function (task) {
       flowerGltf = task.loadedMeshes;
@@ -41,8 +36,8 @@ export default class Scene2 {
     var trashTask = assetsManager.addMeshTask(
       "trash",
       "",
-      `https://public.kelvinh.studio/cdn/3d/trashbin/`,
-      `trashbin.gltf`
+      "/",
+      "trashbin.gltf"
     );
 
     trashTask.onSuccess = function (task) {
@@ -53,7 +48,7 @@ export default class Scene2 {
     var paperTask = assetsManager.addMeshTask(
       "paper",
       "",
-      `https://public.kelvinh.studio/cdn/3d/${ori}/`,
+      `/${ori}/`,
       `${ori} _ 0PercentFolded.obj`
     );
 
@@ -232,10 +227,7 @@ export default class Scene2 {
     shadowGenerator.setDarkness(0);
 
     var mat = new BABYLON.StandardMaterial("mat", scene2);
-    mat.diffuseTexture = new BABYLON.Texture(
-      "https://public.kelvinh.studio/cdn/images/white.png",
-      scene2
-    );
+    mat.diffuseTexture = new BABYLON.Texture("/white.png", scene2);
     mat.diffuseTexture.hasAlpha = true;
     mat.transparencyMode = BABYLON.Material.MATERIAL_ALPHATEST;
     mat.useAlphaFromDiffuseTexture = true;

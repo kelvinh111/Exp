@@ -38,8 +38,8 @@ export default class Scene1 {
     var macbookTask = assetsManager.addMeshTask(
       "macbook",
       "",
-      "https://public.kelvinh.studio/cdn/3d/macbook6/",
-      "scene.gltf"
+      "/",
+      "macbook.gltf"
     );
 
     macbookTask.onSuccess = function (task) {
