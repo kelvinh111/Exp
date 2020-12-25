@@ -1,6 +1,7 @@
 import { stf, htc } from "./util.js";
 
-window.debug = false;
+window.debug = true;
+window.$fps = null;
 window.km = kelvinUtil.math;
 window.canvas = document.getElementById("renderCanvas");
 window.engine = new BABYLON.Engine(canvas, true);
@@ -25,7 +26,8 @@ window.s2 = null;
 window.scene2 = null;
 window.camera2 = null;
 
-window.scenesAniDone = false;
+window.scene1AniDone = false;
+window.scene2AniDone = false;
 
 window.renderTarget = null;
 window.mb = null;

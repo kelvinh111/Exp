@@ -12,7 +12,6 @@ export default class Scene1 {
     this.ring1 = null;
     this.ring2 = null;
     this.ring3 = null;
-    this.ringsMats = [];
 
     this.space = null;
     this.stage = null;
@@ -154,14 +153,15 @@ export default class Scene1 {
     for (let i = 0; i < bulbNumTotal; i++) {
       let mat = new BABYLON.StandardMaterial("mat" + i, scene1);
       mat.disableLighting = true;
-      mat.backFaceCulling = false;
-      mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
+      mat.backFaceCulling = true;
+      // mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
       ringsMats.push(mat);
+      // mat.freeze();
     }
 
     spsRing.addShape(circle, nbParticles);
     circle.dispose();
-    let mesh = spsRing.buildMesh();
+    spsRing.buildMesh();
 
     spsRing.setMultiMaterial(ringsMats);
 
@@ -170,6 +170,9 @@ export default class Scene1 {
     this.ring3 = new Ring(ring3Config);
     spsRing.computeSubMeshes();
     renderTarget.renderList.push(spsRing.mesh);
+
+    spsRing.mesh.freezeWorldMatrix();
+    spsRing.mesh.freezeNormals();
     // console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
 
     Q.all([
@@ -500,8 +503,8 @@ export default class Scene1 {
             // go scene2
             if (g.scene === 2) return;
 
-            if (!scenesAniDone) {
-              scenesAniDone = true;
+            if (!scene1AniDone) {
+              scene1AniDone = true;
               s2.render();
               s1.toScene2().then(() => {
                 s2.fromScene1();

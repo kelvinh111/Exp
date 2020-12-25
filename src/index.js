@@ -75,9 +75,11 @@ function init() {
 
   engine.runRenderLoop(function () {
     if (debug) {
-      divFps.innerHTML = engine.getFps().toFixed() + " FPS";
+      $fps.innerHTML = engine.getFps().toFixed() + " FPS";
     }
-    s1.render();
+    if (g.scene === 1 || !scene2AniDone) {
+      s1.render();
+    }
     if (g.scene === 2) {
       s2.render();
     }
@@ -92,8 +94,7 @@ function init() {
   });
 
   if (debug) {
-    // FPS
-    let divFps = document.getElementById("fps");
+    $fps = document.getElementById("fps");
 
     let showingInspecter = false;
     document.querySelector("#inspector").addEventListener("click", () => {
@@ -118,8 +119,8 @@ function init() {
     document.querySelector("#scene2").addEventListener("click", function () {
       if (g.scene === 2) return;
 
-      if (!scenesAniDone) {
-        scenesAniDone = true;
+      if (!scene1AniDone) {
+        scene1AniDone = true;
         s2.render();
         s1.toScene2().then(() => {
           s2.fromScene1();

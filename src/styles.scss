@@ -33,7 +33,7 @@ body {
   padding: 0;
   font-family: "Frank Ruhl Libre", serif;
   touch-action: pan-x pan-y;
-  cursor: none;
+  // cursor: none;
 }
 
 html {
@@ -111,11 +111,9 @@ a,
   bottom: 30px;
   z-index: 100;
   font-size: 1.5rem;
-  display: none;
 }
 
 #fps {
-  display: none;
   background: white;
   color: black;
   padding: 1px 5px;

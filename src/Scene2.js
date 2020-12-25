@@ -20,6 +20,8 @@ export default class Scene2 {
     scene2.fogColor = htc("5F779E");
     scene2.fogStart = 80;
     scene2.fogEnd = 300.0;
+    scene2.autoClear = false; // Color buffer
+    // scene2.autoClearDepthAndStencil = false;
 
     // load all assets
     var assetsManager = new BABYLON.AssetsManager(scene2);
@@ -126,9 +128,11 @@ export default class Scene2 {
     ground.rotation.x = Math.PI / 2;
     ground.material = new BABYLON.ShadowOnlyMaterial("mat", scene2);
     ground.material.shadowColor = htc("4472a7");
-
     ground.receiveShadows = true;
     ground.position.y = -20;
+    ground.material.freeze();
+    ground.freezeWorldMatrix();
+    ground.freezeNormals();
 
     let ground2 = BABYLON.MeshBuilder.CreateGround(
       "ground2",
@@ -139,6 +143,9 @@ export default class Scene2 {
     ground2.material = new BABYLON.StandardMaterial("ground2", scene2);
     ground2.material.diffuseColor = htc("B7A9AD");
     ground2.material.specularColor = htc("261C19");
+    ground2.material.freeze();
+    ground2.freezeWorldMatrix();
+    ground2.freezeNormals();
 
     let sky = BABYLON.MeshBuilder.CreateSphere(
       "sphere",
@@ -149,6 +156,9 @@ export default class Scene2 {
     sky.material.emissiveColor = htc("ff0000");
     sky.material.backFaceCulling = false;
     sky.material.disableLighting = true;
+    sky.material.freeze();
+    sky.freezeWorldMatrix();
+    sky.freezeNormals();
 
     /*
     let dt = 6;
@@ -243,6 +253,9 @@ export default class Scene2 {
     );
     pot.position.y = -17;
     pot.material = mat;
+    // pot.material.freeze();
+    pot.freezeWorldMatrix();
+    pot.freezeNormals();
     shadowGenerator.getShadowMap().renderList.push(pot);
 
     // var potBottom = BABYLON.MeshBuilder.CreateDisc(
@@ -262,11 +275,18 @@ export default class Scene2 {
       shadowGenerator.getShadowMap().renderList.push(v);
       v.material = mat;
     });
+    flower.freezeWorldMatrix();
+    flower.freezeNormals();
 
     // trash
     trash.position = new BABYLON.Vector3(0, -20.25, 0);
     trash.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
     trash.scaling = new BABYLON.Vector3(9.5, 9.5, -9.5);
+    trash._children[0].overlayColor = htc("3F5373");
+    trash._children[0].renderOverlay = true;
+    trash._children[0].material.freeze();
+    trash.freezeWorldMatrix();
+    trash.freezeNormals();
   }
 
   showText(active) {
@@ -304,6 +324,7 @@ export default class Scene2 {
 
     paperInstance.toPaper().then(() => {
       this.showText(true);
+      scene2AniDone = true;
       g.story2 = 2;
     });
   }
