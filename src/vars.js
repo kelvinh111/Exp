@@ -1,6 +1,6 @@
 import { stf, htc } from "./util.js";
 
-window.debug = false;
+window.debug = true;
 window.$fps = null;
 window.km = kelvinUtil.math;
 window.canvas = document.getElementById("renderCanvas");

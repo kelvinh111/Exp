@@ -45,6 +45,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  &.debug {
+    cursor: auto;
+  }
 }
 
 a,

@@ -1,4 +1,4 @@
-- var debug = false
+- var debug = true
 doctype html
 html
   head
@@ -37,7 +37,7 @@ html
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/minireset.css/0.0.2/minireset.min.css" integrity="sha512-uBLaY+6crwV4JAHILx0HWvYncrX7TXL770hqxly0ZsQ199v4lr2yNB2jiPMoxNajFPHSQnU80B1O8dJLujWZMg==" crossorigin="anonymous")
     link(rel="preconnect" href="https://fonts.gstatic.com")
     link(href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre&display=swap" rel="stylesheet")
-    
+
     // Global site tag (gtag.js) - Google Analytics
     script(async="" src="https://www.googletagmanager.com/gtag/js?id=G-B8QDKK19X2")
     script.
@@ -45,7 +45,7 @@ html
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-B8QDKK19X2');
-  body
+  body(class=debug ? "debug" : "")
     if debug
       #ctrl.ui
         button#inspector Inspector

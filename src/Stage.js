@@ -1,3 +1,4 @@
+import * as workerTimers from "worker-timers";
 import { stf, htc } from "./util.js";
 
 export default class Stage {
@@ -9,6 +10,9 @@ export default class Stage {
   }
 
   initMacbook() {
+    let t1 = null;
+    let t2 = new BABYLON.Texture("/yeah.png", scene1);
+    let flag = true;
     let re = (t) => {
       if (t._children) {
         t._children.forEach((v) => {
@@ -17,12 +21,29 @@ export default class Stage {
       } else {
         // s1gl.addExcludedMesh(t);
         this.macbookNodes.push(t);
+        if (t.id === "display.001_dispaly_0") {
+          console.log(t.material);
+          t1 = t.material.albedoTexture;
+
+          return;
+          workerTimers.setTimeout(() => {
+            if (flag) {
+              t.material.albedoTexture = t.material.emissiveTexture = t2;
+            } else {
+              t.material.albedoTexture = t.material.emissiveTexture = t1;
+            }
+            flag = !flag;
+          }, 1000);
+        }
       }
     };
 
     mb.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
     mb.position.z = 0.5;
     mb.position.y = -5;
+    console.log(mb);
+    mb._children[0]._children[0]._children[0]._children[0]._children[0]
+      ._children[1]._children[2]._material._albedoTexture;
     re(mb);
 
     // disable loop & manually play it once
