@@ -15,7 +15,7 @@ export default class Stage {
           re(v);
         });
       } else {
-        s1gl.addExcludedMesh(t);
+        // s1gl.addExcludedMesh(t);
         this.macbookNodes.push(t);
       }
     };
@@ -95,6 +95,8 @@ export default class Stage {
     cone.material = new BABYLON.StandardMaterial("cone", scene1);
     cone.material.diffuseColor = htc("474b66");
     cone.position.y = -7.05;
+    cone.freezeWorldMatrix();
+    cone.freezeNormals();
 
     // rtt
     renderTarget.renderList = renderTarget.renderList.concat(this.macbookNodes);

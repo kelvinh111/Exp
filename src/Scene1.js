@@ -173,6 +173,7 @@ export default class Scene1 {
 
     spsRing.mesh.freezeWorldMatrix();
     spsRing.mesh.freezeNormals();
+    s1gl.addIncludedOnlyMesh(spsRing.mesh);
     // console.log("bulbCount:", bulbCount, "particleCount:", particleCount);
 
     Q.all([

@@ -11,7 +11,7 @@ export default class Space {
 
   init() {
     this.sps = new BABYLON.SolidParticleSystem("this.sps", scene1, {
-      enableMultiMaterial: true,
+      // enableMultiMaterial: true,
       updatable: false,
     });
 
@@ -72,8 +72,9 @@ export default class Space {
     let mesh = this.sps.buildMesh();
     this.sps.setMultiMaterial(this.mats);
     this.sps.computeSubMeshes();
-    this.sps.mesh.freezeWorldMatrix();
-    this.sps.mesh.freezeNormals();
+    mesh.freezeWorldMatrix();
+    mesh.freezeNormals();
+    s1gl.addIncludedOnlyMesh(mesh);
 
     // rtt
     renderTarget.renderList.push(this.sps.mesh);
@@ -112,7 +113,11 @@ export default class Space {
         v,
         0,
         stf(k * this.bulbDelay + this.bulbDuration + this.delay),
-        false
+        false,
+        1,
+        () => {
+          v.freeze();
+        }
       );
     });
   }

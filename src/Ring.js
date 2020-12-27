@@ -187,6 +187,7 @@ export default class Ring {
         false,
         1,
         () => {
+          ringsMats[bulb.core.materialIndex].freeze();
           if (key + 1 === this.bulbNum) {
             // console.log("aniOn done");
             deferred.resolve();
