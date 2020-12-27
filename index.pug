@@ -2,16 +2,24 @@
 doctype html
 html
   head
-    title Kelvin Hung's Portfolio
     meta(charset="UTF-8")
+    title Kelvin Hung's Portfolio
     meta(name="title" content="Kelvin Hung's Portfolio")
     meta(name="description" content="A web developer's portfolio website.")
-    meta(name="keywords" content="Web Development, FrontEnd, BackEnd, JavaScript, HTML, CSS, WebGL, Creative Coding")
-    meta(name="robots" content="index, follow")
-    meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
-    meta(name="language" content="English")
     meta(name="author" content="kelvinh111")
     meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+    // Open Graph / Facebook
+    meta(property="og:type" content="website")
+    meta(property="og:url" content="https://kelvinh.studio")
+    meta(property="og:title" content="Kelvin Hung's Portfolio")
+    meta(property="og:description" content="A web developer's portfolio website.")
+    meta(property="og:image" content="https://kelvinh.studio/thumbnail.png")
+    // Twitter
+    meta(property="twitter:card" content="summary_large_image")
+    meta(property="twitter:url" content="https://kelvinh.studio")
+    meta(property="twitter:title" content="Kelvin Hung's Portfolio")
+    meta(property="twitter:description" content="A web developer's portfolio website.")
+    meta(property="twitter:image" content="https://kelvinh.studio/thumbnail.png")
     link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
     link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
@@ -39,26 +47,9 @@ html
         button#scene2 scene 2
         span#fps.ui
     #loadingScreen
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
-      .dot
+      - for (var i = 0; i < 20; ++i) {
+        .dot= ''
+      - }
     #cursor.s1
       #cursor-ring
       #cursor-dotted
@@ -70,10 +61,9 @@ html
       p#s2-text
         | I built numerous commercial sites sold to clients in the past.
         br
-        |         I develop scientific applications serving the citizens and scientists in
-        |         the daytime.
+        | I develop scientific applications serving the citizens and scientists in the daytime.
         br
-        |         I code impractical stuff satisfying myself at night, religiously.
+        | I code impractical stuff satisfying myself at night, religiously.
         br
         br
         a.link(href="mailto:kelvinhung.general@gmail.com") E-mail
