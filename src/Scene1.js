@@ -46,6 +46,14 @@ export default class Scene1 {
       mb = task.loadedMeshes[0];
     };
 
+    var macbookScreenTask = assetsManager.addTextureTask(
+      "macbookScreen",
+      "/macbookScreen.png"
+    );
+    macbookScreenTask.onSuccess = function (task) {
+      mbScreen = task.texture;
+    };
+
     assetsManager.onProgress = function (
       remainingCount,
       totalCount,
@@ -72,7 +80,7 @@ export default class Scene1 {
     ee.emitEvent("asset-start", [
       {
         scene: 1,
-        totalCount: 1,
+        totalCount: 2,
       },
     ]);
 
@@ -204,6 +212,14 @@ export default class Scene1 {
 
           g.story = 2;
         }, 1200);
+
+        workerTimers.setTimeout(() => {
+          // in case on mobile users don't use the MB is clickable
+          if (isMobile && mbHint) {
+          // if (mbHint) {
+            this.stage.macbookChangeScreen(true);
+          }
+        }, 4000);
       });
 
     this.eventHandler();
@@ -518,6 +534,8 @@ export default class Scene1 {
           } else if (
             this.isHoverMb(pointerInfo.event.clientX, pointerInfo.event.clientY)
           ) {
+            // User knows to click the MB
+            mbHint = false;
             // circular / wave
             if (g.story === 2) {
               g.story = 3;

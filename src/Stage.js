@@ -6,16 +6,13 @@ export default class Stage {
     Object.assign(this, options);
 
     this.macbookNodes = [];
+    this.mbT = null;
+    this.mbT1Id = null;
+    this.mbT2Id = mbScreen.uniqueId;
     this.initMacbook();
   }
 
   initMacbook() {
-    console.log(scene1.textures);
-    let t1 = null;
-    let t1Id = null;
-    let t2 = new BABYLON.Texture("/yeah.png", scene1);
-    let t2Id = t2.uniqueId;
-    let flag = true;
     let re = (t) => {
       if (t._children) {
         t._children.forEach((v) => {
@@ -25,17 +22,8 @@ export default class Stage {
         // s1gl.addExcludedMesh(t);
         this.macbookNodes.push(t);
         if (t.id === "display.001_dispaly_0") {
-          t1 = t.material.albedoTexture;
-          t1Id = t1.uniqueId;
-          console.log(t1Id, t2Id);
-          workerTimers.setInterval(() => {
-            if (flag) {
-              t.material.albedoTexture = t.material.emissiveTexture = scene1.getTextureByUniqueID(t2Id);
-            } else {
-              t.material.albedoTexture = t.material.emissiveTexture = scene1.getTextureByUniqueID(t1Id);
-            }
-            flag = !flag;
-          }, 1000);
+          this.mbT = t;
+          this.mbT1Id = t.material.albedoTexture.uniqueId;
         }
       }
     };
@@ -58,6 +46,18 @@ export default class Stage {
 
   openMacbook() {
     this.mbAni.play();
+  }
+
+  macbookChangeScreen(active) {
+    if (active) {
+      this.mbT.material.albedoTexture = this.mbT.material.emissiveTexture = scene1.getTextureByUniqueID(
+        this.mbT2Id
+      );
+    } else {
+      this.mbT.material.albedoTexture = this.mbT.material.emissiveTexture = scene1.getTextureByUniqueID(
+        this.mbT1Id
+      );
+    }
   }
 
   initStage() {

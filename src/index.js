@@ -14,8 +14,10 @@ if (
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 0) ||
   navigator.platform === "iPad"
 ) {
+  isMobile = true;
   document.body.classList.add("mobile");
 } else {
+  isMobile = false;
   document.body.classList.add("desktop");
 }
 
@@ -130,6 +132,10 @@ function init() {
           s2.fromScene1b();
         });
       }
+    });
+
+    document.querySelector("#mb").addEventListener("click", (e) => {
+      s1.stage.macbookChangeScreen(true);
     });
   }
 

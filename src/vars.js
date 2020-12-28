@@ -2,6 +2,7 @@ import { stf, htc } from "./util.js";
 
 window.debug = true;
 window.$fps = null;
+window.isMobile = false
 window.km = kelvinUtil.math;
 window.canvas = document.getElementById("renderCanvas");
 window.engine = new BABYLON.Engine(canvas, true);
@@ -31,6 +32,8 @@ window.scene2AniDone = false;
 
 window.renderTarget = null;
 window.mb = null;
+window.mbScreen = null;
+window.mbHint = true;
 window.ori = "crumbled";
 window.paperInstance = null; // class instance
 window.paperGltf = null;
