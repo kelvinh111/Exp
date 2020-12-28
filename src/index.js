@@ -37,7 +37,7 @@ function onResize(e) {
 function updateCameraFov() {
   let deferred = Q.defer();
   let ratio = window.innerWidth / window.innerHeight;
-  let s1fov = km.map(ratio, 0.4, 1.3, 1.2, 0.8, true);
+  let s1fov = km.map(ratio, 0.4, 1.3, 1.05, 0.8, true);
   let s2fov = km.map(ratio, 0.4, 1.3, 1.5, 0.8, true);
   if (s1 && camera) {
     gsap.to(camera, {
