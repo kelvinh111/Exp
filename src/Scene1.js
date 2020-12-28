@@ -216,10 +216,11 @@ export default class Scene1 {
         workerTimers.setTimeout(() => {
           // in case on mobile users don't use the MB is clickable
           if (isMobile && mbHint) {
-          // if (mbHint) {
-            this.stage.macbookChangeScreen(true);
+            // if (mbHint) {
+            // this.stage.macbookChangeScreen(true);
+            this.stage.macbookFlash(true);
           }
-        }, 4000);
+        }, 5000);
       });
 
     this.eventHandler();
@@ -536,6 +537,7 @@ export default class Scene1 {
           ) {
             // User knows to click the MB
             mbHint = false;
+            this.stage.macbookFlash(false);
             // circular / wave
             if (g.story === 2) {
               g.story = 3;

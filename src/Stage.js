@@ -9,6 +9,8 @@ export default class Stage {
     this.mbT = null;
     this.mbT1Id = null;
     this.mbT2Id = mbScreen.uniqueId;
+    this.mbTimeline = gsap.timeline({ repeat: -1 });
+    this.mbTimeline.pause();
     this.initMacbook();
   }
 
@@ -31,7 +33,6 @@ export default class Stage {
     mb.scaling = new BABYLON.Vector3(0.02, 0.02, 0.02);
     mb.position.z = 0.5;
     mb.position.y = -5;
-    console.log(mb);
     mb._children[0]._children[0]._children[0]._children[0]._children[0]
       ._children[1]._children[2]._material._albedoTexture;
     re(mb);
@@ -57,6 +58,22 @@ export default class Stage {
       this.mbT.material.albedoTexture = this.mbT.material.emissiveTexture = scene1.getTextureByUniqueID(
         this.mbT1Id
       );
+    }
+  }
+
+  macbookFlash(active) {
+    if (active) {
+      this.mbTimeline.to(this.mbT.material.emissiveTexture, {
+        level: 0.2,
+        duration: 0.5,
+      });
+      this.mbTimeline.to(this.mbT.material.emissiveTexture, {
+        level: 3,
+        duration: 0.5,
+      });
+      this.mbTimeline.resume();
+    } else {
+      this.mbTimeline.pause(0, false);
     }
   }
 
