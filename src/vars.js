@@ -1,8 +1,8 @@
 import { stf, htc } from "./util.js";
 
-window.debug = true;
+window.debug = false;
 window.$fps = null;
-window.isMobile = false
+window.isMobile = false;
 window.km = kelvinUtil.math;
 window.canvas = document.getElementById("renderCanvas");
 window.engine = new BABYLON.Engine(canvas, true);
