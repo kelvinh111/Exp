@@ -2,7 +2,7 @@ import onChange from "on-change";
 import * as dpe from "default-passive-events";
 import * as workerTimers from "worker-timers";
 import "./styles.scss";
-import { stf, htc } from "./util.js";
+import { stf, hexToColor } from "./util.js";
 import Scene1 from "./Scene1";
 import Scene2 from "./Scene2";
 import MobileDetect from "mobile-detect";

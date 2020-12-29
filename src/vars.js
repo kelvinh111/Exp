@@ -1,6 +1,6 @@
-import { stf, htc } from "./util.js";
+import { stf, hexToColor } from "./util.js";
 
-window.debug = false;
+window.debug = true;
 window.$fps = null;
 window.isMobile = false;
 window.km = kelvinUtil.math;
@@ -66,7 +66,8 @@ window.ring1Config = {
     ringDelay: 9,
     bulbDuration: 5,
     bulbDelay: 0.065,
-    color: htc("85a6ff"),
+    // color: hexToColor("85a6ff"),
+    color: hexToColor("8eb2ff"),
     colorDuration: 2.2,
     colorDelay: 1,
   },
@@ -98,7 +99,8 @@ window.ring2Config = {
     ringDelay: 11.4,
     bulbDuration: 3.65,
     bulbDelay: 0.065,
-    color: htc("8997ff"),
+    // color: hexToColor("8997ff"),
+    color: hexToColor("92a1ff"),
     colorDuration: 2.2,
     colorDelay: 1.2,
   },
@@ -130,7 +132,8 @@ window.ring3Config = {
     ringDelay: 13.87,
     bulbDuration: 3.55,
     bulbDelay: 0.1,
-    color: htc("918dff"),
+    // color: hexToColor("918dff"),
+    color: hexToColor("9b96ff"),
     colorDuration: 2.2,
     colorDelay: 1.5,
   },

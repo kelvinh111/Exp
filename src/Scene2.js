@@ -1,4 +1,4 @@
-import { stf, htc } from "./util.js";
+import { stf, hexToColor } from "./util.js";
 import Paper from "./Paper";
 
 export default class Scene2 {
@@ -14,10 +14,10 @@ export default class Scene2 {
 
   preinit() {
     scene2 = new BABYLON.Scene(engine);
-    scene2.clearColor = htc("5F779E");
+    scene2.clearColor = hexToColor("5F779E");
     scene2.ambientColor = new BABYLON.Color3(0.4, 0.4, 0.4);
     scene2.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
-    scene2.fogColor = htc("5F779E");
+    scene2.fogColor = hexToColor("5F779E");
     scene2.fogStart = 80;
     scene2.fogEnd = 300.0;
     scene2.autoClear = false; // Color buffer
@@ -122,7 +122,7 @@ export default class Scene2 {
     var ground = BABYLON.Mesh.CreatePlane("ground", 1000, scene2);
     ground.rotation.x = Math.PI / 2;
     ground.material = new BABYLON.ShadowOnlyMaterial("mat", scene2);
-    ground.material.shadowColor = htc("4472a7");
+    ground.material.shadowColor = hexToColor("4472a7");
     ground.receiveShadows = true;
     ground.position.y = -20;
     ground.material.freeze();
@@ -136,8 +136,8 @@ export default class Scene2 {
     );
     ground2.position.y = -20.1;
     ground2.material = new BABYLON.StandardMaterial("ground2", scene2);
-    ground2.material.diffuseColor = htc("B7A9AD");
-    ground2.material.specularColor = htc("261C19");
+    ground2.material.diffuseColor = hexToColor("B7A9AD");
+    ground2.material.specularColor = hexToColor("261C19");
     ground2.material.freeze();
     ground2.freezeWorldMatrix();
     ground2.freezeNormals();
@@ -148,7 +148,7 @@ export default class Scene2 {
       scene2
     );
     sky.material = new BABYLON.StandardMaterial("sky", scene2);
-    sky.material.emissiveColor = htc("ff0000");
+    sky.material.emissiveColor = hexToColor("ff0000");
     sky.material.backFaceCulling = false;
     sky.material.disableLighting = true;
     sky.material.freeze();
@@ -258,8 +258,8 @@ export default class Scene2 {
     // potBottom.rotation.x = Math.PI / 2;
     // potBottom.position.y = -19.9;
     // potBottom.material = new BABYLON.StandardMaterial("pb", scene2);
-    // potBottom.material.diffuseColor = htc("121C2D");
-    // potBottom.material.emissiveColor = htc("000000");
+    // potBottom.material.diffuseColor = hexToColor("121C2D");
+    // potBottom.material.emissiveColor = hexToColor("000000");
 
     flower.scaling = new BABYLON.Vector3(1, 1, 1);
     flower.position.y = -14;
@@ -274,7 +274,7 @@ export default class Scene2 {
     trash.position = new BABYLON.Vector3(0, -20.25, 0);
     trash.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
     trash.scaling = new BABYLON.Vector3(9.5, 9.5, -9.5);
-    trash._children[0].overlayColor = htc("3F5373");
+    trash._children[0].overlayColor = hexToColor("3F5373");
     trash._children[0].renderOverlay = true;
     trash._children[0].material.freeze();
     trash.freezeWorldMatrix();

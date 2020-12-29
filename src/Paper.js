@@ -1,5 +1,5 @@
 import * as workerTimers from "worker-timers";
-import { stf, htc } from "./util.js";
+import { stf, hexToColor } from "./util.js";
 
 export default class Paper {
   constructor(options) {
@@ -449,7 +449,7 @@ export default class Paper {
         },
         {
           frame: stf(3),
-          value: htc("000000"),
+          value: hexToColor("000000"),
         },
       ]);
 
@@ -543,7 +543,7 @@ export default class Paper {
         },
         {
           frame: stf(3),
-          value: htc("5F779E"),
+          value: hexToColor("5F779E"),
         },
       ]);
 

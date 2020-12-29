@@ -1,4 +1,4 @@
-import { stf, htc, hslToRgb } from "./util.js";
+import { stf, hexToColor, hslToRgb } from "./util.js";
 
 export default class Space {
   constructor(options) {

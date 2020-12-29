@@ -1,5 +1,5 @@
 import * as workerTimers from "worker-timers";
-import { stf, htc } from "./util.js";
+import { stf, hexToColor } from "./util.js";
 import Ring from "./Ring";
 import Bulb from "./Bulb";
 import Space from "./Space";
@@ -108,7 +108,9 @@ export default class Scene1 {
       new BABYLON.Vector3(0, 1, -0.5),
       scene1
     );
-    light.diffuse = htc("b1bbff");
+    // light.diffuse = hexToColor("b1bbff");
+    light.diffuse = hexToColor("A4B0FF");
+    light.intensity = 1.5;
 
     s1gl = new BABYLON.GlowLayer("glow", scene1, {
       //mainTextureFixedSize: 512,

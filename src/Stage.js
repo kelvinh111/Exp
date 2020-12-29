@@ -1,5 +1,5 @@
 import * as workerTimers from "worker-timers";
-import { stf, htc } from "./util.js";
+import { stf, hexToColor } from "./util.js";
 
 export default class Stage {
   constructor(options) {
@@ -111,7 +111,7 @@ export default class Stage {
 
     //Create the mirror material
     var mirrorMaterial = new BABYLON.StandardMaterial("mirror", scene1);
-    mirrorMaterial.diffuseColor = htc("202020");
+    mirrorMaterial.diffuseColor = hexToColor("202020");
     mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture(
       "mirror",
       1024,
@@ -133,7 +133,7 @@ export default class Stage {
       scene1
     );
     cone.material = new BABYLON.StandardMaterial("cone", scene1);
-    cone.material.diffuseColor = htc("474b66");
+    cone.material.diffuseColor = hexToColor("474b66");
     cone.position.y = -7.05;
     cone.freezeWorldMatrix();
     cone.freezeNormals();

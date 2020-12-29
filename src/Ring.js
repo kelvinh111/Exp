@@ -1,4 +1,4 @@
-import { stf, htc } from "./util.js";
+import { stf, hexToColor } from "./util.js";
 import Bulb from "./Bulb";
 
 export default class Ring {
