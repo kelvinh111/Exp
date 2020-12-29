@@ -1,6 +1,6 @@
 import { stf, hexToColor } from "./util.js";
 
-window.debug = true;
+window.debug = false;
 window.$fps = null;
 window.isMobile = false;
 window.km = kelvinUtil.math;
